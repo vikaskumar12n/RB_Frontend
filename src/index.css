@@ -1,0 +1,9 @@
+@import "tailwindcss";
+@media print { .no-print { display: none !important; } }
+@layer base {
+  html {
+    font-family: 'Poppins', sans-serif !important;
+    font-size:medium;
+  }
+}
+ 
