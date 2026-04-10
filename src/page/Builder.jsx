@@ -423,20 +423,12 @@ const ResumeEditorModal = ({
         {isOverflowing && !hasPage2 && (
           <div style={{
             display: "flex", alignItems: "center", justifyContent: "space-between",
-            padding: "10px 20px", background: "#fff7ed", borderBottom: "1px solid #fed7aa", flexShrink: 0,
+            padding: "10px 20px", background: "#fff7ed", borderBottom: "", flexShrink: 0,
           }}>
             <span style={{ fontSize: "13px", color: "#92400e" }}>
-              ⚠️ Content exceeded A4 size — add Page 2
+               
             </span>
-            <button
-              onClick={() => setHasPage2(true)}
-              style={{
-                fontSize: "12px", fontWeight: 600, padding: "6px 14px", borderRadius: "8px",
-                border: "none", color: "#fff", cursor: "pointer", background: accentColor || "#1e3a5f",
-              }}
-            >
-              + Page 2 Add
-            </button>
+            
           </div>
         )}
 
@@ -674,7 +666,7 @@ const Builder = () => {
               onClick={() => setShowEditorModal(true)}
               style={{
                 padding: "9px 22px", borderRadius: "8px", border: "none",
-                background: accentColor || "#2563eb", color: "#fff",
+                background:"#1c398e", color: "#fff",
                 fontWeight: 600, fontSize: "13px", cursor: "pointer",
               }}
             >

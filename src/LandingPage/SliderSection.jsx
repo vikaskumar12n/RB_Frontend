@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import React from "react";
+import {Link} from "react-router-dom"
 const slides = [
   "/images/resume builder.png",
   "/images/semple.png",
@@ -31,10 +32,10 @@ export default function SliderSection() {
       {/* Buttons */}
       <div className="flex justify-center gap-3 mt-5">
         <button className= "bg-gray-200 text-gray-700 px-5 py-2 rounded-full text-sm font-medium hover:bg-gray-300 transition">
-          Resume Builder
+         <Link to="myresume">Resume Builder</Link>
         </button>
         <button className="bg-gray-200 text-gray-700 px-5 py-2 rounded-full text-sm font-medium hover:bg-gray-300 transition">
-          Samples
+          <Link to="home#builder">Resume Builder</Link>
         </button>
       </div>
 

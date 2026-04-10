@@ -1,7 +1,7 @@
 import { useState } from "react";
 import React from "react";
 const ResumeIllustration = () => (
-  <div className="relative flex items-center justify-center w-full h-full">
+  <div className="relative  flex items-center justify-center w-full h-full">
     {/* Background circles */}
     <div className="absolute right-8 top-1/2 -translate-y-1/2 w-56 h-56 rounded-full bg-orange-200 opacity-70" />
     <div className="absolute right-24 top-1/2 -translate-y-1/4 w-36 h-36 rounded-full bg-orange-300 opacity-50" />
@@ -52,7 +52,7 @@ export default function HeroSection() {
   };
 
   return (
-    <section className="w-full   min-h-[400px] px-8 py-14 flex items-center">
+    <section className="w-full  pt-30  min-h-[400px] px-8 py-14 flex items-center">
       <div className="max-w-6xl mx-auto w-full flex flex-col md:flex-row items-center justify-between gap-10">
         {/* Left: Text + Search */}
         <div className="flex-1 max-w-2xl">

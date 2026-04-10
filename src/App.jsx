@@ -7,7 +7,8 @@
  import ProfilePage from './component/MyProfile'
   import LanginfPage from './page/LangingPage'
 import './App.css'
-
+import Register from "../src/Auth/Register"
+import Login from "../src/Auth/Login"
 function App() {
   
 
@@ -17,9 +18,11 @@ function App() {
     <Navbar/>
       <Routes>
         <Route path='/' element={<LanginfPage/>}/> 
-        <Route path='home' element={<Home/>}/>
-        <Route path='create' element={<ResumeBuilder/>}/>
-        <Route path='myresume' element={<ProfilePage/>}/>
+        <Route path='/home' element={<Home/>}/>
+        <Route path='/register' element={<Register/>}/>
+        <Route path='/login' element={<Login/>}/>
+        <Route path='/create' element={<ResumeBuilder/>}/>
+        <Route path='/myresume' element={<ProfilePage/>}/>
        
       </Routes>
       <Footer/> 

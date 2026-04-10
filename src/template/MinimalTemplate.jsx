@@ -515,7 +515,7 @@ const MinimalTemplate = ({ data: propData, setData: setPropData }) => {
                 <div
                   key={`${ri}-${ci}`}
                   style={{
-                    border: "1px solid #bbb",
+                   
                     borderRadius: "2px",
                     padding: "2px 8px",
                     fontSize: "8.5px",

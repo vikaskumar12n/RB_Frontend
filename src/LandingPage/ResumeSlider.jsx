@@ -9,7 +9,7 @@ import CreativeTemplate from "../template/CreativeTemplate";
 import { saveToAPI } from "../helper/PdfHelpers";
 import html2pdf from "html2pdf.js";
 import React from "react";
-
+import Loader from "../helper/loader";
 const templates = [
     { id: "softwareEnn", label: "Software", component: SoftwareEnn },
     { id: "classic", label: "Classic", component: ClassicTemplate },
@@ -27,6 +27,7 @@ export default function ResumeSlider({ resumeData, onClose }) {
     const [modalOpen, setModalOpen] = useState(false);
     const previewRef = useRef(null);
     const modalRef = useRef(null);
+    const [loading, setLoading] = useState(false);
     // ✅ NEW: ref pointing only at the resume content div inside the modal
     const resumeRef = useRef(null);
 
@@ -41,6 +42,7 @@ export default function ResumeSlider({ resumeData, onClose }) {
 
     const handleSave = async () => {
         setSaving(true);
+         setLoading(true)
         try {
             await saveToAPI(resumeData, templates[current].id);
             showToast("Resume saved successfully!");
@@ -48,6 +50,7 @@ export default function ResumeSlider({ resumeData, onClose }) {
             showToast("Save failed. Please try again.", "error");
         } finally {
             setSaving(false);
+             
         }
     };
 
@@ -80,17 +83,18 @@ export default function ResumeSlider({ resumeData, onClose }) {
                 })
                 .from(target)
                 .save();
-            showToast("PDF downloaded!");
         } catch (err) {
             console.error("Download error:", err);
             showToast("Download failed. Please try again.", "error");
         } finally {
             setDownloading(false);
+             setLoading(false);
         }
     };
     const handleSaveAndDownload = async () => {
         try {
             setSaving(true);
+             setLoading(true);
 
             // 1. Save
             await handleSave();
@@ -108,9 +112,9 @@ export default function ResumeSlider({ resumeData, onClose }) {
     const ActiveTemplate = templates[current].component;
 
     return (
-        <>
-            <section className="bg-gradient-to-br mt-8 from-blue-700 via-blue-900 to-blue-900">
-                <div className="max-w-5xl mx-auto py-10 grid grid-cols-1 lg:grid-cols-2 items-center">
+        <>{loading && <Loader />}
+            <section className="bg-[linear-gradient(135deg,#1a237e_0%,#283593_30%,#1565c0_60%,#6a1b9a_100%)]">
+                <div className="max-w-5xl mx-auto py-9 grid grid-cols-1 lg:grid-cols-2 items-center">
 
                     {/* Left Panel */}
                     <div className="max-w-100 text-white space-y-4">
@@ -134,7 +138,7 @@ export default function ResumeSlider({ resumeData, onClose }) {
                     <div className="flex flex-col items-center gap-3">
                         <div
                             className="relative w-full bg-white rounded-xl shadow-2xl overflow-hidden group"
-                            style={{ height: "500px", maxWidth: "340px" }}
+                            style={{ height: "450px", maxWidth: "340px" }}
                         >
                             <div className="overflow-hidden w-full h-full">
                                 <div
@@ -157,7 +161,7 @@ export default function ResumeSlider({ resumeData, onClose }) {
                                             </div>
                                             <div
                                                 className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all duration-300 flex items-end justify-center pb-5"
-                                                style={{ height: "500px", maxWidth: "340px" }}
+                                                style={{ height: "450px", maxWidth: "340px" }}
                                             >
                                                 <button
                                                     onClick={() => {

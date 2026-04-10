@@ -3,72 +3,68 @@ import EditableSpan from "../../page/Editablespan";
 
 const E = (p) => <EditableSpan {...p} />;
 
-// Mobile Developer - Structural Architecture Theme (No Color Effects)
-const black      = "#111827";
-const gray       = "#4b5563";
-const lightGray  = "#f3f4f6";
-const borderCol  = "#000000";
+// Essential Monochrome Palette (Inspired by provided structure)
+const black      = "#000000";
+const secondary  = "#4b5563";
+const divider    = "#000000"; // Solid black divider as per request
 
 const getInitialData = () => ({
   name: "MOBILE APP DEVELOPER",
-  title: "iOS & Android Specialist | Flutter & React Native",
-  location: "Bangalore, India",
-  phone: "+91-99000-11000",
-  email: "mobile.dev@appstudio.com",
-  github: "github.com/app-architect",
-  portfolio: "play.google.com/dev-apps",
+  contact: "+91-99000-11000 | Bangalore, India",
+  links: "mobile.dev@appstudio.com | github.com/app-architect",
 
-  summaryTitle: "Technical Profile",
-  experienceTitle: "App Development History",
-  skillsTitle: "Core Tech Stack",
-  toolsTitle: "Mobile Ecosystem",
-  eduTitle: "Education",
+  objectiveTitle: "OBJECTIVE",
+  objective: "Results-driven Mobile Developer with 5+ years of experience in building high-performance native and cross-platform applications. Expert in UI/UX implementation, API integration, and App Store/Play Store deployment. Focused on writing memory-efficient code and creating seamless user transitions.",
 
-  summary: `Results-driven Mobile Developer with 5+ years of experience in building high-performance native and cross-platform applications. Expert in UI/UX implementation, API integration, and App Store/Play Store deployment. Focused on writing memory-efficient code and creating seamless user transitions.`,
+  skillsTitle: "SKILLS",
+  skillsList: "Swift (iOS), Kotlin (Android), Flutter, React Native, MVVM, VIPER, Clean Architecture, SQLite, Realm, CoreData, Firebase, Fastlane, Git & Github",
 
-  skills: [
-    "Native: Swift (iOS), Kotlin (Android)",
-    "Cross-Platform: Flutter, React Native",
-    "Architecture: MVVM, VIPER, Clean Architecture",
-    "Local DB: SQLite, Realm, CoreData"
-  ],
-
-  tools: [
-    "Xcode", "Android Studio", "Firebase", "Fastlane", "GitLab CI/CD", "Postman"
-  ],
-
+  experienceTitle: "EXPERIENCE",
   experience: [
     {
-      company: "AppVantage Solutions",
+      role: "Lead Mobile Developer",
+      company: "AppVantage Solutions, Bangalore",
       period: "2021 – Present",
-      roles: [{
-        title: "Lead Mobile Developer",
-        bullets: [
-          "Developed a fintech application from scratch, achieving 500k+ downloads on Play Store.",
-          "Reduced app crash rate by 15% through robust error handling and automated testing.",
-          "Integrated complex third-party SDKs for biometric authentication and secure payments.",
-          "Optimized image caching and lazy loading, reducing data consumption by 30%."
-        ],
-      }],
+      bullets: [
+        "Developed a fintech application from scratch, achieving 500k+ downloads on Play Store.",
+        "Reduced app crash rate by 15% through robust error handling and automated testing.",
+        "Integrated complex third-party SDKs for biometric authentication and secure payments.",
+        "Optimized image caching and lazy loading, reducing data consumption by 30%."
+      ],
     },
     {
-      company: "SwiftTech Systems",
+      role: "Junior iOS Developer",
+      company: "SwiftTech Systems, Noida",
       period: "2019 – 2021",
-      roles: [{
-        title: "Junior iOS Developer",
-        bullets: [
-          "Maintained and updated a social media app with 1M+ active users.",
-          "Collaborated with backend teams to optimize JSON parsing and network calls."
-        ],
-      }],
+      bullets: [
+        "Maintained and updated a social media app with 1M+ active users.",
+        "Collaborated with backend teams to optimize JSON parsing and network calls."
+      ],
     },
   ],
 
-  education: [{
-    school: "National Institute of Technology (NIT)",
-    year: "2019",
-    degree: "B.Tech in Computer Science",
-  }],
+  educationTitle: "EDUCATION",
+  education: [
+    { degree: "B.Tech in Computer Science", school: "National Institute of Technology (NIT)", year: "2019" },
+  ],
+
+  projectsTitle: "PROJECTS",
+  projects: [
+    {
+      name: "Fintech Mobile Wallet",
+      desc: "Built a secure payment gateway integration using Flutter and Node.js, supporting multi-currency transactions."
+    },
+    {
+      name: "Transport Tracking App",
+      desc: "Real-time vehicle tracking application using Google Maps API and Firebase Cloud Messaging."
+    }
+  ],
+
+  certTitle: "CERTIFICATIONS",
+  certs: [
+    "AWS Certified Developer – Associate",
+    "Google Certified Professional Android Developer"
+  ]
 });
 
 const MobileDevTemplate = ({ data: propData, setData: setPropData }) => {
@@ -78,103 +74,102 @@ const MobileDevTemplate = ({ data: propData, setData: setPropData }) => {
   const setData = (d) => { setDS(d); ref.current = d; if (setPropData) setPropData(d); };
   const u = (f, v) => setData({ ...ref.current, [f]: v });
 
-  const { name, title, location, phone, email, github, portfolio, summaryTitle, experienceTitle, skillsTitle, toolsTitle, eduTitle, summary, skills, tools, experience, education } = data;
+  const { name, contact, links, objectiveTitle, objective, skillsTitle, skillsList, experienceTitle, experience, educationTitle, education, projectsTitle, projects, certTitle, certs } = data;
 
   return (
     <div id="resume" style={{ width: "210mm", minHeight: "297mm", fontFamily: "'Inter', sans-serif", backgroundColor: "#fff", color: black, padding: "15mm", boxSizing: "border-box" }}>
       
-      {/* APP-INSPIRED HEADER (CLEAN BORDERS) */}
-      <div style={{ border: `2px solid ${black}`, padding: "10mm", marginBottom: "25px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-        <div>
-          <E value={name} onChange={(v) => u("name", v)} block style={{ fontSize: "26px", fontWeight: "900", letterSpacing: "-0.5px" }} />
-          <E value={title} onChange={(v) => u("title", v)} block style={{ fontSize: "12px", fontWeight: "700", marginTop: "5px", textTransform: "uppercase", color: gray }} />
+      {/* HEADER - CENTERED */}
+      <div style={{ textAlign: "center", marginBottom: "20px" }}>
+        <E value={name} onChange={(v) => u("name", v)} block style={{ fontSize: "24px", fontWeight: "bold", letterSpacing: "1px" }} />
+        <div style={{ fontSize: "11px", marginTop: "5px" }}>
+          <E value={contact} onChange={(v) => u("contact", v)} />
         </div>
-        <div style={{ textAlign: "right", fontSize: "10px", fontWeight: "600", borderLeft: `1px solid ${black}`, paddingLeft: "15px" }}>
-          <div style={{ marginBottom: "3px" }}>📞 <E value={phone} onChange={(v) => u("phone", v)} /></div>
-          <div style={{ marginBottom: "3px" }}>📧 <E value={email} onChange={(v) => u("email", v)} /></div>
-          <div>🔗 <E value={github} onChange={(v) => u("github", v)} /></div>
+        <div style={{ fontSize: "11px", fontWeight: "bold" }}>
+          <E value={links} onChange={(v) => u("links", v)} />
         </div>
       </div>
 
-      <div style={{ display: "grid", gridTemplateColumns: "1.3fr 0.7fr", gap: "30px" }}>
-        
-        {/* LEFT: SUMMARY & EXPERIENCE */}
-        <div style={{ borderRight: `1px solid ${lightGray}`, paddingRight: "20px" }}>
-          
-          <div style={{ marginBottom: "30px" }}>
-            <div style={{ fontSize: "11px", fontWeight: "900", textTransform: "uppercase", marginBottom: "10px", borderBottom: `2px solid ${black}`, display: "inline-block" }}>
-              <E value={summaryTitle} onChange={(v) => u("summaryTitle", v)} />
-            </div>
-            <E value={summary} onChange={(v) => u("summary", v)} block style={{ fontSize: "11px", lineHeight: "1.6", color: gray, textAlign: "justify" }} />
-          </div>
+      {/* OBJECTIVE */}
+      <div style={{ marginBottom: "15px" }}>
+        <h3 style={{ fontSize: "13px", fontWeight: "bold", borderBottom: `1px solid ${divider}`, paddingBottom: "2px", marginBottom: "8px" }}>
+          <E value={objectiveTitle} onChange={(v) => u("objectiveTitle", v)} />
+        </h3>
+        <E value={objective} onChange={(v) => u("objective", v)} block style={{ fontSize: "11px", lineHeight: "1.5", textAlign: "justify" }} />
+      </div>
 
-          <div>
-            <div style={{ fontSize: "11px", fontWeight: "900", textTransform: "uppercase", marginBottom: "15px", background: black, color: "#fff", padding: "4px 10px" }}>
-              <E value={experienceTitle} onChange={(v) => u("experienceTitle", v)} />
-            </div>
-            {experience.map((exp, ei) => (
-              <div key={ei} style={{ marginBottom: "25px" }}>
-                <div style={{ display: "flex", justifyContent: "space-between", fontWeight: "800", fontSize: "12px" }}>
-                  <E value={exp.company} onChange={(v) => { const a = ref.current.experience.map((e, i) => i === ei ? { ...e, company: v } : e); u("experience", a); }} />
-                  <E value={exp.period} onChange={(v) => { const a = ref.current.experience.map((e, i) => i === ei ? { ...e, period: v } : e); u("experience", a); }} style={{ color: gray }} />
-                </div>
-                {exp.roles.map((role, ri) => (
-                  <div key={ri}>
-                    <E value={role.title} onChange={(v) => { const a = ref.current.experience.map((e, i) => i === ei ? { ...e, roles: e.roles.map((r, j) => j === ri ? { ...r, title: v } : r) } : e); u("experience", a); }} style={{ fontWeight: "600", fontSize: "11px", display: "block", marginTop: "4px", fontStyle: "italic" }} />
-                    <ul style={{ margin: "10px 0", paddingLeft: "15px", listStyleType: "square" }}>
-                      {role.bullets.map((b, bi) => (
-                        <li key={bi} style={{ fontSize: "10.5px", marginBottom: "6px" }}>
-                          <E value={b} onChange={(v) => { const a = ref.current.experience.map((e, i) => i === ei ? { ...e, roles: e.roles.map((r, j) => j === ri ? { ...r, bullets: r.bullets.map((bul, k) => k === bi ? v : bul) } : r) } : e); u("experience", a); }} />
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                ))}
-              </div>
-            ))}
-          </div>
+      {/* SKILLS */}
+      <div style={{ marginBottom: "15px" }}>
+        <h3 style={{ fontSize: "13px", fontWeight: "bold", borderBottom: `1px solid ${divider}`, paddingBottom: "2px", marginBottom: "8px" }}>
+          <E value={skillsTitle} onChange={(v) => u("skillsTitle", v)} />
+        </h3>
+        <div style={{ fontSize: "11px" }}>
+          <span style={{ fontWeight: "bold" }}>Technical Skills: </span>
+          <E value={skillsList} onChange={(v) => u("skillsList", v)} />
         </div>
+      </div>
 
-        {/* RIGHT: SKILLS, TOOLS & EDUCATION */}
-        <div>
-          <div style={{ marginBottom: "30px" }}>
-            <div style={{ fontSize: "11px", fontWeight: "900", textTransform: "uppercase", marginBottom: "12px" }}>
-              <E value={skillsTitle} onChange={(v) => u("skillsTitle", v)} />
+      {/* EXPERIENCE */}
+      <div style={{ marginBottom: "15px" }}>
+        <h3 style={{ fontSize: "13px", fontWeight: "bold", borderBottom: `1px solid ${divider}`, paddingBottom: "2px", marginBottom: "12px" }}>
+          <E value={experienceTitle} onChange={(v) => u("experienceTitle", v)} />
+        </h3>
+        {experience.map((exp, ei) => (
+          <div key={ei} style={{ marginBottom: "15px" }}>
+            <div style={{ display: "flex", justifyContent: "space-between", fontWeight: "bold", fontSize: "12px" }}>
+              <E value={exp.role} onChange={() => {}} />
+              <E value={exp.period} onChange={() => {}} />
             </div>
-            {skills.map((s, i) => (
-              <div key={i} style={{ fontSize: "10px", marginBottom: "10px", padding: "8px", background: lightGray, borderLeft: `3px solid ${black}` }}>
-                <E value={s} onChange={(v) => { const a = ref.current.skills.map((item, j) => j === i ? v : item); u("skills", a); }} />
-              </div>
-            ))}
-          </div>
-
-          <div style={{ marginBottom: "30px" }}>
-            <div style={{ fontSize: "11px", fontWeight: "900", textTransform: "uppercase", marginBottom: "12px" }}>
-              <E value={toolsTitle} onChange={(v) => u("toolsTitle", v)} />
+            <div style={{ fontSize: "11px", fontStyle: "italic", marginBottom: "5px", color: secondary }}>
+              <E value={exp.company} onChange={() => {}} />
             </div>
-            <div style={{ display: "flex", flexWrap: "wrap", gap: "6px" }}>
-              {tools.map((t, i) => (
-                <span key={i} style={{ border: `1px solid ${black}`, padding: "3px 8px", fontSize: "9px", fontWeight: "700" }}>
-                  <E value={t} onChange={(v) => { const a = ref.current.tools.map((item, j) => j === i ? v : item); u("tools", a); }} />
-                </span>
+            <ul style={{ margin: "0", paddingLeft: "18px", fontSize: "11px" }}>
+              {exp.bullets.map((b, bi) => (
+                <li key={bi} style={{ marginBottom: "4px", lineHeight: "1.4" }}><E value={b} onChange={() => {}} /></li>
               ))}
-            </div>
+            </ul>
           </div>
+        ))}
+      </div>
 
-          <div style={{ border: `1px dashed ${black}`, padding: "15px" }}>
-            <div style={{ fontSize: "11px", fontWeight: "900", textTransform: "uppercase", marginBottom: "10px" }}>
-              <E value={eduTitle} onChange={(v) => u("eduTitle", v)} />
+      {/* EDUCATION */}
+      <div style={{ marginBottom: "15px" }}>
+        <h3 style={{ fontSize: "13px", fontWeight: "bold", borderBottom: `1px solid ${divider}`, paddingBottom: "2px", marginBottom: "10px" }}>
+          <E value={educationTitle} onChange={(v) => u("educationTitle", v)} />
+        </h3>
+        {education.map((edu, i) => (
+          <div key={i} style={{ display: "flex", justifyContent: "space-between", fontSize: "11px", marginBottom: "5px" }}>
+            <div style={{ fontWeight: "bold" }}>
+              <E value={edu.degree} onChange={() => {}} />: <span style={{ fontWeight: "normal" }}><E value={edu.school} onChange={() => {}} /></span>
             </div>
-            {education.map((edu, i) => (
-              <div key={i}>
-                <E value={edu.degree} onChange={(v) => { const a = ref.current.education.map((e, j) => j === i ? { ...e, degree: v } : e); u("education", a); }} block style={{ fontWeight: "bold", fontSize: "10.5px" }} />
-                <E value={edu.school} onChange={(v) => { const a = ref.current.education.map((e, j) => j === i ? { ...e, school: v } : e); u("education", a); }} block style={{ fontSize: "9.5px", marginTop: "2px" }} />
-                <E value={edu.year} onChange={(v) => { const a = ref.current.education.map((e, j) => j === i ? { ...e, year: v } : e); u("education", a); }} style={{ fontSize: "9.5px", fontWeight: "900" }} />
-              </div>
-            ))}
+            <E value={edu.year} onChange={() => {}} style={{ fontWeight: "bold" }} />
           </div>
-        </div>
+        ))}
+      </div>
 
+      {/* PROJECTS */}
+      <div style={{ marginBottom: "15px" }}>
+        <h3 style={{ fontSize: "13px", fontWeight: "bold", borderBottom: `1px solid ${divider}`, paddingBottom: "2px", marginBottom: "10px" }}>
+          <E value={projectsTitle} onChange={(v) => u("projectsTitle", v)} />
+        </h3>
+        {projects.map((proj, i) => (
+          <div key={i} style={{ marginBottom: "8px", fontSize: "11px" }}>
+            <div style={{ fontWeight: "bold" }}><E value={proj.name} onChange={() => {}} /></div>
+            <E value={proj.desc} onChange={() => {}} block />
+          </div>
+        ))}
+      </div>
+
+      {/* CERTIFICATIONS */}
+      <div>
+        <h3 style={{ fontSize: "13px", fontWeight: "bold", borderBottom: `1px solid ${divider}`, paddingBottom: "2px", marginBottom: "8px" }}>
+          <E value={certTitle} onChange={(v) => u("certTitle", v)} />
+        </h3>
+        <ul style={{ margin: "0", paddingLeft: "18px", fontSize: "11px" }}>
+          {certs.map((c, i) => (
+            <li key={i} style={{ marginBottom: "3px" }}><E value={c} onChange={() => {}} /></li>
+          ))}
+        </ul>
       </div>
 
     </div>

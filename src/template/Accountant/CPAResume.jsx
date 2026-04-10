@@ -3,12 +3,11 @@ import EditableSpan from "../../page/Editablespan";
 
 const E = (p) => <EditableSpan {...p} />;
 
-// CPA Professional Theme
-const borderCol = "#cbd5e1"
-const primary = "#002147";   // Oxford Blue (Trust & Stability)
-const secondary = "#64748b"; // Muted Slate
-const accent = "#b59410";    // CPA Gold (Premium look)
-const lightBg = "#f8fafc";
+// Simplified Professional Theme
+const primary = "#1e293b";   // Deep Slate
+const secondary = "#475569"; // Muted Grey
+const accent = "#2563eb";    // Subtle Blue for links/titles
+const borderCol = "#e2e8f0";
 
 const getInitialData = () => ({
   name: "CPA CANDIDATE NAME",
@@ -20,15 +19,14 @@ const getInitialData = () => ({
 
   summaryTitle: "Professional Profile",
   experienceTitle: "Professional Experience",
-  skillsTitle: "Core CPA Competencies",
-  eduTitle: "Education & Professional Credentials",
-  auditTitle: "Audit & Compliance Expertise",
+  skillsTitle: "Core Competencies",
+  eduTitle: "Education",
 
-  summary: `Results-oriented Certified Public Accountant (CPA) with expertise in US GAAP, IFRS, and complex tax regulations. Highly skilled in financial statement preparation, external auditing, and corporate tax strategy. Dedicated to maintaining the highest standards of integrity and accuracy in financial reporting.`,
+  summary: `Results-oriented Certified Public Accountant (CPA) with expertise in US GAAP, IFRS, and complex tax regulations. Highly skilled in financial statement preparation, external auditing, and corporate tax strategy.`,
 
   competencies: [
-    "US GAAP & IFRS", "SEC Reporting", "Tax Planning & Compliance",
-    "Internal Controls (SOX)", "Forensic Accounting", "Risk Assessment"
+    "US GAAP & IFRS", "SEC Reporting", "Tax Planning",
+    "Internal Controls", "Forensic Accounting", "Risk Assessment"
   ],
 
   experience: [
@@ -40,8 +38,7 @@ const getInitialData = () => ({
         bullets: [
           "Led statutory audits for Fortune 500 clients, ensuring compliance with SEC guidelines.",
           "Evaluated internal control systems and recommended improvements to mitigate financial risks.",
-          "Managed a diverse portfolio of clients across manufacturing and technology sectors.",
-          "Reviewed complex tax provisions and deferred tax calculations."
+          "Managed a diverse portfolio of clients across manufacturing and technology sectors."
         ],
       }],
     },
@@ -74,63 +71,52 @@ const CPATemplate = ({ data: propData, setData: setPropData }) => {
   const { name, title, location, phone, email, linkedin, summaryTitle, experienceTitle, skillsTitle, eduTitle, summary, competencies, experience, education } = data;
 
   return (
-    <div id="resume" style={{ width: "210mm", minHeight: "297mm", fontFamily: "'Garamond', serif", backgroundColor: "#fff", color: "#1e293b", boxSizing: "border-box" }}>
+    <div id="resume" style={{ width: "210mm", minHeight: "297mm", fontFamily: "'Inter', sans-serif", backgroundColor: "#fff", color: primary, boxSizing: "border-box", padding: "15mm" }}>
       
-      {/* HEADER SECTION */}
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "12mm 15mm 8mm", borderBottom: `2px solid ${primary}` }}>
-        <div>
-          <E value={name} onChange={(v) => u("name", v)} block style={{ fontSize: "28px", fontWeight: "bold", color: primary, letterSpacing: "1px" }} />
-          <E value={title} onChange={(v) => u("title", v)} block style={{ fontSize: "14px", color: accent, fontWeight: "bold", marginTop: "2px" }} />
-        </div>
-        <div style={{ textAlign: "right", fontSize: "10px", color: secondary, lineHeight: "1.6" }}>
-          <div><E value={location} onChange={(v) => u("location", v)} /> 📍</div>
-          <div><E value={phone} onChange={(v) => u("phone", v)} /> 📞</div>
-          <div><E value={email} onChange={(v) => u("email", v)} /> 📧</div>
-          <div style={{ color: primary, fontWeight: "bold" }}><E value={linkedin} onChange={(v) => u("linkedin", v)} /> 🔗</div>
+      {/* SIMPLE HEADER */}
+      <div style={{ textAlign: "center", marginBottom: "30px" }}>
+        <E value={name} onChange={(v) => u("name", v)} block style={{ fontSize: "26px", fontWeight: "800", textTransform: "uppercase", letterSpacing: "1px" }} />
+        <E value={title} onChange={(v) => u("title", v)} block style={{ fontSize: "14px", color: secondary, fontWeight: "500", marginTop: "4px" }} />
+        
+        <div style={{ display: "flex", justifyContent: "center", gap: "15px", fontSize: "11px", color: secondary, marginTop: "10px", flexWrap: "wrap" }}>
+          <span><E value={location} onChange={(v) => u("location", v)} /></span>
+          <span>•</span>
+          <span><E value={phone} onChange={(v) => u("phone", v)} /></span>
+          <span>•</span>
+          <span><E value={email} onChange={(v) => u("email", v)} /></span>
+          <span>•</span>
+          <span style={{ color: accent }}><E value={linkedin} onChange={(v) => u("linkedin", v)} /></span>
         </div>
       </div>
 
-      <div style={{ padding: "10mm 15mm" }}>
+      {/* SECTION WRAPPER */}
+      <div style={{ display: "flex", flexDirection: "column", gap: "25px" }}>
         
         {/* SUMMARY */}
-        <div style={{ marginBottom: "20px" }}>
-          <div style={{ color: primary, fontWeight: "bold", fontSize: "12px", textTransform: "uppercase", marginBottom: "6px", borderLeft: `4px solid ${accent}`, paddingLeft: "10px" }}>
+        <div>
+          <div style={{ fontSize: "12px", fontWeight: "bold", textTransform: "uppercase", borderBottom: `1px solid ${primary}`, marginBottom: "8px", paddingBottom: "2px" }}>
             <E value={summaryTitle} onChange={(v) => u("summaryTitle", v)} />
           </div>
-          <E value={summary} onChange={(v) => u("summary", v)} block style={{ fontSize: "11.5px", textAlign: "justify", lineHeight: "1.5" }} />
-        </div>
-
-        {/* CORE COMPETENCIES - PILL DESIGN */}
-        <div style={{ marginBottom: "20px" }}>
-          <div style={{ color: primary, fontWeight: "bold", fontSize: "12px", textTransform: "uppercase", marginBottom: "8px", borderLeft: `4px solid ${accent}`, paddingLeft: "10px" }}>
-            <E value={skillsTitle} onChange={(v) => u("skillsTitle", v)} />
-          </div>
-          <div style={{ display: "flex", flexWrap: "wrap", gap: "10px" }}>
-            {competencies.map((skill, i) => (
-              <span key={i} style={{ background: lightBg, color: primary, padding: "3px 12px", borderRadius: "15px", fontSize: "10px", fontWeight: "600", border: `1px solid ${primary}22` }}>
-                <E value={skill} onChange={(v) => { const a = ref.current.competencies.map((s, j) => j === i ? v : s); u("competencies", a); }} />
-              </span>
-            ))}
-          </div>
+          <E value={summary} onChange={(v) => u("summary", v)} block style={{ fontSize: "11px", lineHeight: "1.6", color: secondary }} />
         </div>
 
         {/* EXPERIENCE */}
-        <div style={{ marginBottom: "20px" }}>
-          <div style={{ color: primary, fontWeight: "bold", fontSize: "12px", textTransform: "uppercase", marginBottom: "10px", borderLeft: `4px solid ${accent}`, paddingLeft: "10px" }}>
+        <div>
+          <div style={{ fontSize: "12px", fontWeight: "bold", textTransform: "uppercase", borderBottom: `1px solid ${primary}`, marginBottom: "12px", paddingBottom: "2px" }}>
             <E value={experienceTitle} onChange={(v) => u("experienceTitle", v)} />
           </div>
           {experience.map((exp, ei) => (
-            <div key={ei} style={{ marginBottom: "15px", paddingLeft: "14px" }}>
-              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                <E value={exp.company} onChange={(v) => { const a = ref.current.experience.map((e, i) => i === ei ? { ...e, company: v } : e); u("experience", a); }} style={{ fontWeight: "bold", fontSize: "12.5px", color: primary }} />
-                <E value={exp.period} onChange={(v) => { const a = ref.current.experience.map((e, i) => i === ei ? { ...e, period: v } : e); u("experience", a); }} style={{ fontSize: "10.5px", color: secondary, fontWeight: "bold" }} />
+            <div key={ei} style={{ marginBottom: "15px" }}>
+              <div style={{ display: "flex", justifyContent: "space-between", fontWeight: "bold", fontSize: "12px" }}>
+                <E value={exp.company} onChange={(v) => { const a = ref.current.experience.map((e, i) => i === ei ? { ...e, company: v } : e); u("experience", a); }} />
+                <E value={exp.period} onChange={(v) => { const a = ref.current.experience.map((e, i) => i === ei ? { ...e, period: v } : e); u("experience", a); }} />
               </div>
               {exp.roles.map((role, ri) => (
                 <div key={ri}>
-                  <E value={role.title} onChange={(v) => { const a = ref.current.experience.map((e, i) => i === ei ? { ...e, roles: e.roles.map((r, j) => j === ri ? { ...r, title: v } : r) } : e); u("experience", a); }} style={{ fontStyle: "italic", fontWeight: "600", color: accent, display: "block", marginBottom: "5px" }} />
-                  <ul style={{ margin: "0", paddingLeft: "18px", listStyleType: "square" }}>
+                  <E value={role.title} onChange={(v) => { const a = ref.current.experience.map((e, i) => i === ei ? { ...e, roles: e.roles.map((r, j) => j === ri ? { ...r, title: v } : r) } : e); u("experience", a); }} style={{ fontSize: "11px", fontWeight: "600", color: secondary, display: "block", marginBottom: "6px" }} />
+                  <ul style={{ margin: "0", paddingLeft: "15px" }}>
                     {role.bullets.map((b, bi) => (
-                      <li key={bi} style={{ fontSize: "11px", marginBottom: "4px", color: "#334155" }}>
+                      <li key={bi} style={{ fontSize: "10.5px", marginBottom: "3px", color: secondary }}>
                         <E value={b} onChange={(v) => { const a = ref.current.experience.map((e, i) => i === ei ? { ...e, roles: e.roles.map((r, j) => j === ri ? { ...r, bullets: r.bullets.map((bul, k) => k === bi ? v : bul) } : r) } : e); u("experience", a); }} />
                       </li>
                     ))}
@@ -141,26 +127,40 @@ const CPATemplate = ({ data: propData, setData: setPropData }) => {
           ))}
         </div>
 
-        {/* EDUCATION & CREDENTIALS */}
-        <div style={{ marginBottom: "10px" }}>
-          <div style={{ color: primary, fontWeight: "bold", fontSize: "12px", textTransform: "uppercase", marginBottom: "8px", borderLeft: `4px solid ${accent}`, paddingLeft: "10px" }}>
+        {/* SKILLS - SIMPLE COMMA SEPARATED OR LIST */}
+        <div>
+          <div style={{ fontSize: "12px", fontWeight: "bold", textTransform: "uppercase", borderBottom: `1px solid ${primary}`, marginBottom: "8px", paddingBottom: "2px" }}>
+            <E value={skillsTitle} onChange={(v) => u("skillsTitle", v)} />
+          </div>
+          <div style={{ display: "flex", flexWrap: "wrap", gap: "8px 15px", fontSize: "10.5px", color: secondary }}>
+            {competencies.map((skill, i) => (
+              <span key={i}>
+                <E value={skill} onChange={(v) => { const a = ref.current.competencies.map((s, j) => j === i ? v : s); u("competencies", a); }} />
+                {i !== competencies.length - 1 && <span style={{ marginLeft: "15px", color: borderCol }}>|</span>}
+              </span>
+            ))}
+          </div>
+        </div>
+
+        {/* EDUCATION */}
+        <div>
+          <div style={{ fontSize: "12px", fontWeight: "bold", textTransform: "uppercase", borderBottom: `1px solid ${primary}`, marginBottom: "10px", paddingBottom: "2px" }}>
             <E value={eduTitle} onChange={(v) => u("eduTitle", v)} />
           </div>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "20px", paddingLeft: "14px" }}>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "30px" }}>
             {education.map((edu, i) => (
-              <div key={i} style={{ borderLeft: `1px solid ${borderCol}`, paddingLeft: "10px" }}>
-                <E value={edu.degree} onChange={(v) => { const a = ref.current.education.map((e, j) => j === i ? { ...e, degree: v } : e); u("education", a); }} block style={{ fontWeight: "bold", fontSize: "11px", color: primary }} />
-                <E value={edu.school} onChange={(v) => { const a = ref.current.education.map((e, j) => j === i ? { ...e, school: v } : e); u("education", a); }} block style={{ fontSize: "10px", color: secondary }} />
-                <E value={edu.year} onChange={(v) => { const a = ref.current.education.map((e, j) => j === i ? { ...e, year: v } : e); u("education", a); }} style={{ fontSize: "10px", fontWeight: "bold", color: accent }} />
+              <div key={i}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
+                   <E value={edu.degree} onChange={(v) => { const a = ref.current.education.map((e, j) => j === i ? { ...e, degree: v } : e); u("education", a); }} block style={{ fontWeight: "bold", fontSize: "11px" }} />
+                   <E value={edu.year} onChange={(v) => { const a = ref.current.education.map((e, j) => j === i ? { ...e, year: v } : e); u("education", a); }} style={{ fontSize: "10px", fontWeight: "bold" }} />
+                </div>
+                <E value={edu.school} onChange={(v) => { const a = ref.current.education.map((e, j) => j === i ? { ...e, school: v } : e); u("education", a); }} block style={{ fontSize: "10.5px", color: secondary }} />
               </div>
             ))}
           </div>
         </div>
 
       </div>
-      
-      {/* FOOTER STRIP */}
-      <div style={{ height: "15px", background: primary, marginTop: "auto" }}></div>
     </div>
   );
 };

@@ -1,11 +1,13 @@
-import React, { useState, useCallback, useRef } from "react";
+import React, { useState, useRef } from "react";
 import EditableSpan from "../page/Editablespan";
 
 const E = (p) => <EditableSpan {...p} />;
 
-const API_URL = "http://localhost:3000/api/resume/save";
+// ─── Minimalist Design Constants ──────────────────────────────────────────────
+const black = "#000000";
+const gray = "#4b5563";
+const lightGray = "#e5e7eb";
 
-// ─── Default data ──────────────────────────────────────────────────────────────
 const getInitialData = () => ({
   name: "FIRST LAST",
   location: "Bay Area, California",
@@ -20,25 +22,16 @@ const getInitialData = () => ({
   skillsTitle: "Skills",
   certificationTitle: "Certifications",
 
-  objective: `Proactive and detail-oriented Full Stack Developer with expertise in designing, developing, and maintaining
-scalable web applications. Proficient in front-end and back-end technologies, including HTML, CSS, JavaScript,
-React, Node.js, and database systems like MongoDB and MySQL. Skilled in problem-solving, collaboration, and
-delivering user-focused solutions. Passionate about leveraging cutting-edge technologies to create seamless,
-innovative digital experiences.`,
+  objective: `Proactive and detail-oriented Full Stack Developer with expertise in designing, developing, and maintaining scalable web applications. Proficient in front-end and back-end technologies, including HTML, CSS, JavaScript, React, Node.js, and database systems like MongoDB and MySQL.`,
 
   projects: [
     {
-      title: "CRM(Customer RelationShip Management)",
-      description: `Worked on a complete CRM system that includes multiple business-critical modules.
-Contributed actively to .
-Finance Module: Payment tracking, invoices, salary processing, and financial data handling.
-Accounts Module: Account records management, transaction monitoring, and data validation.
-HR Module: Employee management, attendance, leave handling, and recruitment support features.`,
+      title: "CRM (Customer Relationship Management)",
+      description: "Worked on a complete CRM system including Finance, Accounts, and HR modules. Implemented payment tracking, automated invoicing, and employee management workflows.",
     },
     {
       title: "E-commerce Website",
-      description:
-        "Developed full stack e-commerce platform with authentication and payment integration.",
+      description: "Developed full stack e-commerce platform with authentication and payment integration.",
     },
   ],
 
@@ -59,21 +52,6 @@ HR Module: Employee management, attendance, leave handling, and recruitment supp
             "Contributed to the development of a full-scale CRM (DSS) project.",
             "Built and integrated key modules like Finance, Accounts, and HR.",
             "Improved system performance through efficient backend logic and clean architecture.",
-            "Collaborated with the team to deliver real-world business features and ensure seamless frontend–backend integration.",
-          ],
-        },
-      ],
-    },
-    {
-      company: "Technano Pvt. Ltd., Noida",
-      period: "2014 – 2017",
-      roles: [
-        {
-          title: "Front End Developer",
-          period: "",
-          bullets: [
-            "Built fast and accessible websites improving load time by 22%.",
-            "Converted UI/UX wireframes into responsive code.",
           ],
         },
       ],
@@ -94,78 +72,29 @@ HR Module: Employee management, attendance, leave handling, and recruitment supp
   ],
 });
 
-// ─── API payload builder ───────────────────────────────────────────────────────
-const buildPayload = (data) => ({
-  personalInfo: {
-    name:     data.name,
-    email:    data.email,
-    phone:    data.phone,
-    location: data.location,
-    linkedin: data.linkedin,
-  },
-  objective: data.objective,
-  skills: {
-    frontend: data.skills?.[0] ?? [],
-    backend:  data.skills?.[1] ?? [],
-    database: data.skills?.[2] ?? [],
-    tools:    data.skills?.[3] ?? [],
-    other:    data.skills?.[4] ?? [],
-  },
-  education: data.education.map((edu) => ({
-    degree:      edu.degree,
-    college:     edu.school,
-    year:        edu.year,
-    description: edu.description || "",
-  })),
-  experience: data.experience.map((exp) => ({
-    role:             exp.roles?.[0]?.title || "",
-    company:          exp.company,
-    duration:         exp.period,
-    responsibilities: exp.roles?.[0]?.bullets || [],
-  })),
-  projects: data.projects.map((proj) => ({
-    title:        proj.title,
-    description:  proj.description,
-    technologies: proj.technologies || [],
-    features:     proj.features || [],
-    link:         proj.link || "",
-  })),
-  certifications: data.certifications.map((cert) =>
-    typeof cert === "string"
-      ? { title: cert, organization: "", year: "" }
-      : cert
-  ),
-});
-
-// ─── Sidebar section heading ───────────────────────────────────────────────────
+// ─── Section Headings ────────────────────────────────────────────────────────
 const SideHead = ({ children }) => (
   <div style={{
-    fontSize: "9px", fontWeight: "bold", letterSpacing: "3px",
-    textTransform: "uppercase", color: "#a0c4e8",
-    borderBottom: "1px solid #a0c4e8", paddingBottom: "2px", marginBottom: "4px",
+    fontSize: "10px", fontWeight: "bold", textTransform: "uppercase",
+    letterSpacing: "1.5px", color: black, borderBottom: `1px solid ${black}`,
+    paddingBottom: "2px", marginBottom: "8px", marginTop: "15px"
   }}>
     {children}
   </div>
 );
 
-// ─── Main section heading (right column) ──────────────────────────────────────
 const MainHead = ({ children }) => (
   <div style={{
     fontSize: "11px", fontWeight: "bold", textTransform: "uppercase",
-    letterSpacing: "2px", color: "#1e3a5f",
-    borderBottom: "2px solid #1e3a5f", paddingBottom: "2px", marginBottom: "4px",
+    letterSpacing: "1.5px", color: black, borderBottom: `1px solid ${black}`,
+    paddingBottom: "2px", marginBottom: "10px"
   }}>
     {children}
   </div>
 );
 
-// ─── Main Component ────────────────────────────────────────────────────────────
 const ModernTemplate = ({ data: propData, setData: setPropData }) => {
-  const [data, setDataState] = useState(() => ({
-    ...getInitialData(),
-    ...(propData || {}),
-  }));
-
+  const [data, setDataState] = useState(() => ({ ...getInitialData(), ...(propData || {}) }));
   const dataRef = useRef(data);
 
   const setData = (newData) => {
@@ -174,339 +103,94 @@ const ModernTemplate = ({ data: propData, setData: setPropData }) => {
     if (setPropData) setPropData(newData);
   };
 
-  const u = (field, value) => {
-    const newData = { ...dataRef.current, [field]: value };
-    setData(newData);
-  };
+  const u = (field, value) => setData({ ...dataRef.current, [field]: value });
 
-  // ─── Save logic ──────────────────────────────────────────────────────────────
- 
-  // ─── Destructure ─────────────────────────────────────────────────────────────
   const {
-    name, location, phone, email, linkedin,
-    objectiveTitle, experienceTitle, projectTitle,
-    educationTitle, skillsTitle, certificationTitle,
+    name, location, phone, email, linkedin, objectiveTitle, experienceTitle,
+    projectTitle, educationTitle, skillsTitle, certificationTitle,
     objective, projects, certifications, experience, education, skills,
   } = data;
 
-  // ─── Render ──────────────────────────────────────────────────────────────────
   return (
-    <div style={{ position: "relative" }}>
+    <div id="resume" style={{
+      width: "210mm", minHeight: "297mm", fontFamily: "'Segoe UI', sans-serif",
+      fontSize: "10.5px", backgroundColor: "#fff", display: "flex", color: black, boxSizing: "border-box"
+    }}>
 
-      
+      {/* LEFT COLUMN (Sidebar) */}
+      <div style={{ width: "65mm", padding: "12mm 8mm", borderRight: `1px solid ${lightGray}`, flexShrink: 0 }}>
+        <E value={name} onChange={(v) => u("name", v)} block style={{ fontSize: "18px", fontWeight: "bold", marginBottom: "20px" }} />
 
-      {/* ── RESUME BODY ── */}
-      <div
-        id="resume"
-        style={{
-          width: "210mm",
-          minHeight: "297mm",
-          fontFamily: "'Calibri','Segoe UI',sans-serif",
-          fontSize: "10.5px",
-          backgroundColor: "#fff",
-          display: "flex",
-          flexDirection: "row",
-          boxSizing: "border-box",
-        }}
-      >
-
-        {/* ══════════════════════════════════════════
-            LEFT SIDEBAR
-        ══════════════════════════════════════════ */}
-        <div style={{
-          width: "68mm",
-          backgroundColor: "#1e3a5f",
-          color: "#fff",
-          padding: "12mm 8mm",
-          flexShrink: 0,
-        }}>
-
-          {/* Name */}
-          <E
-            value={name}
-            onChange={(v) => u("name", v)}
-            block
-            style={{ fontSize: "16px", fontWeight: "bold", lineHeight: 1.2, color: "#fff", marginBottom: "4px" }}
-          />
-
-          {/* Contact */}
-          <div style={{ marginTop: "8px", marginBottom: "16px" }}>
-            <SideHead>Contact</SideHead>
-            {[
-              ["📍", location, "location"],
-              ["📞", phone,    "phone"],
-              ["✉",  email,   "email"],
-              ["🔗", linkedin, "linkedin"],
-            ].map(([icon, val, key]) => (
-              <div key={key} style={{ display: "flex", alignItems: "flex-start", gap: "4px", marginTop: "4px" }}>
-                <span style={{ fontSize: "9px", marginTop: "1px" }}>{icon}</span>
-                <E
-                  value={val}
-                  onChange={(v) => u(key, v)}
-                  style={{ fontSize: "9px", color: "#dce8f5", wordBreak: "break-all" }}
-                />
-              </div>
-            ))}
-          </div>
-
-          {/* ✅ FIX: skillsTitle editable */}
-          <div style={{ marginBottom: "16px" }}>
-            <SideHead>
-              <E value={skillsTitle} onChange={(v) => u("skillsTitle", v)} style={{ color: "#a0c4e8" }} />
-            </SideHead>
-            <div style={{ display: "flex", flexWrap: "wrap", gap: "4px" }}>
-              {skills.map((row, ri) =>
-                row.map((skill, ci) =>
-                  skill ? (
-                    <span
-                      key={`${ri}-${ci}`}
-                      style={{
-                        backgroundColor: "#2e5480",
-                        color: "#dce8f5",
-                        borderRadius: "3px",
-                        padding: "1px 5px",
-                        fontSize: "9px",
-                      }}
-                    >
-                      <E
-                        value={skill}
-                        onChange={(v) => {
-                          const a = dataRef.current.skills.map((r) => [...r]);
-                          a[ri][ci] = v;
-                          u("skills", a);
-                        }}
-                        style={{ color: "#dce8f5" }}
-                      />
-                    </span>
-                  ) : null
-                )
-              )}
-            </div>
-          </div>
-
-          {/* ✅ FIX: educationTitle editable */}
-          <div style={{ marginBottom: "16px" }}>
-            <SideHead>
-              <E value={educationTitle} onChange={(v) => u("educationTitle", v)} style={{ color: "#a0c4e8" }} />
-            </SideHead>
-            {education.map((edu, i) => (
-              <div key={i} style={{ marginTop: "4px" }}>
-                <E
-                  value={edu.degree}
-                  onChange={(v) => {
-                    const a = dataRef.current.education.map((e, j) =>
-                      j === i ? { ...e, degree: v } : e
-                    );
-                    u("education", a);
-                  }}
-                  block
-                  style={{ fontSize: "9px", fontWeight: "bold", color: "#fff" }}
-                />
-                <E
-                  value={edu.school}
-                  onChange={(v) => {
-                    const a = dataRef.current.education.map((e, j) =>
-                      j === i ? { ...e, school: v } : e
-                    );
-                    u("education", a);
-                  }}
-                  block
-                  style={{ fontSize: "9px", color: "#a0c4e8" }}
-                />
-                <E
-                  value={edu.year}
-                  onChange={(v) => {
-                    const a = dataRef.current.education.map((e, j) =>
-                      j === i ? { ...e, year: v } : e
-                    );
-                    u("education", a);
-                  }}
-                  block
-                  style={{ fontSize: "9px", color: "#a0c4e8" }}
-                />
-              </div>
-            ))}
-          </div>
-
-          {/* ✅ FIX: certificationTitle editable */}
-          <div>
-            <SideHead>
-              <E value={certificationTitle} onChange={(v) => u("certificationTitle", v)} style={{ color: "#a0c4e8" }} />
-            </SideHead>
-            {certifications.map((cert, i) => (
-              <div key={i} style={{ display: "flex", alignItems: "flex-start", gap: "4px", marginTop: "4px" }}>
-                <span style={{ color: "#a0c4e8", fontSize: "8px", marginTop: "2px" }}>✔</span>
-                <E
-                  value={cert}
-                  onChange={(v) => {
-                    const a = dataRef.current.certifications.map((c, j) =>
-                      j === i ? v : c
-                    );
-                    u("certifications", a);
-                  }}
-                  style={{ fontSize: "9px", color: "#dce8f5" }}
-                />
-              </div>
-            ))}
-          </div>
-
+        <SideHead>Contact</SideHead>
+        <div style={{ fontSize: "9.5px", lineHeight: "1.8" }}>
+          <E value={location} onChange={(v) => u("location", v)} block />
+          <E value={phone} onChange={(v) => u("phone", v)} block />
+          <E value={email} onChange={(v) => u("email", v)} block />
+          <E value={linkedin} onChange={(v) => u("linkedin", v)} block />
         </div>
 
-        {/* ══════════════════════════════════════════
-            RIGHT MAIN COLUMN
-        ══════════════════════════════════════════ */}
-        <div style={{ flex: 1, padding: "12mm 10mm" }}>
+        <SideHead><E value={skillsTitle} onChange={(v) => u("skillsTitle", v)} /></SideHead>
+        <div style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
+          {skills.flat().map((skill, i) => skill ? (
+            <div key={i} style={{ fontSize: "9.5px" }}>• <E value={skill} onChange={() => {}} /></div>
+          ) : null)}
+        </div>
 
-          {/* ── OBJECTIVE ── */}
-          {/* ✅ FIX: objectiveTitle editable */}
-          <div style={{ marginBottom: "16px" }}>
-            <MainHead>
-              <E value={objectiveTitle} onChange={(v) => u("objectiveTitle", v)} style={{ color: "#1e3a5f" }} />
-            </MainHead>
-            <E
-              value={objective}
-              onChange={(v) => u("objective", v)}
-              block
-              style={{ fontSize: "10px", lineHeight: "1.6", color: "#374151", marginTop: "4px" }}
-            />
+        <SideHead><E value={educationTitle} onChange={(v) => u("educationTitle", v)} /></SideHead>
+        {education.map((edu, i) => (
+          <div key={i} style={{ marginBottom: "8px", fontSize: "9px" }}>
+            <E value={edu.degree} onChange={() => {}} block style={{ fontWeight: "bold" }} />
+            <E value={edu.school} onChange={() => {}} block />
+            <E value={edu.year} onChange={() => {}} block style={{ color: gray }} />
           </div>
+        ))}
 
-          {/* ── EXPERIENCE ── */}
-          {/* ✅ FIX: experienceTitle editable */}
-          <div style={{ marginBottom: "16px" }}>
-            <MainHead>
-              <E value={experienceTitle} onChange={(v) => u("experienceTitle", v)} style={{ color: "#1e3a5f" }} />
-            </MainHead>
+        <SideHead><E value={certificationTitle} onChange={(v) => u("certificationTitle", v)} /></SideHead>
+        {certifications.map((cert, i) => (
+          <div key={i} style={{ fontSize: "9px", marginBottom: "4px" }}>• <E value={cert} onChange={() => {}} /></div>
+        ))}
+      </div>
 
-            {experience.map((exp, ei) => (
-              <div key={ei} style={{ marginTop: "8px" }}>
+      {/* RIGHT COLUMN (Main Content) */}
+      <div style={{ flex: 1, padding: "12mm 10mm" }}>
+        
+        <div style={{ marginBottom: "20px" }}>
+          <MainHead><E value={objectiveTitle} onChange={(v) => u("objectiveTitle", v)} /></MainHead>
+          <E value={objective} onChange={(v) => u("objective", v)} block style={{ fontSize: "10px", lineHeight: "1.6", textAlign: "justify" }} />
+        </div>
 
-                {/* Company + Period */}
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
-                  <E
-                    value={exp.company}
-                    onChange={(v) => {
-                      const a = dataRef.current.experience.map((e, i) =>
-                        i === ei ? { ...e, company: v } : e
-                      );
-                      u("experience", a);
-                    }}
-                    style={{ fontSize: "11px", fontWeight: "bold", color: "#1e3a5f" }}
-                  />
-                  <E
-                    value={exp.period}
-                    onChange={(v) => {
-                      const a = dataRef.current.experience.map((e, i) =>
-                        i === ei ? { ...e, period: v } : e
-                      );
-                      u("experience", a);
-                    }}
-                    style={{ fontSize: "9.5px", color: "#6b7280", whiteSpace: "nowrap", marginLeft: "8px" }}
-                  />
+        <div style={{ marginBottom: "20px" }}>
+          <MainHead><E value={experienceTitle} onChange={(v) => u("experienceTitle", v)} /></MainHead>
+          {experience.map((exp, ei) => (
+            <div key={ei} style={{ marginBottom: "12px" }}>
+              <div style={{ display: "flex", justifyContent: "space-between", fontWeight: "bold", fontSize: "11px" }}>
+                <E value={exp.company} onChange={() => {}} />
+                <E value={exp.period} onChange={() => {}} style={{ fontSize: "9.5px", fontWeight: "normal" }} />
+              </div>
+              {exp.roles?.map((role, ri) => (
+                <div key={ri} style={{ marginTop: "2px" }}>
+                  <E value={role.title} onChange={() => {}} style={{ fontStyle: "italic", color: gray }} />
+                  <ul style={{ paddingLeft: "18px", marginTop: "4px", margin: "4px 0" }}>
+                    {role.bullets?.map((b, bi) => (
+                      <li key={bi} style={{ marginBottom: "2px" }}><E value={b} onChange={() => {}} /></li>
+                    ))}
+                  </ul>
                 </div>
-
-                {/* Roles */}
-                {exp.roles?.map((role, ri) => (
-                  <div key={ri} style={{ marginTop: "4px" }}>
-
-                    {/* ✅ FIX: Role Title + Role-level Period */}
-                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
-                      <E
-                        value={role.title}
-                        onChange={(v) => {
-                          const a = dataRef.current.experience.map((e, i) => {
-                            if (i !== ei) return e;
-                            const roles = e.roles.map((r, j) =>
-                              j === ri ? { ...r, title: v } : r
-                            );
-                            return { ...e, roles };
-                          });
-                          u("experience", a);
-                        }}
-                        style={{ fontSize: "10px", fontWeight: "bold", fontStyle: "italic", color: "#6b7280" }}
-                      />
-                      <E
-                        value={role.period}
-                        onChange={(v) => {
-                          const a = dataRef.current.experience.map((e, i) => {
-                            if (i !== ei) return e;
-                            const roles = e.roles.map((r, j) =>
-                              j === ri ? { ...r, period: v } : r
-                            );
-                            return { ...e, roles };
-                          });
-                          u("experience", a);
-                        }}
-                        style={{ fontSize: "9px", color: "#9ca3af", whiteSpace: "nowrap", marginLeft: "8px" }}
-                      />
-                    </div>
-
-                    {/* Bullets */}
-                    <ul style={{ paddingLeft: "16px", marginTop: "2px" }}>
-                      {role.bullets?.map((b, bi) => (
-                        <li key={bi} style={{ listStyleType: "disc", marginTop: "2px" }}>
-                          <E
-                            value={b}
-                            onChange={(v) => {
-                              const a = dataRef.current.experience.map((e, i) => {
-                                if (i !== ei) return e;
-                                const roles = e.roles.map((r, j) => {
-                                  if (j !== ri) return r;
-                                  const bullets = r.bullets.map((bul, k) =>
-                                    k === bi ? v : bul
-                                  );
-                                  return { ...r, bullets };
-                                });
-                                return { ...e, roles };
-                              });
-                              u("experience", a);
-                            }}
-                            style={{ fontSize: "10px", color: "#374151" }}
-                          />
-                        </li>
-                      ))}
-                    </ul>
-
-                  </div>
-                ))}
-              </div>
-            ))}
-          </div>
-
-          {/* ── PROJECTS ── */}
-          {/* ✅ FIX: projectTitle editable + proj.title editable */}
-          <div>
-            <MainHead>
-              <E value={projectTitle} onChange={(v) => u("projectTitle", v)} style={{ color: "#1e3a5f" }} />
-            </MainHead>
-            {projects.map((proj, i) => (
-              <div key={i} style={{ marginTop: "8px" }}>
-                <E
-                  value={proj.title}
-                  onChange={(v) => {
-                    const a = dataRef.current.projects.map((p, j) =>
-                      j === i ? { ...p, title: v } : p
-                    );
-                    u("projects", a);
-                  }}
-                  style={{ fontSize: "10.5px", fontWeight: "bold", color: "#1e3a5f", display: "block" }}
-                />
-                <E
-                  value={proj.description}
-                  onChange={(v) => {
-                    const a = dataRef.current.projects.map((p, j) =>
-                      j === i ? { ...p, description: v } : p
-                    );
-                    u("projects", a);
-                  }}
-                  block
-                  style={{ fontSize: "10px", color: "#374151", marginTop: "2px", lineHeight: "1.6" }}
-                />
-              </div>
-            ))}
-          </div>
-
+              ))}
+            </div>
+          ))}
         </div>
+
+        <div>
+          <MainHead><E value={projectTitle} onChange={(v) => u("projectTitle", v)} /></MainHead>
+          {projects.map((proj, i) => (
+            <div key={i} style={{ marginBottom: "10px" }}>
+              <E value={proj.title} onChange={() => {}} style={{ fontWeight: "bold", display: "block" }} />
+              <E value={proj.description} onChange={() => {}} block style={{ fontSize: "10px", color: gray, marginTop: "2px" }} />
+            </div>
+          ))}
+        </div>
+
       </div>
     </div>
   );

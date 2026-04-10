@@ -1,4 +1,6 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";  
+
+
 import React from "react";
 import { useResume } from "../helper/ResumeContext";
 import BusinessAnalystTemplate from "../template/BussinessTemplate/BusinessAnalystTemplate";
@@ -31,6 +33,7 @@ import BusinessInternTemplate from "../template/Intern/BussinessIntern";
 import DesignInternTemplate from "../template/Intern/DesignInter";
 import SchoolTeacherTemplate from "../template/Teacher/SchoolTeacher";
 import CollegeProfessorTemplate from "../template/Teacher/SchoolProfessior";
+import { Link } from "react-router-dom";
  
 const categories = [
   "Accountant", "Business", "Cashier", "Engineer",
@@ -97,9 +100,21 @@ const categoryTemplates = {
 // ─── Modal ─────────────────────────────────────────────────────────────────────
 // ✅ Background pe click karne se modal BAND NAHI HOGA — taaki editing safe rahe
 const Modal = ({ children, onClose }) => {
+   const modalRef = useRef(null);  
+    useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (modalRef.current && !modalRef.current.contains(e.target)) {
+        onClose();
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [onClose]);
+
   return (
     <div className="fixed inset-0 z-50 flex items-start justify-center bg-black/60 overflow-y-auto py-6">
       <div
+      ref={modalRef}
         className="bg-gray-100 w-full max-w-5xl rounded-xl shadow-2xl relative"
         // ✅ stopPropagation — accidental close na ho
         onClick={(e) => e.stopPropagation()}
@@ -107,7 +122,7 @@ const Modal = ({ children, onClose }) => {
         {/* Close Button — top-right corner */}
         <button
           onClick={onClose}
-          className="absolute top-4 right-2 z-50 text-gray-500 hover:text-red-500 text-2xl font-bold leading-none"
+          className="absolute top-4 right-6 z-100 text-gray-500 hover:text-red-500 text-2xl font-bold leading-none"
           title="Close"
         >
           ✕
@@ -266,12 +281,11 @@ const TemplateEditor = ({ template, onBack }) => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 rounded-xl overflow-hidden">
+    <div id="category" className="max-h-[80vh] bg-gray-100 rounded-xl overflow-y-auto rounded-xl">
 
       {/* ── Top Bar ── */}
       <div className="bg-white border-b border-gray-200 px-6 py-3 flex items-center justify-between sticky top-0 z-40 shadow-sm">
-        <div className="flex items-center gap-3">
-          {/* ✅ Back button — modal band karega */}
+        <div className="flex items-center gap-3"> 
           <button
             onClick={onBack}
             className="text-sm text-gray-500 hover:text-gray-900 transition-colors flex items-center gap-1"
@@ -303,11 +317,11 @@ const TemplateEditor = ({ template, onBack }) => {
       </div>
 
       {/* ── Resume Canvas ── */}
-      <div className="py-8 px-4 flex flex-col items-center gap-8">
+      <div className="pb-3   flex flex-col items-center gap-8">
 
         {/* Page 1 */}
         <div>
-          <div className="text-xs text-gray-400 text-center mb-2 tracking-widest uppercase">Page 1</div>
+          <div className="text-xs text-gray-400 text-center  tracking-widest uppercase">Page 1</div>
           <div
             id="resume"
             className="shadow-2xl rounded overflow-hidden"
@@ -325,7 +339,7 @@ const TemplateEditor = ({ template, onBack }) => {
         {!hasPage2 && (
           <button
             onClick={() => setHasPage2(true)}
-            className="flex items-center justify-center gap-2 text-sm font-medium px-6 py-4 rounded-xl border-2 border-dashed transition-all hover:shadow-md"
+            className="flex items-center justify-center gap-2 text-sm font-medium px-6 pb-4 rounded-xl border-2 border-dashed transition-all hover:shadow-md"
             style={{
               width: `${A4_WIDTH_PX}px`,
               borderColor: "#d1d5db",
@@ -334,7 +348,7 @@ const TemplateEditor = ({ template, onBack }) => {
             }}
           >
             <span style={{ fontSize: "20px" }}>+</span>
-            Page 2 add karein (optional)
+            Page 2 add
           </button>
         )}
 
@@ -388,7 +402,7 @@ export default function CategoryNav() {
       )}
 
       {/* Category Nav */}
-      <div className="border-b border-gray-200 mt-2">
+      <div id="category" className="border-b border-gray-200 mt-2">
         <div className="max-w-6xl mx-auto">
           <div className="flex items-center gap-1 flex-wrap">
             {categories.map((cat, i) => (
@@ -407,9 +421,9 @@ export default function CategoryNav() {
         </div>
 
         <div className="max-w-6xl mx-auto px-4 py-2 pb-3 flex items-center gap-1 text-sm text-gray-500">
-          <a href="#" className="underline text-gray-700 hover:text-blue-700">Home</a>
+          <Link to="/" className="underline text-gray-700 hover:text-blue-700">Home</Link>
           <span className="text-gray-400 mx-1">›</span>
-          <a href="#" className="underline text-gray-700 hover:text-blue-700">Resume Samples</a>
+          <Link to="/home#category" className="underline text-gray-700 hover:text-blue-700">Resume Samples</Link>
           <span className="text-gray-400 mx-1">›</span>
           <span className="text-gray-500">{active} Resume Templates</span>
         </div>

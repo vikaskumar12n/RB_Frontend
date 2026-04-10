@@ -1,28 +1,43 @@
-import { Link } from 'react-router-dom';
-import React from 'react';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import Loader from '../helper/loader'; // 👈 import karo
 
 const ResumeBuilderCTA = () => {
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
+
+  const handleClick = () => {
+    setLoading(true);
+
+    setTimeout(() => {
+      navigate("/myresume");
+      setLoading(false);
+    }, 400);
+  };
+
   return (
-    <div className="w-full  p-10 mb-10 bg-blue-800 py-10 px-4">
-      <div className="max-w-3xl mx-auto text-center">
-        <h2 className="text-3xl md:text-3xl font-bold text-white leading-tight">
+    <div className="w-full p-10 mb-8 bg-blue-900 py-10 px-4">
+
+      {/* ✅ Loader Call */}
+      {loading && <Loader />}
+
+      <div className="max-w-2xl mx-auto text-center">
+        <h2 className="text-2xl md:text-3xl font-bold text-white leading-tight">
           Build your perfect resume with our
           <br />
           easy online builder today!
         </h2>
 
-         
-          {/* button bottom me */}
-          <div className="flex justify-center mt-15">
-            <Link to="/myresume">
-              <button className="bg-white text-blue-600 font-semibold py-3 px-8 rounded-lg text-lg">
-                Create my resume
-              </button>
-            </Link>
-          </div>
-
+        <div className="flex justify-center mt-10">
+          <button
+            onClick={handleClick}
+            className="bg-white text-gray-600 font-semibold py-2 px-5 rounded-lg text-sm"
+          >
+            Create my resume
+          </button>
         </div>
-      </div> 
+      </div>
+    </div>
   );
 };
 

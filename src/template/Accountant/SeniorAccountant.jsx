@@ -3,11 +3,10 @@ import EditableSpan from "../../page/Editablespan";
 
 const E = (p) => <EditableSpan {...p} />;
 
-// Senior Executive Colors
-const primary = "#0f172a";   // Dark Slate (Authority)
-const accent = "#94a3b8";    // Steel Gray
-const highlight = "#f1f5f9"; // Soft background
-const borderCol = "#cbd5e1";
+// Minimalist Professional Colors
+const primary = "#1e293b";   // Deep Slate
+const secondary = "#475569"; // Slate Gray
+const borderCol = "#e2e8f0"; // Light Divider
 
 const getInitialData = () => ({
   name: "SENIOR ACCOUNTANT NAME",
@@ -32,7 +31,7 @@ const getInitialData = () => ({
   ],
 
   skills: [
-    "Strategic Financial Planning", "Risk Management & Mitigation", "Corporate Taxation",
+    "Strategic Financial Planning", "Risk Management", "Corporate Taxation",
     "Consolidated Financial Statements", "Mergers & Acquisitions", "Team Leadership"
   ],
 
@@ -79,60 +78,63 @@ const SeniorAccountantTemplate = ({ data: propData, setData: setPropData }) => {
   const { name, title, location, phone, email, linkedin, summaryTitle, experienceTitle, skillsTitle, eduTitle, highlightTitle, summary, highlights, experience, education, skills } = data;
 
   return (
-    <div id="resume" style={{ width: "210mm", minHeight: "297mm", fontFamily: "'Times New Roman', serif", backgroundColor: "#fff", color: primary, boxSizing: "border-box" }}>
+    <div id="resume" style={{ width: "210mm", minHeight: "297mm", fontFamily: "'Inter', 'Helvetica', sans-serif", backgroundColor: "#fff", color: primary, boxSizing: "border-box", padding: "15mm" }}>
       
-      {/* EXECUTIVE HEADER */}
-      <div style={{ borderBottom: `3px solid ${primary}`, padding: "10mm 15mm 5mm", textAlign: "left" }}>
-        <E value={name} onChange={(v) => u("name", v)} block style={{ fontSize: "26px", fontWeight: "bold", letterSpacing: "1px" }} />
-        <E value={title} onChange={(v) => u("title", v)} block style={{ fontSize: "14px", color: accent, marginTop: "2px", fontWeight: "600" }} />
+      {/* CLEAN HEADER (NO BORDERS/ICONS) */}
+      <div style={{ marginBottom: "25px", textAlign: "left" }}>
+        <E value={name} onChange={(v) => u("name", v)} block style={{ fontSize: "28px", fontWeight: "800", letterSpacing: "-0.5px", textTransform: "uppercase" }} />
+        <E value={title} onChange={(v) => u("title", v)} block style={{ fontSize: "14px", color: secondary, marginTop: "2px", fontWeight: "500" }} />
         
-        <div style={{ display: "flex", gap: "20px", marginTop: "8px", fontSize: "10px", fontFamily: "Arial" }}>
-          <span>📍 <E value={location} onChange={(v) => u("location", v)} /></span>
-          <span>📞 <E value={phone} onChange={(v) => u("phone", v)} /></span>
-          <span>📧 <E value={email} onChange={(v) => u("email", v)} /></span>
-          <span>🔗 <E value={linkedin} onChange={(v) => u("linkedin", v)} /></span>
+        <div style={{ display: "flex", flexWrap: "wrap", gap: "10px", marginTop: "12px", fontSize: "11px", color: secondary }}>
+          <E value={location} onChange={(v) => u("location", v)} />
+          <span>•</span>
+          <E value={phone} onChange={(v) => u("phone", v)} />
+          <span>•</span>
+          <E value={email} onChange={(v) => u("email", v)} />
+          <span>•</span>
+          <E value={linkedin} onChange={(v) => u("linkedin", v)} />
         </div>
       </div>
 
-      <div style={{ padding: "8mm 15mm" }}>
-        
-        {/* SUMMARY SECTION */}
-        <div style={{ marginBottom: "15px" }}>
-          <div style={{ fontWeight: "bold", borderBottom: `1px solid ${borderCol}`, marginBottom: "5px", textTransform: "uppercase", fontSize: "12px" }}>
-            <E value={summaryTitle} onChange={(v) => u("summaryTitle", v)} />
-          </div>
-          <E value={summary} onChange={(v) => u("summary", v)} block style={{ fontSize: "11px", lineHeight: "1.6", fontStyle: "italic" }} />
+      {/* SUMMARY */}
+      <div style={{ marginBottom: "20px" }}>
+        <div style={{ fontWeight: "bold", fontSize: "12px", textTransform: "uppercase", borderBottom: `1.5px solid ${primary}`, marginBottom: "8px", paddingBottom: "2px", letterSpacing: "1px" }}>
+          <E value={summaryTitle} onChange={(v) => u("summaryTitle", v)} />
         </div>
+        <E value={summary} onChange={(v) => u("summary", v)} block style={{ fontSize: "11px", lineHeight: "1.6", color: secondary }} />
+      </div>
 
-        {/* KEY HIGHLIGHTS - GOLD BOX */}
-        <div style={{ background: highlight, padding: "10px", borderLeft: `4px solid ${primary}`, marginBottom: "15px" }}>
-          <div style={{ fontWeight: "bold", fontSize: "11px", marginBottom: "5px" }}>
-             <E value={highlightTitle} onChange={(v) => u("highlightTitle", v)} />
-          </div>
+      {/* HIGHLIGHTS (BOX REMOVED) */}
+      <div style={{ marginBottom: "20px" }}>
+        <div style={{ fontWeight: "bold", fontSize: "12px", textTransform: "uppercase", marginBottom: "8px", color: primary }}>
+           <E value={highlightTitle} onChange={(v) => u("highlightTitle", v)} />
+        </div>
+        <ul style={{ margin: "0", paddingLeft: "15px", listStyleType: "circle" }}>
           {highlights.map((h, i) => (
-            <div key={i} style={{ fontSize: "10.5px", display: "flex", gap: "5px", marginBottom: "2px" }}>
-              <span>★</span>
+            <li key={i} style={{ fontSize: "10.5px", marginBottom: "4px", color: secondary }}>
               <E value={h} onChange={(v) => { const a = ref.current.highlights.map((item, j) => j === i ? v : item); u("highlights", a); }} />
-            </div>
+            </li>
           ))}
-        </div>
+        </ul>
+      </div>
 
-        {/* EXPERIENCE */}
-        <div style={{ fontWeight: "bold", borderBottom: `1px solid ${borderCol}`, marginBottom: "10px", textTransform: "uppercase", fontSize: "12px" }}>
+      {/* EXPERIENCE */}
+      <div style={{ marginBottom: "20px" }}>
+        <div style={{ fontWeight: "bold", fontSize: "12px", textTransform: "uppercase", borderBottom: `1.5px solid ${primary}`, marginBottom: "12px", paddingBottom: "2px", letterSpacing: "1px" }}>
           <E value={experienceTitle} onChange={(v) => u("experienceTitle", v)} />
         </div>
         {experience.map((exp, ei) => (
-          <div key={ei} style={{ marginBottom: "15px" }}>
-            <div style={{ display: "flex", justifyContent: "space-between", fontWeight: "bold", fontSize: "12px" }}>
+          <div key={ei} style={{ marginBottom: "18px" }}>
+            <div style={{ display: "flex", justifyContent: "space-between", fontWeight: "700", fontSize: "12px" }}>
               <E value={exp.company} onChange={(v) => { const a = ref.current.experience.map((e, i) => i === ei ? { ...e, company: v } : e); u("experience", a); }} />
               <E value={exp.period} onChange={(v) => { const a = ref.current.experience.map((e, i) => i === ei ? { ...e, period: v } : e); u("experience", a); }} />
             </div>
             {exp.roles.map((role, ri) => (
-              <div key={ri}>
-                <E value={role.title} onChange={(v) => { const a = ref.current.experience.map((e, i) => i === ei ? { ...e, roles: e.roles.map((r, j) => j === ri ? { ...r, title: v } : r) } : e); u("experience", a); }} style={{ fontWeight: "bold", color: "#475569", display: "block", marginBottom: "5px" }} />
+              <div key={ri} style={{ marginTop: "4px" }}>
+                <E value={role.title} onChange={(v) => { const a = ref.current.experience.map((e, i) => i === ei ? { ...e, roles: e.roles.map((r, j) => j === ri ? { ...r, title: v } : r) } : e); u("experience", a); }} style={{ fontWeight: "600", color: secondary, fontSize: "11px", display: "block", marginBottom: "6px" }} />
                 <ul style={{ margin: "0", paddingLeft: "15px" }}>
                   {role.bullets.map((b, bi) => (
-                    <li key={bi} style={{ fontSize: "11px", marginBottom: "3px" }}>
+                    <li key={bi} style={{ fontSize: "10.5px", marginBottom: "3px", color: secondary }}>
                       <E value={b} onChange={(v) => { const a = ref.current.experience.map((e, i) => i === ei ? { ...e, roles: e.roles.map((r, j) => j === ri ? { ...r, bullets: r.bullets.map((bul, k) => k === bi ? v : bul) } : r) } : e); u("experience", a); }} />
                     </li>
                   ))}
@@ -141,38 +143,39 @@ const SeniorAccountantTemplate = ({ data: propData, setData: setPropData }) => {
             ))}
           </div>
         ))}
+      </div>
 
-        {/* BOTTOM SECTIONS */}
-        <div style={{ display: "grid", gridTemplateColumns: "1.2fr 0.8fr", gap: "25px" }}>
-          <div>
-            <div style={{ fontWeight: "bold", borderBottom: `1px solid ${borderCol}`, marginBottom: "8px", textTransform: "uppercase", fontSize: "11px" }}>
-              <E value={skillsTitle} onChange={(v) => u("skillsTitle", v)} />
-            </div>
-            <div style={{ display: "flex", flexWrap: "wrap", gap: "6px" }}>
-              {skills.map((s, i) => (
-                <span key={i} style={{ border: `1px solid ${primary}`, padding: "2px 8px", fontSize: "10px", fontWeight: "600" }}>
-                  <E value={s} onChange={(v) => { const a = ref.current.skills.map((item, j) => j === i ? v : item); u("skills", a); }} />
-                </span>
-              ))}
-            </div>
+      {/* SKILLS & EDUCATION (NO GRID BOXES) */}
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "40px" }}>
+        <div>
+          <div style={{ fontWeight: "bold", fontSize: "11px", textTransform: "uppercase", borderBottom: `1px solid ${borderCol}`, marginBottom: "8px", paddingBottom: "2px" }}>
+            <E value={skillsTitle} onChange={(v) => u("skillsTitle", v)} />
           </div>
-          <div>
-            <div style={{ fontWeight: "bold", borderBottom: `1px solid ${borderCol}`, marginBottom: "8px", textTransform: "uppercase", fontSize: "11px" }}>
-              <E value={eduTitle} onChange={(v) => u("eduTitle", v)} />
-            </div>
-            {education.map((edu, i) => (
-              <div key={i} style={{ marginBottom: "8px" }}>
-                <E value={edu.degree} onChange={(v) => { const a = ref.current.education.map((e, j) => j === i ? { ...e, degree: v } : e); u("education", a); }} block style={{ fontWeight: "bold", fontSize: "10.5px" }} />
-                <div style={{ display: "flex", justifyContent: "space-between", fontSize: "10px" }}>
-                  <E value={edu.school} onChange={(v) => { const a = ref.current.education.map((e, j) => j === i ? { ...e, school: v } : e); u("education", a); }} />
-                  <E value={edu.year} onChange={(v) => { const a = ref.current.education.map((e, j) => j === i ? { ...e, year: v } : e); u("education", a); }} />
-                </div>
-              </div>
+          <div style={{ display: "flex", flexWrap: "wrap", gap: "6px 12px", fontSize: "10.5px", color: secondary }}>
+            {skills.map((s, i) => (
+              <span key={i}>
+                <E value={s} onChange={(v) => { const a = ref.current.skills.map((item, j) => j === i ? v : item); u("skills", a); }} />
+                {i !== skills.length - 1 && <span style={{ color: borderCol, marginLeft: "12px" }}>|</span>}
+              </span>
             ))}
           </div>
         </div>
-
+        <div>
+          <div style={{ fontWeight: "bold", fontSize: "11px", textTransform: "uppercase", borderBottom: `1px solid ${borderCol}`, marginBottom: "8px", paddingBottom: "2px" }}>
+            <E value={eduTitle} onChange={(v) => u("eduTitle", v)} />
+          </div>
+          {education.map((edu, i) => (
+            <div key={i} style={{ marginBottom: "8px" }}>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
+                <E value={edu.degree} onChange={(v) => { const a = ref.current.education.map((e, j) => j === i ? { ...e, degree: v } : e); u("education", a); }} block style={{ fontWeight: "bold", fontSize: "10.5px" }} />
+                <E value={edu.year} onChange={(v) => { const a = ref.current.education.map((e, j) => j === i ? { ...e, year: v } : e); u("education", a); }} style={{ fontSize: "10px", fontWeight: "bold" }} />
+              </div>
+              <E value={edu.school} onChange={(v) => { const a = ref.current.education.map((e, j) => j === i ? { ...e, school: v } : e); u("education", a); }} block style={{ fontSize: "10px", color: secondary }} />
+            </div>
+          ))}
+        </div>
       </div>
+
     </div>
   );
 };
