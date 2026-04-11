@@ -6,6 +6,7 @@ import ResumeBuilderCTA from '../CreatResume/ResumeBuilderCTA'
 import { useLocation } from 'react-router-dom'
 // import ResumeHeroSection from './ResumeHeroSection'
 import ResumeTipsSection from '../CreatResume/ResumeTipSection'
+import { SearchProvider } from "../../helper/SearchContext";
 
 const Home = () => {
     const location = useLocation();
@@ -27,11 +28,12 @@ const Home = () => {
   }, [location]);
   return (
    <>
-   
+   <SearchProvider> 
     <HeroSection/> 
     <div id="category"> 
     <CategoryNav/>
     </div> 
+   </SearchProvider>
     <div id="builder">
     <Builder/>
     </div> 

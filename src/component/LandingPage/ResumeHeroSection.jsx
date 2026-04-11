@@ -39,7 +39,7 @@ const handleNavigateToCategory = () => {
           </h1>
           <button
             onClick={handleNavigateToCategory}
-            className="bg-white text-indigo-900 font-bold px-7 py-3 rounded-lg hover:bg-indigo-50 active:scale-95 transition-all shadow-lg"
+            className="bg-white text-indigo-900 font-bold px-7 py-2 rounded-lg hover:bg-indigo-50 active:scale-95 transition-all shadow-lg"
           >
             Create my resume
           </button>

@@ -34,6 +34,7 @@ import DesignInternTemplate from "../../template/Intern/DesignInter";
 import SchoolTeacherTemplate from "../../template/Teacher/SchoolTeacher";
 import CollegeProfessorTemplate from "../../template/Teacher/SchoolProfessior";
 import { Link } from "react-router-dom";
+import { useSearch } from "../../helper/SearchContext";
  
 const categories = [
   "Accountant", "Business", "Cashier", "Engineer",
@@ -370,28 +371,45 @@ const TemplateEditor = ({ template, onBack }) => {
     </div>
   );
 };
-
-// ─── Main Component ────────────────────────────────────────────────────────────
+ 
 export default function CategoryNav() {
+
   const [active, setActive] = useState("Accountant");
   const [openTemplate, setOpenTemplate] = useState(null);
+  const { searchQuery, setSearchQuery } = useSearch();
 
-  const templates = categoryTemplates[active] || [];
+  const isSearching = searchQuery.trim() !== "";
 
-  const handleUse = (template) => {
-    if (!template.component) {
-      alert(`"${template.name}" — Template coming soon!`);
+  // ✅ Bug fix: naam 'displayTemplates' rakha — koi clash nahi
+  const displayTemplates = isSearching
+    ? Object.entries(categoryTemplates).flatMap(([cat, temps]) =>
+        temps
+          .filter(
+            (t) =>
+              t.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+              t.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+              cat.toLowerCase().includes(searchQuery.toLowerCase())
+          )
+          .map((t) => ({ ...t, category: cat }))
+      )
+    : categoryTemplates[active] || [];
+
+  // ✅ Bug fix: parameter naam 'tmpl' rakha — 'template' se clash nahi
+  const handleUse = (tmpl) => {
+    if (!tmpl.component) {
+      alert(`"${tmpl.name}" — Template coming soon!`);
       return;
     }
-    setOpenTemplate(template);
+    setOpenTemplate(tmpl);
   };
 
   const handleClose = () => setOpenTemplate(null);
 
+  const clearSearch = () => setSearchQuery("");
+
   return (
     <div className="w-full bg-white">
 
-      {/* \FIXED: Modal ab return ke andar hai — sahi jagah render hoga */}
       {openTemplate && (
         <Modal onClose={handleClose}>
           <TemplateEditor
@@ -408,9 +426,12 @@ export default function CategoryNav() {
             {categories.map((cat, i) => (
               <div key={cat} className="flex items-center">
                 <button
-                  onClick={() => setActive(cat)}
+                  onClick={() => {
+                    setActive(cat);
+                    clearSearch();
+                  }}
                   className={`px-4 py-4 text-lg font-semibold transition-colors cursor-pointer
-                    ${active === cat ? "text-blue-900 underline" : "text-blue-900 hover:underline"}`}
+                    ${active === cat && !isSearching ? "text-blue-900 underline" : "text-blue-900 hover:underline"}`}
                 >
                   {cat}
                 </button>
@@ -425,34 +446,54 @@ export default function CategoryNav() {
           <span className="text-gray-400 mx-1">›</span>
           <Link to="/home#category" className="underline text-gray-700 hover:text-blue-700">Resume Samples</Link>
           <span className="text-gray-400 mx-1">›</span>
-          <span className="text-gray-500">{active} Resume Templates</span>
+          <span className="text-gray-500">
+            {isSearching ? `Search: "${searchQuery}"` : `${active} Resume Templates`}
+          </span>
         </div>
       </div>
 
       {/* Templates Grid */}
       <div className="max-w-6xl mx-auto px-6 py-8">
-        <div className="mb-6">
-          <h2 className="text-2xl font-bold text-gray-900">{active} Resume Templates</h2>
-          <p className="text-gray-500 text-sm mt-1">
-            {templates.length} templates tailored for {active} roles — click to preview and edit
-          </p>
+        <div className="mb-6 flex items-center justify-between">
+          <div>
+            <h2 className="text-2xl font-bold text-gray-900">
+              {isSearching ? `Results for "${searchQuery}"` : `${active} Resume Templates`}
+            </h2>
+            {/* ✅ Bug fix: displayTemplates.length use karo */}
+            <p className="text-gray-500 text-sm mt-1">
+              {displayTemplates.length} templates {isSearching ? "found" : `tailored for ${active} roles`} — click to preview and edit
+            </p>
+          </div>
+          {isSearching && (
+            <button
+              onClick={clearSearch}
+              className="text-sm text-red-500 border border-red-300 px-3 py-1.5 rounded-lg hover:bg-red-50 transition"
+            >
+              ✕ Clear Search
+            </button>
+          )}
         </div>
 
-        {templates.length > 0 ? (
+        {/* ✅ Bug fix: displayTemplates use karo — yahi main fix tha */}
+        {displayTemplates.length > 0 ? (
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-5">
-            {templates.map((template) => (
+            {displayTemplates.map((tmpl) => (
               <ResumePreviewCard
-                key={template.id}
-                template={template}
+                key={tmpl.id}
+                template={tmpl}
                 onUse={handleUse}
               />
             ))}
           </div>
         ) : (
           <div className="text-center py-20 text-gray-400">
-            <div className="text-5xl mb-4">📄</div>
-            <p className="text-lg font-medium">No templates yet for {active}</p>
-            <p className="text-sm mt-1">Coming soon...</p>
+            <div className="text-5xl mb-4">{isSearching ? "🔍" : "📄"}</div>
+            <p className="text-lg font-medium">
+              {isSearching ? `No results for "${searchQuery}"` : `No templates yet for ${active}`}
+            </p>
+            <p className="text-sm mt-1">
+              {isSearching ? "Try: 'Developer', 'Nurse', 'Manager'" : "Coming soon..."}
+            </p>
           </div>
         )}
       </div>

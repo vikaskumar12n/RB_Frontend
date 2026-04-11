@@ -2,7 +2,7 @@
 
 export const saveToAPI = async (resumeData, templateId) => {
   try {
-    const res = await fetch("http://localhost:3000/api/resume/save", {
+    const res = await fetch("http://13.202.253.175:3000/api/resume/save", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
