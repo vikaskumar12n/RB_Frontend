@@ -1,14 +1,16 @@
  import React from 'react'
- import Home from './page/Home'
+ import Home from './component/page/Home'
  import { BrowserRouter,Route ,Routes } from 'react-router-dom'
- import ResumeBuilder from './page/CreateResume' 
+ import ResumeBuilder from './component/page/CreateResume' 
  import Navbar from './component/Navbar'
  import Footer from './component/Footer' 
  import ProfilePage from './component/MyProfile'
-  import LanginfPage from './page/LangingPage'
+  import LanginfPage from './component/page/LangingPage'
 import './App.css'
 import Register from "../src/Auth/Register"
 import Login from "../src/Auth/Login"
+import AboutUs from './component/AboutUs'
+import HelpPage from './component/Hepl'
 function App() {
   
 
@@ -17,6 +19,8 @@ function App() {
     <BrowserRouter>
     <Navbar/>
       <Routes>
+      <Route path='/about' element={<AboutUs/>}/>
+      <Route path='/help' element={<HelpPage/>}/>
         <Route path='/' element={<LanginfPage/>}/> 
         <Route path='/home' element={<Home/>}/>
         <Route path='/register' element={<Register/>}/>

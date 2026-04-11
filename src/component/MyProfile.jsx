@@ -715,7 +715,7 @@ import ClassicTemplate from "../template/ClassicTemplate";
 import ModernTemplate from "../template/ModernTemplate";
 import MinimalTemplate from "../template/MinimalTemplate";
 import CreativeTemplate from "../template/CreativeTemplate";
-import { saveToAPI } from "../helper/PdfHelpers";
+import { saveToAPI } from "../api/Api";
 
 const A4_WIDTH_PX = 794;
 const A4_HEIGHT_PX = 1122;

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Loader from '../helper/loader'; // 👈 import karo
+import Loader from '../../helper/loader';  
 
 const ResumeBuilderCTA = () => {
   const navigate = useNavigate();
@@ -17,8 +17,7 @@ const ResumeBuilderCTA = () => {
 
   return (
     <div className="w-full p-10 mb-8 bg-blue-900 py-10 px-4">
-
-      {/* ✅ Loader Call */}
+ 
       {loading && <Loader />}
 
       <div className="max-w-2xl mx-auto text-center">

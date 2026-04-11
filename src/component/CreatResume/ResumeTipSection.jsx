@@ -67,8 +67,7 @@ const ResumeTipsSection = () => {
             </ul>
           </div>
         ))}
-
-        {/* Highlight Card */}
+ 
         <div className="bg-gradient-to-br from-blue-900 to-blue-600 rounded-2xl p-5">
           <div className="w-11 h-11 rounded-xl bg-white/15 flex items-center justify-center mb-4">
             {/* Icon */}
@@ -87,10 +86,10 @@ const ResumeTipsSection = () => {
         </div>
       </div>
 
-      {/* Divider */}
+    
       <div className="border-t border-gray-100 my-6" />
 
-      {/* Avoid Section */}
+      
       <div className="flex items-center gap-3 mb-3">
         <div className="w-8 h-8 bg-red-50 rounded-lg flex items-center justify-center">
           {/* Cross Icon */}

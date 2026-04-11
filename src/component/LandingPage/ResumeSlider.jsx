@@ -1,15 +1,15 @@
 // components/ResumeSlider.jsx
 import { useState, useRef, useEffect } from "react";
-import SoftwareEnn from "../template/softwareEnn";
-import ClassicTemplate from "../template/ClassicTemplate";
-import ModernTemplate from "../template/ModernTemplate";
-import MinimalTemplate from "../template/MinimalTemplate";
-import ExecutiveTemplate from "../template/ExecutiveTemplate";
-import CreativeTemplate from "../template/CreativeTemplate";
-import { saveToAPI } from "../helper/PdfHelpers";
+import SoftwareEnn from "../../template/softwareEnn";
+import ClassicTemplate from "../../template/ClassicTemplate";
+import ModernTemplate from "../../template/ModernTemplate";
+import MinimalTemplate from "../../template/MinimalTemplate";
+import ExecutiveTemplate from "../../template/ExecutiveTemplate";
+import CreativeTemplate from "../../template/CreativeTemplate";
+import { saveToAPI } from "../../api/Api";
 import html2pdf from "html2pdf.js";
 import React from "react";
-import Loader from "../helper/loader";
+import Loader from "../../helper/loader";
 const templates = [
     { id: "softwareEnn", label: "Software", component: SoftwareEnn },
     { id: "classic", label: "Classic", component: ClassicTemplate },

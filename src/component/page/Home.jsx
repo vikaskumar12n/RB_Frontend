@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react' 
-import HeroSection from '../component/HeroSection'
-import CategoryNav from '../component/Category'
+import HeroSection from '../CreatResume/HeroSection'
+import CategoryNav from '../CreatResume/Category'
 import Builder from './Builder' 
-import ResumeBuilderCTA from '../component/ResumeBuilderCTA'
+import ResumeBuilderCTA from '../CreatResume/ResumeBuilderCTA'
 import { useLocation } from 'react-router-dom'
 // import ResumeHeroSection from './ResumeHeroSection'
-import ResumeTipsSection from '../component/ResumeTipSection'
+import ResumeTipsSection from '../CreatResume/ResumeTipSection'
 
 const Home = () => {
     const location = useLocation();

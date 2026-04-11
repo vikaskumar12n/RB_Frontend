@@ -1,13 +1,13 @@
 import React, { useState, useRef } from 'react';
 import html2canvas from 'html2canvas';
 import { jsPDF } from 'jspdf';
-import SoftwareEnn from "../template/softwareEnn";
-import ClassicTemplate from "../template/ClassicTemplate";
-import ModernTemplate from "../template/ModernTemplate";
-import MinimalTemplate from "../template/MinimalTemplate";
-import ExecutiveTemplate from "../template/ExecutiveTemplate";
-import CreativeTemplate from "../template/CreativeTemplate";
-import { saveToAPI } from '../helper/PdfHelpers';
+import SoftwareEnn from "../../template/softwareEnn";
+import ClassicTemplate from "../../template/ClassicTemplate";
+import ModernTemplate from "../../template/ModernTemplate";
+import MinimalTemplate from "../../template/MinimalTemplate";
+import ExecutiveTemplate from "../../template/ExecutiveTemplate";
+import CreativeTemplate from "../../template/CreativeTemplate";
+import { saveToAPI } from '../../api/Api';
 // ==================== TEMPLATE REGISTRY ====================
 const TEMPLATES = {
   softwareEnn: { component: SoftwareEnn, name: "Software Engineer", icon: "fa-code" },

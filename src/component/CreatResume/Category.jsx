@@ -2,37 +2,37 @@ import { useState, useRef, useEffect } from "react";
 
 
 import React from "react";
-import { useResume } from "../helper/ResumeContext";
-import BusinessAnalystTemplate from "../template/BussinessTemplate/BusinessAnalystTemplate";
-import BusinessDevTemplate from "../template/BussinessTemplate/BusinessDevTemplate";
-import MBATemplate from "../template/BussinessTemplate/MBATemplate";
-import AccountantTemplate from "../template/Accountant/ProfessionalAccountant";
-import SeniorAccountantTemplate from "../template/Accountant/SeniorAccountant";
-import CPATemplate from "../template/Accountant/CPAResume";
-import RetailCashierTemplate from "../template/Cashier/RetailCashier";
-import SeniorCashierTemplate from "../template/Cashier/SeniorCashier";
-import SoftwareDevTemplate from "../template/Engineer/SoftwareEnn";
-import ElectronicEngineerTemplate from "../template/Engineer/ElectronicEnn";
-import CivilEngineerTemplate from "../template/Engineer/CivilEnn";
-import MechanicalEngineerTemplate from "../template/Engineer/Mechnical";
-import UIUXDesignerTemplate from "../template/Designer/UXDesigner";
-import GraphicDesignerTemplate from "../template/Designer/GraficDesigner";
-import ProductDesignerTemplate from "../template/Designer/ProductDesigner";
-import FullStackMinimalTemplate from "../template/Developer/FullStackDeveloper";
-import FrontendDevTemplate from "../template/Developer/FrontendDeveloper";
-import MobileDevTemplate from "../template/Developer/MobileDeveloper";
-import BackendDevTemplate from "../template/Developer/BackendDeveloper";
-import ProjectManagerTemplate from "../template/Manager/ProjectManager";
-import BusinessDevTemplates from "../template/BussinessTemplate/BusinessDevTemplate";
-import OperationsManagerTemplate from "../template/Manager/operatorManager";
-import NurseResumeTemplate from "../template/Nurse/RegisteredNurse";
-import ICUNurseSimpleTemplate from "../template/Nurse/ICUNurse";
-import NursingFresherTemplate from "../template/Nurse/FresherNurse";
-import TechInternTemplate from "../template/Intern/TechIntern";
-import BusinessInternTemplate from "../template/Intern/BussinessIntern";
-import DesignInternTemplate from "../template/Intern/DesignInter";
-import SchoolTeacherTemplate from "../template/Teacher/SchoolTeacher";
-import CollegeProfessorTemplate from "../template/Teacher/SchoolProfessior";
+import { useResume } from "../../helper/ResumeContext";
+import BusinessAnalystTemplate from "../../template/BussinessTemplate/BusinessAnalystTemplate";
+import BusinessDevTemplate from "../../template/BussinessTemplate/BusinessDevTemplate";
+import MBATemplate from "../../template/BussinessTemplate/MBATemplate";
+import AccountantTemplate from "../../template/Accountant/ProfessionalAccountant";
+import SeniorAccountantTemplate from "../../template/Accountant/SeniorAccountant";
+import CPATemplate from "../../template/Accountant/CPAResume";
+import RetailCashierTemplate from "../../template/Cashier/RetailCashier";
+import SeniorCashierTemplate from "../../template/Cashier/SeniorCashier";
+import SoftwareDevTemplate from "../../template/Engineer/SoftwareEnn";
+import ElectronicEngineerTemplate from "../../template/Engineer/ElectronicEnn";
+import CivilEngineerTemplate from "../../template/Engineer/CivilEnn";
+import MechanicalEngineerTemplate from "../../template/Engineer/Mechnical";
+import UIUXDesignerTemplate from "../../template/Designer/UXDesigner";
+import GraphicDesignerTemplate from "../../template/Designer/GraficDesigner";
+import ProductDesignerTemplate from "../../template/Designer/ProductDesigner";
+import FullStackMinimalTemplate from "../../template/Developer/FullStackDeveloper";
+import FrontendDevTemplate from "../../template/Developer/FrontendDeveloper";
+import MobileDevTemplate from "../../template/Developer/MobileDeveloper";
+import BackendDevTemplate from "../../template/Developer/BackendDeveloper";
+import ProjectManagerTemplate from "../../template/Manager/ProjectManager";
+import BusinessDevTemplates from "../../template/BussinessTemplate/BusinessDevTemplate";
+import OperationsManagerTemplate from "../../template/Manager/operatorManager";
+import NurseResumeTemplate from "../../template/Nurse/RegisteredNurse";
+import ICUNurseSimpleTemplate from "../../template/Nurse/ICUNurse";
+import NursingFresherTemplate from "../../template/Nurse/FresherNurse";
+import TechInternTemplate from "../../template/Intern/TechIntern";
+import BusinessInternTemplate from "../../template/Intern/BussinessIntern";
+import DesignInternTemplate from "../../template/Intern/DesignInter";
+import SchoolTeacherTemplate from "../../template/Teacher/SchoolTeacher";
+import CollegeProfessorTemplate from "../../template/Teacher/SchoolProfessior";
 import { Link } from "react-router-dom";
  
 const categories = [
@@ -46,59 +46,59 @@ const CARD_SCALE = 0.32;
 
 const categoryTemplates = {
   Accountant: [
-    { id: "acc-1", name: "Professional Accountant", description: "Clean format with finance-focused layout", color: "#1e3a5f", sections: ["Summary", "Experience", "Skills", "Education", "Certifications"], component: AccountantTemplate },
-    { id: "acc-2", name: "Senior Accountant", description: "Executive style with detailed work history", color: "#1a472a", sections: ["Objective", "Work History", "Core Skills", "Education"], component: SeniorAccountantTemplate },
-    { id: "acc-3", name: "CPA Resume", description: "Certification-focused accounting resume", color: "#7c2d12", sections: ["Profile", "Certifications", "Experience", "Skills"], component: CPATemplate },
+    { id: "acc-1", name: "Professional Accountant", description: "Clean format with finance-focused layout", color: "#1a1a2e", sections: ["Summary", "Experience", "Skills", "Education", "Certifications"], component: AccountantTemplate },
+    { id: "acc-2", name: "Senior Accountant", description: "Executive style with detailed work history", color: "#1a1a2e", sections: ["Objective", "Work History", "Core Skills", "Education"], component: SeniorAccountantTemplate },
+    { id: "acc-3", name: "CPA Resume", description: "Certification-focused accounting resume", color: "#1a1a2e", sections: ["Profile", "Certifications", "Experience", "Skills"], component: CPATemplate },
   ],
   Business: [
     { id: "bus-1", name: "Business Analyst", description: "Data-driven layout for business professionals", color: "#312e81", sections: ["Summary", "Experience", "Skills", "Education"], component: BusinessAnalystTemplate },
-    { id: "bus-2", name: "Business Development", description: "Sales & growth focused resume", color: "#7e1d1d", sections: ["Objective", "Achievements", "Experience", "Skills"], component: BusinessDevTemplate },
-    { id: "bus-3", name: "MBA Graduate", description: "Academic + corporate hybrid format", color: "#065f46", sections: ["Profile", "Education", "Experience", "Projects"], component: MBATemplate },
+    { id: "bus-2", name: "Business Development", description: "Sales & growth focused resume", color: "#1a1a2e", sections: ["Objective", "Achievements", "Experience", "Skills"], component: BusinessDevTemplate },
+    { id: "bus-3", name: "MBA Graduate", description: "Academic + corporate hybrid format", color: "#1a1a2e", sections: ["Profile", "Education", "Experience", "Projects"], component: MBATemplate },
   ],
   Cashier: [
-    { id: "cas-1", name: "Retail Cashier", description: "Simple and clean entry-level format", color: "#0f4c81", sections: ["Objective", "Skills", "Experience", "Education"], component: RetailCashierTemplate },
-    { id: "cas-2", name: "Senior Cashier", description: "Experienced cashier with supervisor skills", color: "#7c3aed", sections: ["Summary", "Experience", "Skills", "Education"], component: SeniorCashierTemplate },
+    { id: "cas-1", name: "Retail Cashier", description: "Simple and clean entry-level format", color: "#1a1a2e", sections: ["Objective", "Skills", "Experience", "Education"], component: RetailCashierTemplate },
+    { id: "cas-2", name: "Senior Cashier", description: "Experienced cashier with supervisor skills", color: "#1a1a2e", sections: ["Summary", "Experience", "Skills", "Education"], component: SeniorCashierTemplate },
   ],
   Engineer: [
-    { id: "eng-1", name: "Software Engineer", description: "Tech-focused with project highlights", color: "#0e7490", sections: ["Summary", "Skills", "Projects", "Experience", "Education"], component: SoftwareDevTemplate },
-    { id: "eng-2", name: "Mechanical Engineer", description: "Traditional engineering resume format", color: "#1e3a5f", sections: ["Objective", "Education", "Experience", "Skills"], component: MechanicalEngineerTemplate },
-    { id: "eng-3", name: "Civil Engineer", description: "Project-based layout for civil engineers", color: "#3d5a0e", sections: ["Profile", "Projects", "Experience", "Education", "Certifications"], component: CivilEngineerTemplate },
-    { id: "eng-4", name: "Electrical Engineer", description: "Technical skills heavy format", color: "#7c1d1d", sections: ["Summary", "Technical Skills", "Experience", "Education"], component: ElectronicEngineerTemplate },
+    { id: "eng-1", name: "Software Engineer", description: "Tech-focused with project highlights", color: "#1a1a2e", sections: ["Summary", "Skills", "Projects", "Experience", "Education"], component: SoftwareDevTemplate },
+    { id: "eng-2", name: "Mechanical Engineer", description: "Traditional engineering resume format", color: "#1a1a2e", sections: ["Objective", "Education", "Experience", "Skills"], component: MechanicalEngineerTemplate },
+    { id: "eng-3", name: "Civil Engineer", description: "Project-based layout for civil engineers", color: "#1a1a2e", sections: ["Profile", "Projects", "Experience", "Education", "Certifications"], component: CivilEngineerTemplate },
+    { id: "eng-4", name: "Electrical Engineer", description: "Technical skills heavy format", color: "#1a1a2e", sections: ["Summary", "Technical Skills", "Experience", "Education"], component: ElectronicEngineerTemplate },
   ],
   Designer: [
-    { id: "des-1", name: "UI/UX Designer", description: "Creative layout with portfolio section", color: "#6d28d9", sections: ["Summary", "Portfolio", "Skills", "Experience", "Education"], component: UIUXDesignerTemplate },
-    { id: "des-2", name: "Graphic Designer", description: "Visual-focused minimalist design", color: "#be185d", sections: ["Profile", "Skills", "Experience", "Education"], component: GraphicDesignerTemplate },
-    { id: "des-3", name: "Product Designer", description: "Product thinking + design skills", color: "#0f766e", sections: ["Summary", "Skills", "Projects", "Experience"], component: ProductDesignerTemplate },
+    { id: "des-1", name: "UI/UX Designer", description: "Creative layout with portfolio section", color: "#1a1a2e", sections: ["Summary", "Portfolio", "Skills", "Experience", "Education"], component: UIUXDesignerTemplate },
+    { id: "des-2", name: "Graphic Designer", description: "Visual-focused minimalist design", color: "#1a1a2e", sections: ["Profile", "Skills", "Experience", "Education"], component: GraphicDesignerTemplate },
+    { id: "des-3", name: "Product Designer", description: "Product thinking + design skills", color: "#1a1a2e", sections: ["Summary", "Skills", "Projects", "Experience"], component: ProductDesignerTemplate },
   ],
   Developer: [
-    { id: "dev-1", name: "Full Stack Developer", description: "MERN/MEAN stack focused resume", color: "#1e3a5f", sections: ["Summary", "Skills", "Projects", "Experience", "Education"], component: FullStackMinimalTemplate },
-    { id: "dev-2", name: "Frontend Developer", description: "React/Vue focused with UI skills", color: "#0e7490", sections: ["Objective", "Skills", "Projects", "Experience", "Education"], component: FrontendDevTemplate },
-    { id: "dev-3", name: "Backend Developer", description: "API & server-side focused format", color: "#065f46", sections: ["Summary", "Technical Skills", "Experience", "Projects", "Education"], component: BackendDevTemplate },
-    { id: "dev-4", name: "Mobile Developer", description: "iOS/Android app development resume", color: "#7c3aed", sections: ["Profile", "Skills", "Apps", "Experience", "Education"], component: MobileDevTemplate },
+    { id: "dev-1", name: "Full Stack Developer", description: "MERN/MEAN stack focused resume", color: "#1a1a2e", sections: ["Summary", "Skills", "Projects", "Experience", "Education"], component: FullStackMinimalTemplate },
+    { id: "dev-2", name: "Frontend Developer", description: "React/Vue focused with UI skills", color: "#1a1a2e", sections: ["Objective", "Skills", "Projects", "Experience", "Education"], component: FrontendDevTemplate },
+    { id: "dev-3", name: "Backend Developer", description: "API & server-side focused format", color: "#1a1a2e", sections: ["Summary", "Technical Skills", "Experience", "Projects", "Education"], component: BackendDevTemplate },
+    { id: "dev-4", name: "Mobile Developer", description: "iOS/Android app development resume", color: "#1a1a2e", sections: ["Profile", "Skills", "Apps", "Experience", "Education"], component: MobileDevTemplate },
   ],
   Manager: [
     { id: "mgr-1", name: "Project Manager", description: "PMP-style with leadership highlights", color: "#1a1a2e", sections: ["Summary", "Core Competencies", "Experience", "Education", "Certifications"], component: ProjectManagerTemplate },
-    { id: "mgr-2", name: "Product Manager", description: "Product roadmap & stakeholder focus", color: "#3d1a78", sections: ["Profile", "Skills", "Experience", "Education"], component: BusinessDevTemplates },
-    { id: "mgr-3", name: "Operations Manager", description: "Process & efficiency focused layout", color: "#1e3a5f", sections: ["Summary", "Achievements", "Experience", "Skills", "Education"], component: OperationsManagerTemplate },
+    { id: "mgr-2", name: "Product Manager", description: "Product roadmap & stakeholder focus", color: "#1a1a2e", sections: ["Profile", "Skills", "Experience", "Education"], component: BusinessDevTemplates },
+    { id: "mgr-3", name: "Operations Manager", description: "Process & efficiency focused layout", color: "#1a1a2e", sections: ["Summary", "Achievements", "Experience", "Skills", "Education"], component: OperationsManagerTemplate },
   ],
   Nurse: [
-    { id: "nur-1", name: "Registered Nurse", description: "Clinical skills focused nursing resume", color: "#0d6efd", sections: ["Summary", "Licenses", "Clinical Experience", "Skills", "Education"], component: NurseResumeTemplate },
-    { id: "nur-2", name: "ICU Nurse", description: "Specialized critical care format", color: "#0f766e", sections: ["Profile", "Specializations", "Experience", "Education", "Certifications"], component: ICUNurseSimpleTemplate },
-    { id: "nur-3", name: "Nursing Fresher", description: "Entry-level nursing graduate format", color: "#6d28d9", sections: ["Objective", "Education", "Clinical Rotation", "Skills"], component: NursingFresherTemplate },
+    { id: "nur-1", name: "Registered Nurse", description: "Clinical skills focused nursing resume", color: "#1a1a2e", sections: ["Summary", "Licenses", "Clinical Experience", "Skills", "Education"], component: NurseResumeTemplate },
+    { id: "nur-2", name: "ICU Nurse", description: "Specialized critical care format", color: "#1a1a2e", sections: ["Profile", "Specializations", "Experience", "Education", "Certifications"], component: ICUNurseSimpleTemplate },
+    { id: "nur-3", name: "Nursing Fresher", description: "Entry-level nursing graduate format", color: "#1a1a2e", sections: ["Objective", "Education", "Clinical Rotation", "Skills"], component: NursingFresherTemplate },
   ],
   Intern: [
-    { id: "int-1", name: "Tech Intern", description: "Skills & projects focused for freshers", color: "#0e7490", sections: ["Objective", "Skills", "Projects", "Education"], component: TechInternTemplate },
-    { id: "int-2", name: "Business Intern", description: "Extracurricular + academics focused", color: "#065f46", sections: ["Objective", "Education", "Activities", "Skills"], component: BusinessInternTemplate },
-    { id: "int-3", name: "Design Intern", description: "Portfolio-ready internship resume", color: "#be185d", sections: ["Summary", "Portfolio", "Skills", "Education"], component: DesignInternTemplate },
+    { id: "int-1", name: "Tech Intern", description: "Skills & projects focused for freshers", color: "#1a1a2e", sections: ["Objective", "Skills", "Projects", "Education"], component: TechInternTemplate },
+    { id: "int-2", name: "Business Intern", description: "Extracurricular + academics focused", color: "#1a1a2e", sections: ["Objective", "Education", "Activities", "Skills"], component: BusinessInternTemplate },
+    { id: "int-3", name: "Design Intern", description: "Portfolio-ready internship resume", color: "#1a1a2e", sections: ["Summary", "Portfolio", "Skills", "Education"], component: DesignInternTemplate },
   ],
   Teacher: [
-    { id: "tea-1", name: "School Teacher", description: "Education-focused traditional format", color: "#1a472a", sections: ["Objective", "Education", "Experience", "Skills", "Certifications"], component: SchoolTeacherTemplate },
-    { id: "tea-2", name: "College Professor", description: "Academic CV style with publications", color: "#7c2d12", sections: ["Profile", "Education", "Publications", "Experience", "Skills"], component: CollegeProfessorTemplate },
+    { id: "tea-1", name: "School Teacher", description: "Education-focused traditional format", color: "#1a1a2e", sections: ["Objective", "Education", "Experience", "Skills", "Certifications"], component: SchoolTeacherTemplate },
+    { id: "tea-2", name: "College Professor", description: "Academic CV style with publications", color: "#1a1a2e", sections: ["Profile", "Education", "Publications", "Experience", "Skills"], component: CollegeProfessorTemplate },
   ],
 };
 
 // ─── Modal ─────────────────────────────────────────────────────────────────────
-// ✅ Background pe click karne se modal BAND NAHI HOGA — taaki editing safe rahe
+// \Background pe click karne se modal BAND NAHI HOGA — taaki editing safe rahe
 const Modal = ({ children, onClose }) => {
    const modalRef = useRef(null);  
     useEffect(() => {
@@ -116,7 +116,7 @@ const Modal = ({ children, onClose }) => {
       <div
       ref={modalRef}
         className="bg-gray-100 w-full max-w-5xl rounded-xl shadow-2xl relative"
-        // ✅ stopPropagation — accidental close na ho
+        // \stopPropagation — accidental close na ho
         onClick={(e) => e.stopPropagation()}
       >
         {/* Close Button — top-right corner */}
@@ -143,7 +143,7 @@ const ResumePreviewCard = ({ template, onUse }) => {
       className="rounded-xl overflow-hidden border border-gray-200 transition-all duration-200 hover:shadow-xl hover:-translate-y-1 cursor-pointer"
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
-      // ✅ Puri card pe click → modal open
+      // \Puri card pe click → modal open
       onClick={() => onUse(template)}
     >
       <div className="relative overflow-hidden" style={{ height: "200px", backgroundColor: "#f8fafc" }}>
@@ -391,7 +391,7 @@ export default function CategoryNav() {
   return (
     <div className="w-full bg-white">
 
-      {/* ✅ FIXED: Modal ab return ke andar hai — sahi jagah render hoga */}
+      {/* \FIXED: Modal ab return ke andar hai — sahi jagah render hoga */}
       {openTemplate && (
         <Modal onClose={handleClose}>
           <TemplateEditor

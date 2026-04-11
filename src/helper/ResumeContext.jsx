@@ -2,7 +2,7 @@
 
 import { createContext, useContext, useState } from "react";
 import React from "react";
-import { saveToAPI } from "./PdfHelpers";
+import { saveToAPI } from "../api/Api";
 const ResumeContext = createContext();
 
 export const ResumeProvider = ({ children }) => {
@@ -16,34 +16,29 @@ export const ResumeProvider = ({ children }) => {
       const jsPDFModule = await import("jspdf");
       const jsPDF = jsPDFModule.default || jsPDFModule.jsPDF;
 
-      // ✅ SAVE API
+      //  SAVE API
      await saveToAPI(resumeData, selectedId);
 
-      console.log("✅ Resume saved");
-
-      // ✅ FIX: Better capture function with visibility handling
+      console.log(" Resume saved");
+ 
    const capture = async (id) => {
   const el = document.getElementById(id);
   if (!el) throw new Error(`Element ${id} not found`);
-
-  // 1. Force Scroll to Top (Most important for alignment)
+ 
   window.scrollTo(0, 0);
-
-  // 2. Wait for a heartbeat
+ 
   await new Promise(resolve => setTimeout(resolve, 150));
 
   const canvas = await html2canvas(el, {
-    scale: 3,             // 10 ki jagah 3 use karein
+    scale: 3,            
     useCORS: true,
     backgroundColor: "#ffffff",
-    logging: false,
-    // Ye do settings text shift rokne ke liye critical hain
+    logging: false, 
     scrollY: -window.scrollY, 
     scrollX: 0,
     windowWidth: el.scrollWidth,
     windowHeight: el.scrollHeight,
-    onclone: (clonedDoc) => {
-      // Cloned document mein ensure karein ki layout fixed rahe
+    onclone: (clonedDoc) => { 
       const clonedEl = clonedDoc.getElementById(id);
       clonedEl.style.transform = "none";
       clonedEl.style.transition = "none";
@@ -82,7 +77,7 @@ export const ResumeProvider = ({ children }) => {
       }
 
       pdf.save(`resume-${selectedId || "file"}.pdf`);
-      console.log("✅ PDF saved successfully");
+      console.log(" PDF saved successfully");
 
     } catch (err) {
       console.error("PDF Error:", err);

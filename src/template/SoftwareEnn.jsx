@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useRef } from "react";
-import EditableSpan from "../page/Editablespan";
+import EditableSpan from "../component/page/Editablespan";
 
 const E = (p) => <EditableSpan {...p} />;
 

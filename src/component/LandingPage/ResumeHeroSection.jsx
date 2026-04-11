@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import Loader from "../helper/loader";
+import Loader from "../../helper/loader";
 
 export default function ResumeHeroSection() {
   const navigate = useNavigate();
@@ -49,7 +49,7 @@ const handleNavigateToCategory = () => {
         <div className="relative z-10 w-72 h-52 flex-shrink-0">
           {/* Card 1 - back left */}
           <div className="absolute bottom-0 left-0 bg-white rounded shadow-xl p-3 w-44 -rotate-6">
-            <ResumeCardContent name="Vikas" />
+            <ResumeCardContent name="Rahul" />
           </div>
           {/* Card 2 - middle */}
           <div className="absolute bottom-4 left-14 bg-white rounded shadow-xl p-3 w-44 -rotate-1 z-10">
@@ -57,7 +57,7 @@ const handleNavigateToCategory = () => {
           </div>
           {/* Card 3 - front right */}
           <div className="absolute bottom-5 right-0 bg-white rounded shadow-2xl p-3 w-44 z-20 border-t-2 border-indigo-500">
-            <ResumeCardContent name="Karishma" large />
+            <ResumeCardContent name="Aman" large />
           </div>
         </div>
       </div>

@@ -1,10 +1,9 @@
 import React, { useState, useCallback, useRef } from "react";
-import EditableSpan from "../page/Editablespan";
+import EditableSpan from "../component/page/Editablespan";
 
 const E = (p) => <EditableSpan {...p} />;
 
-const API_URL = "http://localhost:3000/api/resume/save";
-
+ 
 // ─── Default data ──────────────────────────────────────────────────────────────
 const getInitialData = () => ({
   name:     "First Last",

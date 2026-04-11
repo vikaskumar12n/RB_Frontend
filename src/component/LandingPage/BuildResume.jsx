@@ -193,7 +193,7 @@ export default function ResumeBuilder() {
                     <span className="text-[10px] font-semibold text-gray-700">{c.pct}%</span>
                   </div>
                   <div className="h-1 bg-gray-100 rounded-full">
-                    <div className="h-full bg-gray-400 rounded-full" style={{ width: `${c.pct}%` }} />
+                    <div className="h-full bg-blue-900 rounded-full" style={{ width: `${c.pct}%` }} />
                   </div>
                 </div>
               ))}
@@ -215,13 +215,13 @@ export default function ResumeBuilder() {
           ))}
 
           {/* AI tip */}
-          <div className="bg-gray-900 rounded-xl p-4 text-white">
+          <div className="bg-blue-900 rounded-xl p-4 text-white">
             <p className="font-bold text-[11px] mb-1">🪄 AI Tip</p>
-            <p className="text-[10px] text-gray-400 leading-relaxed mb-3">Add measurable results to increase your interview chances by 2×.</p>
-            <button className="w-full border border-gray-600 text-gray-300 text-[10px] font-semibold py-1.5 rounded-lg hover:bg-gray-800 transition">Try AI Writer</button>
+            <p className="text-[10px] text-gray-100 leading-relaxed mb-3">Add measurable results to increase your interview chances by 2×.</p>
+            <button className="w-full border border-white text-gray-300 text-[10px] font-semibold py-1.5 rounded-lg hover:bg-gray-800 transition">Try AI Writer</button>
           </div>
 
-          <button className="bg-gray-900 hover:bg-gray-700 text-white text-[11px] font-bold py-2.5 rounded-xl transition w-full">
+          <button className="bg-blue-900 hover:bg-gray-700 text-white text-[11px] font-bold py-2.5 rounded-xl transition w-full">
             Download PDF ↓
           </button>
         </aside>

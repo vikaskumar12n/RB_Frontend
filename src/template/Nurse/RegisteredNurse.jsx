@@ -1,6 +1,5 @@
 import React, { useState, useRef } from "react";
-import EditableSpan from "../../page/Editablespan";
-
+import EditableSpan from "../../component/page/Editablespan";
 const E = (p) => <EditableSpan {...p} />;
 
 // Registered Nurse - Clinical Clean Theme (Simple & Professional)
