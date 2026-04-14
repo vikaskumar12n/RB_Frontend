@@ -92,7 +92,7 @@ const MobileDevTemplate = ({ data: propData, setData: setPropData }) => {
 
       {/* OBJECTIVE */}
       <div style={{ marginBottom: "15px" }}>
-        <h3 style={{ fontSize: "13px", fontWeight: "bold", borderBottom: `1px solid ${divider}`, paddingBottom: "2px", marginBottom: "8px" }}>
+        <h3 style={{ fontSize: "13px", fontWeight: "bold", borderBottom: `1px solid ${divider}`,paddingBottom:"6px", marginBottom: "8px" }}>
           <E value={objectiveTitle} onChange={(v) => u("objectiveTitle", v)} />
         </h3>
         <E value={objective} onChange={(v) => u("objective", v)} block style={{ fontSize: "11px", lineHeight: "1.5", textAlign: "justify" }} />
@@ -100,7 +100,7 @@ const MobileDevTemplate = ({ data: propData, setData: setPropData }) => {
 
       {/* SKILLS */}
       <div style={{ marginBottom: "15px" }}>
-        <h3 style={{ fontSize: "13px", fontWeight: "bold", borderBottom: `1px solid ${divider}`, paddingBottom: "2px", marginBottom: "8px" }}>
+        <h3 style={{ fontSize: "13px", fontWeight: "bold", borderBottom: `1px solid ${divider}`,paddingBottom:"6px", marginBottom: "8px" }}>
           <E value={skillsTitle} onChange={(v) => u("skillsTitle", v)} />
         </h3>
         <div style={{ fontSize: "11px" }}>
@@ -111,7 +111,7 @@ const MobileDevTemplate = ({ data: propData, setData: setPropData }) => {
 
       {/* EXPERIENCE */}
       <div style={{ marginBottom: "15px" }}>
-        <h3 style={{ fontSize: "13px", fontWeight: "bold", borderBottom: `1px solid ${divider}`, paddingBottom: "2px", marginBottom: "12px" }}>
+        <h3 style={{ fontSize: "13px", fontWeight: "bold", borderBottom: `1px solid ${divider}`,paddingBottom:"6px", marginBottom: "12px" }}>
           <E value={experienceTitle} onChange={(v) => u("experienceTitle", v)} />
         </h3>
         {experience.map((exp, ei) => (
@@ -134,7 +134,7 @@ const MobileDevTemplate = ({ data: propData, setData: setPropData }) => {
 
       {/* EDUCATION */}
       <div style={{ marginBottom: "15px" }}>
-        <h3 style={{ fontSize: "13px", fontWeight: "bold", borderBottom: `1px solid ${divider}`, paddingBottom: "2px", marginBottom: "10px" }}>
+        <h3 style={{ fontSize: "13px", fontWeight: "bold", borderBottom: `1px solid ${divider}`,paddingBottom:"6px", marginBottom: "10px" }}>
           <E value={educationTitle} onChange={(v) => u("educationTitle", v)} />
         </h3>
         {education.map((edu, i) => (
@@ -149,7 +149,7 @@ const MobileDevTemplate = ({ data: propData, setData: setPropData }) => {
 
       {/* PROJECTS */}
       <div style={{ marginBottom: "15px" }}>
-        <h3 style={{ fontSize: "13px", fontWeight: "bold", borderBottom: `1px solid ${divider}`, paddingBottom: "2px", marginBottom: "10px" }}>
+        <h3 style={{ fontSize: "13px", fontWeight: "bold", borderBottom: `1px solid ${divider}`,paddingBottom:"6px", marginBottom: "10px" }}>
           <E value={projectsTitle} onChange={(v) => u("projectsTitle", v)} />
         </h3>
         {projects.map((proj, i) => (
@@ -162,7 +162,7 @@ const MobileDevTemplate = ({ data: propData, setData: setPropData }) => {
 
       {/* CERTIFICATIONS */}
       <div>
-        <h3 style={{ fontSize: "13px", fontWeight: "bold", borderBottom: `1px solid ${divider}`, paddingBottom: "2px", marginBottom: "8px" }}>
+        <h3 style={{ fontSize: "13px", fontWeight: "bold", borderBottom: `1px solid ${divider}`,paddingBottom:"6px", marginBottom: "8px" }}>
           <E value={certTitle} onChange={(v) => u("certTitle", v)} />
         </h3>
         <ul style={{ margin: "0", paddingLeft: "18px", fontSize: "11px" }}>

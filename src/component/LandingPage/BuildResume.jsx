@@ -218,10 +218,10 @@ export default function ResumeBuilder() {
           <div className="bg-blue-900 rounded-xl p-4 text-white">
             <p className="font-bold text-[11px] mb-1">🪄 AI Tip</p>
             <p className="text-[10px] text-gray-100 leading-relaxed mb-3">Add measurable results to increase your interview chances by 2×.</p>
-            <button className="w-full border border-white text-gray-300 text-[10px] font-semibold py-1.5 rounded-lg hover:bg-gray-800 transition">Try AI Writer</button>
+            <button className="w-full border border-white text-gray-300 text-[10px] font-semibold py-1.5 rounded-lg hover:bg-blue-800 transition">Try AI Writer</button>
           </div>
 
-          <button className="bg-blue-900 hover:bg-gray-700 text-white text-[11px] font-bold py-2.5 rounded-xl transition w-full">
+          <button className="bg-blue-900 hover:bg-blue-700 text-white text-[11px] font-bold py-2.5 rounded-xl transition w-full">
             Download PDF ↓
           </button>
         </aside>

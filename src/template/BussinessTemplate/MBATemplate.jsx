@@ -72,8 +72,8 @@ const getInitialData = () => ({
 
 // ── Minimal Section Heading (No Boxes/Gradients) ───────────────────────────────
 const SHead = ({ children }) => (
-  <div style={{ marginTop: "16px", marginBottom: "6px", borderBottom: `1px solid ${primary}` }}>
-    <span style={{ fontSize: "11px", fontWeight: "bold", textTransform: "uppercase", letterSpacing: "1px", color: primary }}>
+  <div style={{ marginTop: "16px", marginBottom: "6px", borderBottom: `1px solid ${primary} ` }}>
+    <span style={{ fontSize: "11px",paddingBottom:"5px", fontWeight: "bold", textTransform: "uppercase", letterSpacing: "1px", color: primary }}>
       {children}
     </span>
   </div>
@@ -89,11 +89,11 @@ const MBATemplate = ({ data: propData, setData: setPropData }) => {
   const { name, location, phone, email, linkedin, objectiveTitle, experienceTitle, projectTitle, educationTitle, skillsTitle, certificationTitle, objective, projects, certifications, experience, education, skills } = data;
 
   return (
-    <div id="resume" style={{ width: "210mm", minHeight: "297mm", fontFamily: "'Times New Roman', serif", fontSize: "11px", lineHeight: "1.4", backgroundColor: "#fff", color: primary, boxSizing: "border-box", padding: "15mm" }}>
+    <div id="resume" style={{ width: "210mm", minHeight: "297mm", fontFamily: "'Times New Roman', serif", fontSize: "11px", lineHeight: "1.4", backgroundColor: "#fff", color: primary, boxSizing: "border-box", padding: "15mm", }}>
 
       {/* HEADER - Clean and Centered */}
       <div style={{ textAlign: "center", marginBottom: "20px" }}>
-        <E value={name} onChange={(v) => u("name", v)} block style={{ fontSize: "26px", fontWeight: "bold", textTransform: "uppercase" }} />
+        <E value={name} onChange={(v) => u("name", v)} block style={{ fontSize: "26px",paddingBottom:"6px", fontWeight: "bold", textTransform: "uppercase" }} />
         <div style={{ display: "flex", justifyContent: "center", gap: "10px", marginTop: "5px", fontSize: "10px", color: secondary }}>
           <E value={location} onChange={(v) => u("location", v)} />
           <span>|</span>
@@ -107,12 +107,12 @@ const MBATemplate = ({ data: propData, setData: setPropData }) => {
 
       {/* SUMMARY */}
       <SHead><E value={objectiveTitle} onChange={(v) => u("objectiveTitle", v)} /></SHead>
-      <E value={objective} onChange={(v) => u("objective", v)} block style={{ marginTop: "4px", textAlign: "justify" }} />
+      <E value={objective} onChange={(v) => u("objective", v)} block style={{ marginTop: "4px", textAlign: "justify" ,paddingBottom:"5px"}} />
 
       {/* EDUCATION - Moved to top for MBA Students */}
       <SHead><E value={educationTitle} onChange={(v) => u("educationTitle", v)} /></SHead>
       {education.map((edu, i) => (
-        <div key={i} style={{ marginBottom: "6px" }}>
+        <div key={i} style={{ marginBottom: "6px", }}>
           <div style={{ display: "flex", justifyContent: "space-between", fontWeight: "bold" }}>
             <E value={edu.school} onChange={(v) => { /* Update logic */ }} />
             <E value={edu.year} onChange={(v) => { /* Update logic */ }} />
@@ -124,7 +124,7 @@ const MBATemplate = ({ data: propData, setData: setPropData }) => {
       {/* EXPERIENCE */}
       <SHead><E value={experienceTitle} onChange={(v) => u("experienceTitle", v)} /></SHead>
       {experience.map((exp, ei) => (
-        <div key={ei} style={{ marginTop: "8px" }}>
+        <div key={ei} style={{ marginTop: "8px",paddingBottom:"5px"}}>
           <div style={{ display: "flex", justifyContent: "space-between", fontWeight: "bold" }}>
             <E value={exp.company} onChange={(v) => { /* Update logic */ }} />
             <E value={exp.period} onChange={(v) => { /* Update logic */ }} />
@@ -154,7 +154,7 @@ const MBATemplate = ({ data: propData, setData: setPropData }) => {
       ))}
 
       {/* SKILLS & CERTS (Side by Side) */}
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "30px" }}>
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "30px" ,paddingBottom:"5px" }}>
         <div>
           <SHead><E value={skillsTitle} onChange={(v) => u("skillsTitle", v)} /></SHead>
           <div style={{ display: "flex", flexWrap: "wrap", gap: "4px 10px" }}>

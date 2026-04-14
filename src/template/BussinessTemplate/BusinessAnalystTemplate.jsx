@@ -101,7 +101,7 @@ const BusinessAnalystTemplate = ({ data: propData, setData: setPropData }) => {
 
       {/* SUMMARY */}
       <div style={{ marginBottom: "20px" }}>
-        <div style={{ fontSize: "12px", fontWeight: "bold", textTransform: "uppercase", borderBottom: `1.5px solid ${primary}`, marginBottom: "8px", paddingBottom: "2px" }}>
+        <div style={{ fontSize: "12px", fontWeight: "bold", textTransform: "uppercase", borderBottom: `1.5px solid ${primary}`, marginBottom: "8px",paddingBottom:"6px" }}>
           <E value={objectiveTitle} onChange={(v) => u("objectiveTitle", v)} />
         </div>
         <E value={objective} onChange={(v) => u("objective", v)} block style={{ color: secondary, lineHeight: "1.6" }} />
@@ -109,7 +109,7 @@ const BusinessAnalystTemplate = ({ data: propData, setData: setPropData }) => {
 
       {/* EXPERIENCE */}
       <div style={{ marginBottom: "20px" }}>
-        <div style={{ fontSize: "12px", fontWeight: "bold", textTransform: "uppercase", borderBottom: `1.5px solid ${primary}`, marginBottom: "12px", paddingBottom: "2px" }}>
+        <div style={{ fontSize: "12px", fontWeight: "bold", textTransform: "uppercase", borderBottom: `1.5px solid ${primary}`, marginBottom: "12px",paddingBottom:"6px" }}>
           <E value={experienceTitle} onChange={(v) => u("experienceTitle", v)} />
         </div>
         {experience.map((exp, ei) => (
@@ -136,7 +136,7 @@ const BusinessAnalystTemplate = ({ data: propData, setData: setPropData }) => {
 
       {/* SKILLS */}
       <div style={{ marginBottom: "20px" }}>
-        <div style={{ fontSize: "12px", fontWeight: "bold", textTransform: "uppercase", borderBottom: `1.5px solid ${primary}`, marginBottom: "8px", paddingBottom: "2px" }}>
+        <div style={{ fontSize: "12px", fontWeight: "bold", textTransform: "uppercase", borderBottom: `1.5px solid ${primary}`, marginBottom: "8px",paddingBottom:"6px" }}>
           <E value={skillsTitle} onChange={(v) => u("skillsTitle", v)} />
         </div>
         <div style={{ display: "flex", flexWrap: "wrap", gap: "8px 15px", fontSize: "11px", color: secondary }}>
@@ -153,7 +153,7 @@ const BusinessAnalystTemplate = ({ data: propData, setData: setPropData }) => {
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "40px" }}>
         {/* PROJECTS */}
         <div>
-          <div style={{ fontSize: "12px", fontWeight: "bold", textTransform: "uppercase", borderBottom: `1.5px solid ${primary}`, marginBottom: "8px", paddingBottom: "2px" }}>
+          <div style={{ fontSize: "12px", fontWeight: "bold", textTransform: "uppercase", borderBottom: `1.5px solid ${primary}`, marginBottom: "8px",paddingBottom:"6px" }}>
             <E value={projectTitle} onChange={(v) => u("projectTitle", v)} />
           </div>
           {projects.map((proj, i) => (
@@ -166,7 +166,7 @@ const BusinessAnalystTemplate = ({ data: propData, setData: setPropData }) => {
 
         {/* EDUCATION & CERTS */}
         <div>
-          <div style={{ fontSize: "12px", fontWeight: "bold", textTransform: "uppercase", borderBottom: `1.5px solid ${primary}`, marginBottom: "8px", paddingBottom: "2px" }}>
+          <div style={{ fontSize: "12px", fontWeight: "bold", textTransform: "uppercase", borderBottom: `1.5px solid ${primary}`, marginBottom: "8px",paddingBottom:"6px" }}>
             <E value={educationTitle} onChange={(v) => u("educationTitle", v)} />
           </div>
           {education.map((edu, i) => (

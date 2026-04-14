@@ -117,7 +117,7 @@ const CollegeProfessorTemplate = ({ data: propData, setData: setPropData }) => {
         
         {/* LEFT COLUMN: EXPERIENCE & RESEARCH */}
         <div>
-          <div style={{ fontSize: "12px", fontWeight: "bold", textTransform: "uppercase", marginBottom: "15px", borderBottom: `2px double ${black}`, display: "inline-block" }}>
+          <div style={{ fontSize: "12px", fontWeight: "bold", paddingBottom: "6px", textTransform: "uppercase", marginBottom: "15px", borderBottom: `2px double ${black}`, display: "inline-block" }}>
             <E value={experienceTitle} onChange={(v) => u("experienceTitle", v)} />
           </div>
           {experience.map((exp, ei) => (
@@ -141,7 +141,7 @@ const CollegeProfessorTemplate = ({ data: propData, setData: setPropData }) => {
             </div>
           ))}
 
-          <div style={{ fontSize: "12px", fontWeight: "bold", textTransform: "uppercase", marginTop: "10px", marginBottom: "15px", borderBottom: `2px double ${black}`, display: "inline-block" }}>
+          <div style={{ fontSize: "12px", fontWeight: "bold", paddingBottom:"6px", textTransform: "uppercase", marginTop: "10px", marginBottom: "15px", borderBottom: `2px double ${black}`, display: "inline-block" }}>
             <E value={researchTitle} onChange={(v) => u("researchTitle", v)} />
           </div>
           {research.map((item, i) => (
@@ -154,7 +154,7 @@ const CollegeProfessorTemplate = ({ data: propData, setData: setPropData }) => {
         {/* RIGHT COLUMN: EDUCATION & SKILLS */}
         <div>
           <div style={{ marginBottom: "30px" }}>
-            <div style={{ fontSize: "12px", fontWeight: "bold", textTransform: "uppercase", marginBottom: "15px" }}>
+            <div style={{ fontSize: "12px", fontWeight: "bold",paddingBottom: "6px", textTransform: "uppercase",marginTop: "10px", marginBottom: "15px" }}>
               <E value={eduTitle} onChange={(v) => u("eduTitle", v)} />
             </div>
             {education.map((edu, i) => (

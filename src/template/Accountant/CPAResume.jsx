@@ -94,7 +94,7 @@ const CPATemplate = ({ data: propData, setData: setPropData }) => {
         
         {/* SUMMARY */}
         <div>
-          <div style={{ fontSize: "12px", fontWeight: "bold", textTransform: "uppercase", borderBottom: `1px solid ${primary}`, marginBottom: "8px", paddingBottom: "2px" }}>
+          <div style={{ fontSize: "12px", fontWeight: "bold",paddingBottom:"6px", textTransform: "uppercase", borderBottom: `1px solid ${primary}`, marginBottom: "8px",  }}>
             <E value={summaryTitle} onChange={(v) => u("summaryTitle", v)} />
           </div>
           <E value={summary} onChange={(v) => u("summary", v)} block style={{ fontSize: "11px", lineHeight: "1.6", color: secondary }} />
@@ -102,7 +102,7 @@ const CPATemplate = ({ data: propData, setData: setPropData }) => {
 
         {/* EXPERIENCE */}
         <div>
-          <div style={{ fontSize: "12px", fontWeight: "bold", textTransform: "uppercase", borderBottom: `1px solid ${primary}`, marginBottom: "12px", paddingBottom: "2px" }}>
+          <div style={{ fontSize: "12px", fontWeight: "bold", textTransform: "uppercase", borderBottom: `1px solid ${primary}`, marginBottom: "12px",paddingBottom:"6px" }}>
             <E value={experienceTitle} onChange={(v) => u("experienceTitle", v)} />
           </div>
           {experience.map((exp, ei) => (
@@ -129,7 +129,7 @@ const CPATemplate = ({ data: propData, setData: setPropData }) => {
 
         {/* SKILLS - SIMPLE COMMA SEPARATED OR LIST */}
         <div>
-          <div style={{ fontSize: "12px", fontWeight: "bold", textTransform: "uppercase", borderBottom: `1px solid ${primary}`, marginBottom: "8px", paddingBottom: "2px" }}>
+          <div style={{ fontSize: "12px", fontWeight: "bold", textTransform: "uppercase", borderBottom: `1px solid ${primary}`, marginBottom: "8px",paddingBottom:"6px" }}>
             <E value={skillsTitle} onChange={(v) => u("skillsTitle", v)} />
           </div>
           <div style={{ display: "flex", flexWrap: "wrap", gap: "8px 15px", fontSize: "10.5px", color: secondary }}>
@@ -144,7 +144,7 @@ const CPATemplate = ({ data: propData, setData: setPropData }) => {
 
         {/* EDUCATION */}
         <div>
-          <div style={{ fontSize: "12px", fontWeight: "bold", textTransform: "uppercase", borderBottom: `1px solid ${primary}`, marginBottom: "10px", paddingBottom: "2px" }}>
+          <div style={{ fontSize: "12px", fontWeight: "bold", textTransform: "uppercase", borderBottom: `1px solid ${primary}`, marginBottom: "10px",paddingBottom:"6px" }}>
             <E value={eduTitle} onChange={(v) => u("eduTitle", v)} />
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "30px" }}>

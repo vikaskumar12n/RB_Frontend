@@ -77,7 +77,7 @@ const SideHead = ({ children }) => (
   <div style={{
     fontSize: "10px", fontWeight: "bold", textTransform: "uppercase",
     letterSpacing: "1.5px", color: black, borderBottom: `1px solid ${black}`,
-    paddingBottom: "2px", marginBottom: "8px", marginTop: "15px"
+    paddingBottom: "5px", marginBottom: "8px", marginTop: "15px"
   }}>
     {children}
   </div>
@@ -87,7 +87,7 @@ const MainHead = ({ children }) => (
   <div style={{
     fontSize: "11px", fontWeight: "bold", textTransform: "uppercase",
     letterSpacing: "1.5px", color: black, borderBottom: `1px solid ${black}`,
-    paddingBottom: "2px", marginBottom: "10px"
+    paddingBottom: "5px", marginBottom: "10px"
   }}>
     {children}
   </div>

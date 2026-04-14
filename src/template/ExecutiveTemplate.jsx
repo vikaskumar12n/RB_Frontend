@@ -102,7 +102,7 @@ const sectionHeadStyle = {
   textTransform: "uppercase",
   color:         "#1a1a2e",
   borderBottom:  "1px solid #1a1a2e",
-  paddingBottom: "2px",
+  paddingBottom: "6px",
   display:       "flex",
   alignItems:    "center",
 };
@@ -190,7 +190,7 @@ const ExecutiveTemplate = ({ data: propData, setData: setPropData }) => {
       >
 
         {/* ── HEADER ── */}
-        <div style={{ backgroundColor: "#1a1a2e", padding: "12mm 14mm 8mm" }}>
+        <div style={{ backgroundColor: "#1a1a2e", padding: "  14mm 8mm" }}>
           <E
             value={name}
             onChange={(v) => u("name", v)}
@@ -294,7 +294,7 @@ const ExecutiveTemplate = ({ data: propData, setData: setPropData }) => {
                   </div>
 
                   {/* Period badge */}
-                  <span style={{ backgroundColor: "#1a1a2e", color: "#e2a04a", fontSize: "9px", padding: "1px 6px", borderRadius: "2px", whiteSpace: "nowrap", marginLeft: "8px", marginTop: "2px" }}>
+                  <span style={{   color: "#191a1b", fontSize: "9px", padding: "1px 6px", borderRadius: "2px", whiteSpace: "nowrap", marginLeft: "8px", marginTop: "2px" }}>
                     <E
                       value={exp.period}
                       onChange={(v) => {
@@ -303,7 +303,7 @@ const ExecutiveTemplate = ({ data: propData, setData: setPropData }) => {
                         );
                         u("experience", a);
                       }}
-                      style={{ color: "#e2a04a" }}
+                      style={{ color: "#191a1b" }}
                     />
                   </span>
                 </div>

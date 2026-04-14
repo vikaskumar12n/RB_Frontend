@@ -93,7 +93,7 @@ const MechanicalSimpleTemplate = ({ data: propData, setData: setPropData }) => {
 
       {/* SUMMARY */}
       <div style={{ marginBottom: "20px" }}>
-        <div style={{ fontSize: "12px", fontWeight: "bold", textTransform: "uppercase", borderBottom: `1.5px solid ${black}`, marginBottom: "5px" }}>
+        <div style={{ fontSize: "12px", fontWeight: "bold",paddingBottom:"6px",paddingBottom:"6px", textTransform: "uppercase", borderBottom: `1.5px solid ${black}`, marginBottom: "5px" }}>
           <E value={summaryTitle} onChange={(v) => u("summaryTitle", v)} />
         </div>
         <E value={summary} onChange={(v) => u("summary", v)} block style={{ fontSize: "11px", lineHeight: "1.4", textAlign: "justify" }} />
@@ -101,18 +101,18 @@ const MechanicalSimpleTemplate = ({ data: propData, setData: setPropData }) => {
 
       {/* WORK EXPERIENCE */}
       <div style={{ marginBottom: "20px" }}>
-        <div style={{ fontSize: "12px", fontWeight: "bold", textTransform: "uppercase", borderBottom: `1.5px solid ${black}`, marginBottom: "10px" }}>
+        <div style={{ fontSize: "12px", fontWeight: "bold",paddingBottom:"6px", textTransform: "uppercase", borderBottom: `1.5px solid ${black}`, marginBottom: "10px" }}>
           <E value={experienceTitle} onChange={(v) => u("experienceTitle", v)} />
         </div>
         {experience.map((exp, ei) => (
           <div key={ei} style={{ marginBottom: "15px" }}>
-            <div style={{ display: "flex", justifyContent: "space-between", fontWeight: "bold", fontSize: "11px" }}>
+            <div style={{ display: "flex", justifyContent: "space-between", fontWeight: "bold",paddingBottom:"6px", fontSize: "11px" }}>
               <E value={exp.company} onChange={(v) => { const a = ref.current.experience.map((e, i) => i === ei ? { ...e, company: v } : e); u("experience", a); }} />
               <E value={exp.period} onChange={(v) => { const a = ref.current.experience.map((e, i) => i === ei ? { ...e, period: v } : e); u("experience", a); }} />
             </div>
             {exp.roles.map((role, ri) => (
               <div key={ri}>
-                <E value={role.title} onChange={(v) => { const a = ref.current.experience.map((e, i) => i === ei ? { ...e, roles: e.roles.map((r, j) => j === ri ? { ...r, title: v } : r) } : e); u("experience", a); }} style={{ fontWeight: "bold", fontSize: "11px", fontStyle: "italic", display: "block" }} />
+                <E value={role.title} onChange={(v) => { const a = ref.current.experience.map((e, i) => i === ei ? { ...e, roles: e.roles.map((r, j) => j === ri ? { ...r, title: v } : r) } : e); u("experience", a); }} style={{ fontWeight: "bold",paddingBottom:"6px", fontSize: "11px", fontStyle: "italic", display: "block" }} />
                 <ul style={{ margin: "5px 0", paddingLeft: "25px" }}>
                   {role.bullets.map((b, bi) => (
                     <li key={bi} style={{ fontSize: "10.5px", marginBottom: "3px" }}>
@@ -131,7 +131,7 @@ const MechanicalSimpleTemplate = ({ data: propData, setData: setPropData }) => {
         
         {/* COLUMN 1: SKILLS & TOOLS */}
         <div>
-          <div style={{ fontSize: "12px", fontWeight: "bold", textTransform: "uppercase", borderBottom: `1.5px solid ${black}`, marginBottom: "8px" }}>
+          <div style={{ fontSize: "12px", fontWeight: "bold",paddingBottom:"6px", textTransform: "uppercase", borderBottom: `1.5px solid ${black}`, marginBottom: "8px" }}>
             <E value={skillsTitle} onChange={(v) => u("skillsTitle", v)} />
           </div>
           <div style={{ fontSize: "10.5px", lineHeight: "1.6" }}>
@@ -143,7 +143,7 @@ const MechanicalSimpleTemplate = ({ data: propData, setData: setPropData }) => {
             ))}
           </div>
 
-          <div style={{ fontSize: "12px", fontWeight: "bold", textTransform: "uppercase", borderBottom: `1.5px solid ${black}`, marginBottom: "8px", marginTop: "20px" }}>
+          <div style={{ fontSize: "12px", fontWeight: "bold",paddingBottom:"6px", textTransform: "uppercase", borderBottom: `1.5px solid ${black}`, marginBottom: "8px", marginTop: "20px" }}>
             <E value={toolsTitle} onChange={(v) => u("toolsTitle", v)} />
           </div>
           <div style={{ fontSize: "10.5px" }}>
@@ -157,12 +157,12 @@ const MechanicalSimpleTemplate = ({ data: propData, setData: setPropData }) => {
 
         {/* COLUMN 2: EDUCATION */}
         <div>
-          <div style={{ fontSize: "12px", fontWeight: "bold", textTransform: "uppercase", borderBottom: `1.5px solid ${black}`, marginBottom: "8px" }}>
+          <div style={{ fontSize: "12px", fontWeight: "bold",paddingBottom:"6px", textTransform: "uppercase", borderBottom: `1.5px solid ${black}`, marginBottom: "8px" }}>
             <E value={eduTitle} onChange={(v) => u("eduTitle", v)} />
           </div>
           {education.map((edu, i) => (
             <div key={i} style={{ marginBottom: "12px" }}>
-              <E value={edu.degree} onChange={(v) => { const a = ref.current.education.map((e, j) => j === i ? { ...e, degree: v } : e); u("education", a); }} block style={{ fontWeight: "bold", fontSize: "11px" }} />
+              <E value={edu.degree} onChange={(v) => { const a = ref.current.education.map((e, j) => j === i ? { ...e, degree: v } : e); u("education", a); }} block style={{ fontWeight: "bold",paddingBottom:"6px", fontSize: "11px" }} />
               <E value={edu.school} onChange={(v) => { const a = ref.current.education.map((e, j) => j === i ? { ...e, school: v } : e); u("education", a); }} block style={{ fontSize: "10.5px" }} />
               <E value={edu.year} onChange={(v) => { const a = ref.current.education.map((e, j) => j === i ? { ...e, year: v } : e); u("education", a); }} style={{ fontSize: "10.5px", fontWeight: "bold" }} />
             </div>

@@ -35,7 +35,7 @@ import SchoolTeacherTemplate from "../../template/Teacher/SchoolTeacher";
 import CollegeProfessorTemplate from "../../template/Teacher/SchoolProfessior";
 import { Link } from "react-router-dom";
 import { useSearch } from "../../helper/SearchContext";
- 
+ import Loader from "../../helper/loader";
 const categories = [
   "Accountant", "Business", "Cashier", "Engineer",
   "Designer", "Developer", "Manager", "Nurse", "Intern", "Teacher",
@@ -224,7 +224,7 @@ const BlankPage = ({ pageData, setPageData, accentColor, onRemove }) => {
   const update = (field, val) => setPageData((p) => ({ ...p, [field]: val }));
   const headingStyle = {
     fontSize: "15px", fontWeight: "bold", color: accentColor || "#1e3a5f",
-    borderBottom: `2px solid ${accentColor || "#1e3a5f"}`,
+    borderBottom: `1px solid ${accentColor || "#1e3a5f"}`,
     paddingBottom: "5px", marginBottom: "12px", marginTop: "28px",
     outline: "none", cursor: "text", whiteSpace: "pre-wrap",
   };
@@ -261,25 +261,24 @@ const TemplateEditor = ({ template, onBack }) => {
   const [page2Data, setPage2Data] = useState({});
 
   const { downloadResumePDF, downloading, setDownloading } = useResume();
+           
 
   const TemplComp = template.component;
   const accentColor = template.color;
 
-  const handleDownload = async () => {
-    if (!resumeData || Object.keys(resumeData).length === 0) {
-      alert("❌ Resume is empty, please fill in some details first");
-      return;
-    }
-    try {
-      setDownloading(true);
-      await downloadResumePDF({ ...resumeData }, template.id, hasPage2);
-    } catch (err) {
-      console.error("Download error:", err);
-      alert("❌ Error downloading PDF");
-    } finally {
-      setDownloading(false);
-    }
-  };
+const handleDownload = async () => {
+  if (!resumeData || Object.keys(resumeData).length === 0) {
+    alert("❌ Resume is empty, please fill in some details first");
+    return;
+  }
+
+  try {
+    await downloadResumePDF({ ...resumeData }, template.id, hasPage2);
+  } catch (err) {
+    console.error("Download error:", err);
+    alert("❌ Error downloading PDF");
+  }
+};
 
   return (
     <div id="category" className="max-h-[80vh] bg-gray-100 rounded-xl overflow-y-auto rounded-xl">
@@ -373,14 +372,13 @@ const TemplateEditor = ({ template, onBack }) => {
 };
  
 export default function CategoryNav() {
-
+ const { downloading } = useResume(); 
   const [active, setActive] = useState("Accountant");
   const [openTemplate, setOpenTemplate] = useState(null);
   const { searchQuery, setSearchQuery } = useSearch();
-
   const isSearching = searchQuery.trim() !== "";
 
-  // ✅ Bug fix: naam 'displayTemplates' rakha — koi clash nahi
+  //  Bug fix: naam 'displayTemplates' rakha — koi clash nahi
   const displayTemplates = isSearching
     ? Object.entries(categoryTemplates).flatMap(([cat, temps]) =>
         temps
@@ -394,7 +392,7 @@ export default function CategoryNav() {
       )
     : categoryTemplates[active] || [];
 
-  // ✅ Bug fix: parameter naam 'tmpl' rakha — 'template' se clash nahi
+  //  Bug fix: parameter naam 'tmpl' rakha — 'template' se clash nahi
   const handleUse = (tmpl) => {
     if (!tmpl.component) {
       alert(`"${tmpl.name}" — Template coming soon!`);
@@ -408,6 +406,9 @@ export default function CategoryNav() {
   const clearSearch = () => setSearchQuery("");
 
   return (
+    <>
+      {downloading && <Loader />}
+  
     <div className="w-full bg-white">
 
       {openTemplate && (
@@ -459,7 +460,7 @@ export default function CategoryNav() {
             <h2 className="text-2xl font-bold text-gray-900">
               {isSearching ? `Results for "${searchQuery}"` : `${active} Resume Templates`}
             </h2>
-            {/* ✅ Bug fix: displayTemplates.length use karo */}
+            {/*  Bug fix: displayTemplates.length use karo */}
             <p className="text-gray-500 text-sm mt-1">
               {displayTemplates.length} templates {isSearching ? "found" : `tailored for ${active} roles`} — click to preview and edit
             </p>
@@ -474,7 +475,7 @@ export default function CategoryNav() {
           )}
         </div>
 
-        {/* ✅ Bug fix: displayTemplates use karo — yahi main fix tha */}
+        {/*  Bug fix: displayTemplates use karo — yahi main fix tha */}
         {displayTemplates.length > 0 ? (
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-5">
             {displayTemplates.map((tmpl) => (
@@ -498,5 +499,6 @@ export default function CategoryNav() {
         )}
       </div>
     </div>
+      </>
   );
 }

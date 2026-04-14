@@ -98,7 +98,7 @@ const BusinessInternTemplate = ({ data: propData, setData: setPropData }) => {
 
       {/* OBJECTIVE */}
       <div style={{ marginBottom: "25px" }}>
-        <div style={{ fontSize: "10px", fontWeight: "900", textTransform: "uppercase", letterSpacing: "1px", marginBottom: "8px" }}>
+        <div style={{ fontSize: "10px", fontWeight: "900",paddingBottom:"5px", textTransform: "uppercase", letterSpacing: "1px", marginBottom: "8px" }}>
           <E value={objectiveTitle} onChange={(v) => u("objectiveTitle", v)} />
         </div>
         <E value={objective} onChange={(v) => u("objective", v)} block style={{ fontSize: "11px", lineHeight: "1.6", textAlign: "justify", color: darkGray }} />
@@ -108,7 +108,7 @@ const BusinessInternTemplate = ({ data: propData, setData: setPropData }) => {
         
         {/* LEFT COLUMN: PROJECTS & EXTRAS */}
         <div>
-          <div style={{ fontSize: "10px", fontWeight: "900", textTransform: "uppercase", letterSpacing: "1px", marginBottom: "15px", borderBottom: "1px solid #000" }}>
+          <div style={{ fontSize: "10px", fontWeight: "900",paddingBottom:"5px", textTransform: "uppercase", letterSpacing: "1px", marginBottom: "15px", borderBottom: "1px solid #000" }}>
             <E value={projectTitle} onChange={(v) => u("projectTitle", v)} />
           </div>
           {projects.map((proj, pi) => (
@@ -127,7 +127,7 @@ const BusinessInternTemplate = ({ data: propData, setData: setPropData }) => {
             </div>
           ))}
 
-          <div style={{ fontSize: "10px", fontWeight: "900", textTransform: "uppercase", letterSpacing: "1px", marginTop: "10px", marginBottom: "15px", borderBottom: "1px solid #000" }}>
+          <div style={{ fontSize: "10px", fontWeight: "900",paddingBottom:"5px", textTransform: "uppercase", letterSpacing: "1px", marginTop: "10px", marginBottom: "15px", borderBottom: "1px solid #000" }}>
             <E value={extraTitle} onChange={(v) => u("extraTitle", v)} />
           </div>
           {extras.map((item, i) => (
@@ -140,7 +140,7 @@ const BusinessInternTemplate = ({ data: propData, setData: setPropData }) => {
 
         {/* RIGHT COLUMN: SKILLS & EDUCATION */}
         <div>
-          <div style={{ fontSize: "10px", fontWeight: "900", textTransform: "uppercase", letterSpacing: "1px", marginBottom: "15px", borderBottom: "1px solid #000" }}>
+          <div style={{ fontSize: "10px", fontWeight: "900",paddingBottom:"5px", textTransform: "uppercase", letterSpacing: "1px", marginBottom: "15px", borderBottom: "1px solid #000" }}>
             <E value={skillsTitle} onChange={(v) => u("skillsTitle", v)} />
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: "10px", marginBottom: "30px" }}>
@@ -151,7 +151,7 @@ const BusinessInternTemplate = ({ data: propData, setData: setPropData }) => {
             ))}
           </div>
 
-          <div style={{ fontSize: "10px", fontWeight: "900", textTransform: "uppercase", letterSpacing: "1px", marginBottom: "15px", borderBottom: "1px solid #000" }}>
+          <div style={{ fontSize: "10px", fontWeight: "900",paddingBottom:"5px", textTransform: "uppercase", letterSpacing: "1px", marginBottom: "15px", borderBottom: "1px solid #000" }}>
             <E value={eduTitle} onChange={(v) => u("eduTitle", v)} />
           </div>
           {education.map((edu, i) => (

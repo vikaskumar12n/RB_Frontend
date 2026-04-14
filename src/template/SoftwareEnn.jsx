@@ -142,7 +142,7 @@ const SectionHead = ({ title }) => (
       letterSpacing: "0.12em",
       textAlign: "center",
       textTransform: "uppercase",
-      paddingBottom: "3px",
+      paddingBottom: "6px",
       margin: 0,
     }}>
       {title}

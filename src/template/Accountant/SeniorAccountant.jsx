@@ -98,7 +98,7 @@ const SeniorAccountantTemplate = ({ data: propData, setData: setPropData }) => {
 
       {/* SUMMARY */}
       <div style={{ marginBottom: "20px" }}>
-        <div style={{ fontWeight: "bold", fontSize: "12px", textTransform: "uppercase", borderBottom: `1.5px solid ${primary}`, marginBottom: "8px", paddingBottom: "2px", letterSpacing: "1px" }}>
+        <div style={{ fontWeight: "bold", fontSize: "12px", textTransform: "uppercase", borderBottom: `1.5px solid ${primary}`, marginBottom: "8px",paddingBottom:"6px", letterSpacing: "1px" }}>
           <E value={summaryTitle} onChange={(v) => u("summaryTitle", v)} />
         </div>
         <E value={summary} onChange={(v) => u("summary", v)} block style={{ fontSize: "11px", lineHeight: "1.6", color: secondary }} />
@@ -120,7 +120,7 @@ const SeniorAccountantTemplate = ({ data: propData, setData: setPropData }) => {
 
       {/* EXPERIENCE */}
       <div style={{ marginBottom: "20px" }}>
-        <div style={{ fontWeight: "bold", fontSize: "12px", textTransform: "uppercase", borderBottom: `1.5px solid ${primary}`, marginBottom: "12px", paddingBottom: "2px", letterSpacing: "1px" }}>
+        <div style={{ fontWeight: "bold", fontSize: "12px", textTransform: "uppercase", borderBottom: `1.5px solid ${primary}`, marginBottom: "12px",paddingBottom:"6px", letterSpacing: "1px" }}>
           <E value={experienceTitle} onChange={(v) => u("experienceTitle", v)} />
         </div>
         {experience.map((exp, ei) => (
@@ -148,7 +148,7 @@ const SeniorAccountantTemplate = ({ data: propData, setData: setPropData }) => {
       {/* SKILLS & EDUCATION (NO GRID BOXES) */}
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "40px" }}>
         <div>
-          <div style={{ fontWeight: "bold", fontSize: "11px", textTransform: "uppercase", borderBottom: `1px solid ${borderCol}`, marginBottom: "8px", paddingBottom: "2px" }}>
+          <div style={{ fontWeight: "bold", fontSize: "11px", textTransform: "uppercase", borderBottom: `1px solid ${borderCol}`, marginBottom: "8px",paddingBottom:"6px" }}>
             <E value={skillsTitle} onChange={(v) => u("skillsTitle", v)} />
           </div>
           <div style={{ display: "flex", flexWrap: "wrap", gap: "6px 12px", fontSize: "10.5px", color: secondary }}>
@@ -161,7 +161,7 @@ const SeniorAccountantTemplate = ({ data: propData, setData: setPropData }) => {
           </div>
         </div>
         <div>
-          <div style={{ fontWeight: "bold", fontSize: "11px", textTransform: "uppercase", borderBottom: `1px solid ${borderCol}`, marginBottom: "8px", paddingBottom: "2px" }}>
+          <div style={{ fontWeight: "bold", fontSize: "11px", textTransform: "uppercase", borderBottom: `1px solid ${borderCol}`, marginBottom: "8px",paddingBottom:"6px" }}>
             <E value={eduTitle} onChange={(v) => u("eduTitle", v)} />
           </div>
           {education.map((edu, i) => (

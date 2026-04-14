@@ -109,7 +109,7 @@ const SchoolTeacherTemplate = ({ data: propData, setData: setPropData }) => {
         <div>
           {/* PHILOSOPHY */}
           <div style={{ marginBottom: "30px" }}>
-            <div style={{ fontSize: "12px", fontWeight: "900", textTransform: "uppercase", marginBottom: "10px", display: "flex", alignItems: "center", gap: "10px" }}>
+            <div style={{ fontSize: "12px", fontWeight: "900",  textTransform: "uppercase", marginBottom: "10px", display: "flex", alignItems: "center", gap: "10px" }}>
               <E value={objectiveTitle} onChange={(v) => u("objectiveTitle", v)} />
               <div style={{ flexGrow: "1", height: "1px", background: "#eee" }} />
             </div>

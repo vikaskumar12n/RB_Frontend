@@ -87,7 +87,7 @@ const RetailCashierTemplate = ({ data: propData, setData: setPropData }) => {
         
         {/* SUMMARY SECTION */}
         <div style={{ marginBottom: "20px" }}>
-          <div style={{ fontWeight: "bold", color: primary, borderBottom: `1px solid ${primary}`, marginBottom: "5px", fontSize: "12px", textTransform: "uppercase" }}>
+          <div style={{ fontWeight: "bold",paddingBottom:"6px", color: primary, borderBottom: `1px solid ${primary}`, marginBottom: "5px", fontSize: "12px", textTransform: "uppercase" }}>
             <E value={summaryTitle} onChange={(v) => u("summaryTitle", v)} />
           </div>
           <E value={summary} onChange={(v) => u("summary", v)} block style={{ fontSize: "10.5px", lineHeight: "1.6", textAlign: "justify" }} />
@@ -98,12 +98,12 @@ const RetailCashierTemplate = ({ data: propData, setData: setPropData }) => {
           
           {/* LEFT COLUMN: EXPERIENCE */}
           <div>
-            <div style={{ fontWeight: "bold", color: primary, borderBottom: `1px solid ${primary}`, marginBottom: "10px", fontSize: "12px", textTransform: "uppercase" }}>
+            <div style={{ fontWeight: "bold",paddingBottom:"6px", color: primary, borderBottom: `1px solid ${primary}`, marginBottom: "10px", fontSize: "12px", textTransform: "uppercase" }}>
               <E value={experienceTitle} onChange={(v) => u("experienceTitle", v)} />
             </div>
             {experience.map((exp, ei) => (
               <div key={ei} style={{ marginBottom: "15px" }}>
-                <div style={{ display: "flex", justifyContent: "space-between", fontWeight: "bold", fontSize: "11px" }}>
+                <div style={{ display: "flex", justifyContent: "space-between", fontWeight: "bold",paddingBottom:"6px", fontSize: "11px" }}>
                   <E value={exp.company} onChange={(v) => { const a = ref.current.experience.map((e, i) => i === ei ? { ...e, company: v } : e); u("experience", a); }} />
                   <E value={exp.period} onChange={(v) => { const a = ref.current.experience.map((e, i) => i === ei ? { ...e, period: v } : e); u("experience", a); }} style={{ color: secondary, fontSize: "10px" }} />
                 </div>
@@ -125,7 +125,7 @@ const RetailCashierTemplate = ({ data: propData, setData: setPropData }) => {
 
           {/* RIGHT COLUMN: SKILLS & EDUCATION */}
           <div>
-            <div style={{ fontWeight: "bold", color: primary, borderBottom: `1px solid ${primary}`, marginBottom: "10px", fontSize: "12px", textTransform: "uppercase" }}>
+            <div style={{ fontWeight: "bold",paddingBottom:"6px", color: primary, borderBottom: `1px solid ${primary}`, marginBottom: "10px", fontSize: "12px", textTransform: "uppercase" }}>
               <E value={skillsTitle} onChange={(v) => u("skillsTitle", v)} />
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: "6px", marginBottom: "25px" }}>
@@ -137,14 +137,14 @@ const RetailCashierTemplate = ({ data: propData, setData: setPropData }) => {
               ))}
             </div>
 
-            <div style={{ fontWeight: "bold", color: primary, borderBottom: `1px solid ${primary}`, marginBottom: "10px", fontSize: "12px", textTransform: "uppercase" }}>
+            <div style={{ fontWeight: "bold",paddingBottom:"6px", color: primary, borderBottom: `1px solid ${primary}`, marginBottom: "10px", fontSize: "12px", textTransform: "uppercase" }}>
               <E value={eduTitle} onChange={(v) => u("eduTitle", v)} />
             </div>
             {education.map((edu, i) => (
               <div key={i} style={{ marginBottom: "12px" }}>
-                <E value={edu.degree} onChange={(v) => { const a = ref.current.education.map((e, j) => j === i ? { ...e, degree: v } : e); u("education", a); }} block style={{ fontWeight: "bold", fontSize: "11px" }} />
+                <E value={edu.degree} onChange={(v) => { const a = ref.current.education.map((e, j) => j === i ? { ...e, degree: v } : e); u("education", a); }} block style={{ fontWeight: "bold",paddingBottom:"6px", fontSize: "11px" }} />
                 <E value={edu.school} onChange={(v) => { const a = ref.current.education.map((e, j) => j === i ? { ...e, school: v } : e); u("education", a); }} block style={{ fontSize: "10.5px", color: secondary, marginTop: "2px" }} />
-                <E value={edu.year} onChange={(v) => { const a = ref.current.education.map((e, j) => j === i ? { ...e, year: v } : e); u("education", a); }} style={{ fontSize: "10px", fontWeight: "bold", color: secondary }} />
+                <E value={edu.year} onChange={(v) => { const a = ref.current.education.map((e, j) => j === i ? { ...e, year: v } : e); u("education", a); }} style={{ fontSize: "10px", fontWeight: "bold",paddingBottom:"6px", color: secondary }} />
               </div>
             ))}
           </div>

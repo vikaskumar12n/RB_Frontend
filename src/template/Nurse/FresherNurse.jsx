@@ -102,7 +102,7 @@ const NursingFresherTemplate = ({ data: propData, setData: setPropData }) => {
         
         {/* OBJECTIVE SECTION */}
         <div style={{ marginBottom: "15px" }}>
-          <div style={{ fontSize: "13px", fontWeight: "900", textTransform: "uppercase", marginBottom: "8px", borderBottom: `2px solid ${black}`, display: "inline-block" }}>
+          <div style={{ fontSize: "13px", fontWeight: "900", paddingBottom:"6px", textTransform: "uppercase", marginBottom: "8px", borderBottom: `2px solid ${black}`, display: "inline-block" }}>
             <E value={summaryTitle} onChange={(v) => u("summaryTitle", v)} />
           </div>
           <E value={summary} onChange={(v) => u("summary", v)} block style={{ fontSize: "11px", lineHeight: "1.7", textAlign: "justify" }} />
@@ -112,7 +112,7 @@ const NursingFresherTemplate = ({ data: propData, setData: setPropData }) => {
           
           {/* LEFT: CLINICAL ROTATIONS & INTERNSHIPS */}
           <div>
-            <div style={{ fontSize: "13px", fontWeight: "900", textTransform: "uppercase", marginBottom: "15px", borderBottom: `2px solid ${black}`, display: "inline-block" }}>
+            <div style={{ fontSize: "13px", fontWeight: "900",paddingBottom:"6px", textTransform: "uppercase", marginBottom: "15px", borderBottom: `2px solid ${black}`, display: "inline-block" }}>
               <E value={experienceTitle} onChange={(v) => u("experienceTitle", v)} />
             </div>
             {experience.map((exp, ei) => (
@@ -140,7 +140,7 @@ const NursingFresherTemplate = ({ data: propData, setData: setPropData }) => {
           {/* RIGHT: SKILLS & CERTIFICATIONS & EDUCATION */}
           <div>
             <div style={{ marginBottom: "30px" }}>
-              <div style={{ fontSize: "13px", fontWeight: "900", textTransform: "uppercase", marginBottom: "12px", borderBottom: `2px solid ${black}`, display: "inline-block" }}>
+              <div style={{ fontSize: "13px", fontWeight: "900",paddingBottom:"6px", textTransform: "uppercase", marginBottom: "12px", borderBottom: `2px solid ${black}`, display: "inline-block" }}>
                 <E value={skillsTitle} onChange={(v) => u("skillsTitle", v)} />
               </div>
               <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
@@ -158,7 +158,7 @@ const NursingFresherTemplate = ({ data: propData, setData: setPropData }) => {
                 <E value={certTitle} onChange={(v) => u("certTitle", v)} />
               </div>
               {certs.map((c, i) => (
-                <div key={i} style={{ fontSize: "9.5px", marginBottom: "6px", fontWeight: "500", display: "flex", alignItems: "center", gap: "8px" }}>
+                <div key={i} style={{ fontSize: "9.5px",paddingBottom:"6px", marginBottom: "6px", fontWeight: "500", display: "flex", alignItems: "center", gap: "8px" }}>
                    <span style={{ fontWeight: "bold" }}>+</span>
                   <E value={c} onChange={(v) => { const a = ref.current.certs.map((item, j) => j === i ? v : item); u("certs", a); }} />
                 </div>
@@ -166,7 +166,7 @@ const NursingFresherTemplate = ({ data: propData, setData: setPropData }) => {
             </div>
 
             <div>
-              <div style={{ fontSize: "13px", fontWeight: "900", textTransform: "uppercase", marginBottom: "12px", borderBottom: `2px solid ${black}`, display: "inline-block" }}>
+              <div style={{ fontSize: "13px", fontWeight: "900",paddingBottom:"6px", textTransform: "uppercase", marginBottom: "12px", borderBottom: `2px solid ${black}`, display: "inline-block" }}>
                 <E value={eduTitle} onChange={(v) => u("eduTitle", v)} />
               </div>
               {education.map((edu, i) => (

@@ -79,7 +79,7 @@ const TechInternTemplate = ({ data: propData, setData: setPropData }) => {
     <div id="resume" style={{ width: "210mm", minHeight: "297mm", fontFamily: "'IBM Plex Mono', monospace", backgroundColor: white, color: black, padding: "15mm 20mm", boxSizing: "border-box" }}>
       
       {/* CODE-STYLE HEADER - CENTERED */}
-      <div style={{ textAlign: "center", marginBottom: "12mm", borderBottom: `2px solid ${black}`, paddingBottom: "5px" }}>
+      <div style={{ textAlign: "center", marginBottom: "12mm", borderBottom: `2px solid ${black}`, paddingBottom: "7px" }}>
         <E value={name} onChange={(v) => u("name", v)} block style={{ fontSize: "28px", fontWeight: "900", letterSpacing: "-1px" }} />
         <E value={title} onChange={(v) => u("title", v)} block style={{ fontSize: "12px", fontWeight: "700", marginTop: "5px", textTransform: "uppercase" }} />
         
@@ -101,7 +101,7 @@ const TechInternTemplate = ({ data: propData, setData: setPropData }) => {
         
         {/* OBJECTIVE SECTION */}
         <div style={{ marginBottom: "15px" }}>
-          <div style={{ fontSize: "13px", fontWeight: "900", textTransform: "uppercase", marginBottom: "8px", borderBottom: `2px solid ${black}`, display: "inline-block" }}>
+          <div style={{ fontSize: "13px", fontWeight: "900",paddingBottom:"5px", textTransform: "uppercase", marginBottom: "8px", borderBottom: `2px solid ${black}`, display: "inline-block" }}>
             <E value={objectiveTitle} onChange={(v) => u("objectiveTitle", v)} />
           </div>
           <E value={objective} onChange={(v) => u("objective", v)} block style={{ fontSize: "11px", lineHeight: "1.7", textAlign: "justify" }} />
@@ -111,7 +111,7 @@ const TechInternTemplate = ({ data: propData, setData: setPropData }) => {
           
           {/* LEFT: PROJECTS SECTION */}
           <div>
-            <div style={{ fontSize: "13px", fontWeight: "900", textTransform: "uppercase", marginBottom: "15px", borderBottom: `2px solid ${black}`, display: "inline-block" }}>
+            <div style={{ fontSize: "13px", fontWeight: "900",paddingBottom:"5px", textTransform: "uppercase", marginBottom: "15px", borderBottom: `2px solid ${black}`, display: "inline-block" }}>
               <E value={projectsTitle} onChange={(v) => u("projectsTitle", v)} />
             </div>
             {projects.map((proj, pi) => (
@@ -140,7 +140,7 @@ const TechInternTemplate = ({ data: propData, setData: setPropData }) => {
           {/* RIGHT: SKILLS & EDUCATION & CERTS */}
           <div>
             <div style={{ marginBottom: "30px" }}>
-              <div style={{ fontSize: "13px", fontWeight: "900", textTransform: "uppercase", marginBottom: "12px", borderBottom: `2px solid ${black}`, display: "inline-block" }}>
+              <div style={{ fontSize: "13px", fontWeight: "900",paddingBottom:"5px", textTransform: "uppercase", marginBottom: "12px", borderBottom: `2px solid ${black}`, display: "inline-block" }}>
                 <E value={skillsTitle} onChange={(v) => u("skillsTitle", v)} />
               </div>
               <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
@@ -153,7 +153,7 @@ const TechInternTemplate = ({ data: propData, setData: setPropData }) => {
             </div>
 
             <div style={{ marginBottom: "30px" }}>
-              <div style={{ fontSize: "13px", fontWeight: "900", textTransform: "uppercase", marginBottom: "12px", borderBottom: `2px solid ${black}`, display: "inline-block" }}>
+              <div style={{ fontSize: "13px", fontWeight: "900",paddingBottom:"5px", textTransform: "uppercase", marginBottom: "12px", borderBottom: `2px solid ${black}`, display: "inline-block" }}>
                 <E value={eduTitle} onChange={(v) => u("eduTitle", v)} />
               </div>
               {education.map((edu, i) => (
@@ -166,7 +166,7 @@ const TechInternTemplate = ({ data: propData, setData: setPropData }) => {
             </div>
 
             <div style={{ border: `2px dashed ${black}`, padding: "15px" }}>
-              <div style={{ fontSize: "13px", fontWeight: "900", textTransform: "uppercase", marginBottom: "12px" }}>
+              <div style={{ fontSize: "13px", fontWeight: "900",paddingBottom:"5px", textTransform: "uppercase", marginBottom: "12px" }}>
                 <E value={certTitle} onChange={(v) => u("certTitle", v)} />
               </div>
               {certs.map((c, i) => (

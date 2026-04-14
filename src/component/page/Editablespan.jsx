@@ -5,8 +5,7 @@ const EditableSpan = ({ value, onChange, className = "", style = {}, block = fal
   const ref = useRef(null);
 
   useEffect(() => {
-    if (ref.current) ref.current.innerText = value ?? "";
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    if (ref.current) ref.current.innerText = value ?? ""; 
   }, []);
 
   const Tag = block ? "div" : "span";
@@ -15,7 +14,7 @@ const EditableSpan = ({ value, onChange, className = "", style = {}, block = fal
       ref={ref}
       contentEditable
       suppressContentEditableWarning
-      onInput={(e) => onChange && onChange(e.currentTarget.innerText)}
+      onInput={(e) => onChange && onChange(e.currentTarget.innerHTML)}
       className={`outline-none cursor-text hover:bg-yellow-50 focus:bg-yellow-100 rounded px-0.5 transition-colors ${className}`}
       style={{ display: block ? "block" : "inline", minWidth: "8px", minHeight: "1em", ...style }}
     />

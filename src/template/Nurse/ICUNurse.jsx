@@ -102,7 +102,7 @@ const ICUNurseSimpleTemplate = ({ data: propData, setData: setPropData }) => {
         
         {/* SUMMARY SECTION */}
         <div style={{ marginBottom: "15px" }}>
-          <div style={{ fontSize: "13px", fontWeight: "bold", textTransform: "uppercase", marginBottom: "8px", borderBottom: `1.5px solid ${black}`, display: "inline-block" }}>
+          <div style={{ fontSize: "13px", fontWeight: "bold",paddingBottom:"5px", textTransform: "uppercase", marginBottom: "8px", borderBottom: `1.5px solid ${black}`, display: "inline-block" }}>
             <E value={summaryTitle} onChange={(v) => u("summaryTitle", v)} />
           </div>
           <E value={summary} onChange={(v) => u("summary", v)} block style={{ fontSize: "12px", lineHeight: "1.6", textAlign: "justify" }} />
@@ -112,7 +112,7 @@ const ICUNurseSimpleTemplate = ({ data: propData, setData: setPropData }) => {
           
           {/* LEFT: CLINICAL EXPERIENCE */}
           <div>
-            <div style={{ fontSize: "13px", fontWeight: "bold", textTransform: "uppercase", marginBottom: "15px", borderBottom: `1.5px solid ${black}`, display: "inline-block" }}>
+            <div style={{ fontSize: "13px", fontWeight: "bold",paddingBottom:"5px", textTransform: "uppercase", marginBottom: "15px", borderBottom: `1.5px solid ${black}`, display: "inline-block" }}>
               <E value={experienceTitle} onChange={(v) => u("experienceTitle", v)} />
             </div>
             {experience.map((exp, ei) => (
@@ -140,12 +140,12 @@ const ICUNurseSimpleTemplate = ({ data: propData, setData: setPropData }) => {
           {/* RIGHT: SKILLS, CERTIFICATIONS & EDUCATION */}
           <div>
             <div style={{ marginBottom: "30px" }}>
-              <div style={{ fontSize: "13px", fontWeight: "bold", textTransform: "uppercase", marginBottom: "12px", borderBottom: `1.5px solid ${black}`, display: "inline-block" }}>
+              <div style={{ fontSize: "13px", fontWeight: "bold",paddingBottom:"5px", textTransform: "uppercase", marginBottom: "12px", borderBottom: `1.5px solid ${black}`, display: "inline-block" }}>
                 <E value={skillsTitle} onChange={(v) => u("skillsTitle", v)} />
               </div>
               <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
                 {skills.map((s, i) => (
-                  <div key={i} style={{ fontSize: "11px", fontWeight: "bold", borderLeft: `3px solid ${black}`, paddingLeft: "10px" }}>
+                  <div key={i} style={{ fontSize: "11px",paddingBottom:"10px", fontWeight: "bold", borderLeft: `3px solid ${black}`, paddingLeft: "10px" }}>
                     <E value={s} onChange={(v) => { const a = ref.current.skills.map((item, j) => j === i ? v : item); u("skills", a); }} />
                   </div>
                 ))}
@@ -164,7 +164,7 @@ const ICUNurseSimpleTemplate = ({ data: propData, setData: setPropData }) => {
             </div>
 
             <div>
-              <div style={{ fontSize: "13px", fontWeight: "bold", textTransform: "uppercase", marginBottom: "12px", borderBottom: `1.5px solid ${black}`, display: "inline-block" }}>
+              <div style={{ fontSize: "13px", fontWeight: "bold",paddingBottom:"5px", textTransform: "uppercase", marginBottom: "12px", borderBottom: `1.5px solid ${black}`, display: "inline-block" }}>
                 <E value={eduTitle} onChange={(v) => u("eduTitle", v)} />
               </div>
               {education.map((edu, i) => (

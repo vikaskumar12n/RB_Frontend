@@ -81,7 +81,7 @@ const DesignInternTemplate = ({ data: propData, setData: setPropData }) => {
 
       {/* OBJECTIVE / PHILOSOPHY */}
       <div style={{ marginBottom: "15px" }}>
-        <h3 style={{ fontSize: "13px", fontWeight: "900", borderBottom: `1px solid ${divider}`, paddingBottom: "2px", marginBottom: "8px", textTransform: "uppercase" }}>
+        <h3 style={{ fontSize: "13px", fontWeight: "900",paddingBottom:"5px", borderBottom: `1px solid ${divider}`, paddingBottom: "2px", marginBottom: "8px", textTransform: "uppercase" }}>
           <E value={objectiveTitle} onChange={(v) => u("objectiveTitle", v)} />
         </h3>
         <E value={objective} onChange={(v) => u("objective", v)} block style={{ fontSize: "11px", lineHeight: "1.5", textAlign: "justify" }} />
@@ -89,7 +89,7 @@ const DesignInternTemplate = ({ data: propData, setData: setPropData }) => {
 
       {/* SKILLS */}
       <div style={{ marginBottom: "15px" }}>
-        <h3 style={{ fontSize: "13px", fontWeight: "900", borderBottom: `1px solid ${divider}`, paddingBottom: "2px", marginBottom: "8px", textTransform: "uppercase" }}>
+        <h3 style={{ fontSize: "13px", fontWeight: "900",paddingBottom:"5px", borderBottom: `1px solid ${divider}`, paddingBottom: "2px", marginBottom: "8px", textTransform: "uppercase" }}>
           <E value={skillsTitle} onChange={(v) => u("skillsTitle", v)} />
         </h3>
         <div style={{ fontSize: "11px", lineHeight: "1.4" }}>
@@ -99,7 +99,7 @@ const DesignInternTemplate = ({ data: propData, setData: setPropData }) => {
 
       {/* PROJECTS */}
       <div style={{ marginBottom: "15px" }}>
-        <h3 style={{ fontSize: "13px", fontWeight: "900", borderBottom: `1px solid ${divider}`, paddingBottom: "2px", marginBottom: "12px", textTransform: "uppercase" }}>
+        <h3 style={{ fontSize: "13px", fontWeight: "900",paddingBottom:"5px", borderBottom: `1px solid ${divider}`, paddingBottom: "2px", marginBottom: "12px", textTransform: "uppercase" }}>
           <E value={projectTitle} onChange={(v) => u("projectTitle", v)} />
         </h3>
         {projects.map((proj, pi) => (
@@ -119,7 +119,7 @@ const DesignInternTemplate = ({ data: propData, setData: setPropData }) => {
 
       {/* EDUCATION */}
       <div style={{ marginBottom: "15px" }}>
-        <h3 style={{ fontSize: "13px", fontWeight: "900", borderBottom: `1px solid ${divider}`, paddingBottom: "2px", marginBottom: "10px", textTransform: "uppercase" }}>
+        <h3 style={{ fontSize: "13px", fontWeight: "900",paddingBottom:"5px", borderBottom: `1px solid ${divider}`, paddingBottom: "2px", marginBottom: "10px", textTransform: "uppercase" }}>
           <E value={eduTitle} onChange={(v) => u("eduTitle", v)} />
         </h3>
         {education.map((edu, i) => (
@@ -134,7 +134,7 @@ const DesignInternTemplate = ({ data: propData, setData: setPropData }) => {
 
       {/* CERTIFICATIONS */}
       <div>
-        <h3 style={{ fontSize: "13px", fontWeight: "900", borderBottom: `1px solid ${divider}`, paddingBottom: "2px", marginBottom: "8px", textTransform: "uppercase" }}>
+        <h3 style={{ fontSize: "13px", fontWeight: "900",paddingBottom:"5px", borderBottom: `1px solid ${divider}`, paddingBottom: "2px", marginBottom: "8px", textTransform: "uppercase" }}>
           <E value={certTitle} onChange={(v) => u("certTitle", v)} />
         </h3>
         <ul style={{ margin: "0", paddingLeft: "18px", fontSize: "11px" }}>

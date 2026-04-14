@@ -66,13 +66,15 @@ const getInitialData = () => ({
 
 // Section Heading Component
 const SectionHeader = ({ children }) => (
-  <div style={{ borderBottom: `2px solid ${primary}`, marginBottom: "8px", marginTop: "15px" }}>
+  <div style={{ borderBottom: `2px solid ${primary}`, marginBottom: "8px",paddingBottom:"6px", marginTop: "15px" }}>
     <span style={{ 
       fontSize: "11px", 
       fontWeight: "800", 
       color: primary, 
       textTransform: "uppercase", 
-      letterSpacing: "1.5px" 
+      letterSpacing: "1.5px",
+      paddingBottom:"6px"
+
     }}>
       {children}
     </span>
