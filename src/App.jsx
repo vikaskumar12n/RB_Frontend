@@ -1,7 +1,6 @@
  import React from 'react'
  import Home from './component/page/Home'
- import { BrowserRouter,Route ,Routes } from 'react-router-dom'
- import ResumeBuilder from './component/page/CreateResume' 
+ import { BrowserRouter,Route ,Routes } from 'react-router-dom' 
  import Navbar from './component/Navbar'
  import Footer from './component/Footer' 
  import ProfilePage from './component/MyProfile'
@@ -24,8 +23,7 @@ function App() {
         <Route path='/' element={<LanginfPage/>}/> 
         <Route path='/home' element={<Home/>}/>
         <Route path='/register' element={<Register/>}/>
-        <Route path='/login' element={<Login/>}/>
-        <Route path='/create' element={<ResumeBuilder/>}/>
+        <Route path='/login' element={<Login/>}/> 
         <Route path='/myresume' element={<ProfilePage/>}/>
        
       </Routes>
