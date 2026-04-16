@@ -52,6 +52,7 @@ HR Module: Employee management, attendance, leave handling, and recruitment supp
       roles: [
         {
           title: "Front End Developer, React",
+  
           bullets: [
             "Contributed to the development of a full-scale CRM (DSS) project.",
             "Built and integrated key modules like Finance, Accounts, and HR.",
@@ -132,7 +133,6 @@ const buildPayload = (data) => ({
       : cert
   ),
 });
-
 // ─── Section Heading ───────────────────────────────────────────────────────────
 const SectionHead = ({ title }) => (
   <div style={{ borderBottom: "1.5px solid #111", marginTop: "14px", marginBottom: "4px" }}>
