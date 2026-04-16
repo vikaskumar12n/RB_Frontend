@@ -84,7 +84,7 @@ const BusinessDevTemplate = ({ data: propData, setData: setPropData }) => {
 
       {/* SUMMARY */}
       <div style={{ marginBottom: "15px" }}>
-        <h3 style={{ fontSize: "13px", fontWeight: "900", borderBottom: `1px solid ${divider}`, paddingBottom: "2px", marginBottom: "8px", textTransform: "uppercase" }}>
+        <h3 style={{ fontSize: "13px", fontWeight: "900", borderBottom: `1px solid ${divider}`,  marginBottom: "8px", textTransform: "uppercase" }}>
           <E value={summaryTitle} onChange={(v) => u("summaryTitle", v)} />
         </h3>
         <E value={summary} onChange={(v) => u("summary", v)} block style={{ fontSize: "11px", lineHeight: "1.5", textAlign: "justify" }} />
@@ -92,7 +92,7 @@ const BusinessDevTemplate = ({ data: propData, setData: setPropData }) => {
 
       {/* SKILLS */}
       <div style={{ marginBottom: "15px" }}>
-        <h3 style={{ fontSize: "13px", fontWeight: "900", paddingBottom:"6px", borderBottom: `1px solid ${divider}`, paddingBottom: "2px", marginBottom: "8px", textTransform: "uppercase" }}>
+        <h3 style={{ fontSize: "13px", fontWeight: "900", paddingBottom:"6px", borderBottom: `1px solid ${divider}`,  marginBottom: "8px", textTransform: "uppercase" }}>
           <E value={skillsTitle} onChange={(v) => u("skillsTitle", v)} />
         </h3>
         <div style={{ fontSize: "11px", lineHeight: "1.4" }}>
@@ -102,7 +102,7 @@ const BusinessDevTemplate = ({ data: propData, setData: setPropData }) => {
 
       {/* EXPERIENCE */}
       <div style={{ marginBottom: "15px" }}>
-        <h3 style={{ fontSize: "13px", fontWeight: "900", paddingBottom:"6px",  borderBottom: `1px solid ${divider}`, paddingBottom: "2px", marginBottom: "12px", textTransform: "uppercase" }}>
+        <h3 style={{ fontSize: "13px", fontWeight: "900", paddingBottom:"6px",  borderBottom: `1px solid ${divider}`,  marginBottom: "12px", textTransform: "uppercase" }}>
           <E value={experienceTitle} onChange={(v) => u("experienceTitle", v)} />
         </h3>
         {experience.map((exp, ei) => (
@@ -125,7 +125,7 @@ const BusinessDevTemplate = ({ data: propData, setData: setPropData }) => {
 
       {/* EDUCATION */}
       <div style={{ marginBottom: "15px" }}>
-        <h3 style={{ fontSize: "13px", fontWeight: "900", paddingBottom:"6px", borderBottom: `1px solid ${divider}`, paddingBottom: "2px", marginBottom: "10px", textTransform: "uppercase" }}>
+        <h3 style={{ fontSize: "13px", fontWeight: "900", paddingBottom:"6px", borderBottom: `1px solid ${divider}`,  marginBottom: "10px", textTransform: "uppercase" }}>
           <E value={eduTitle} onChange={(v) => u("eduTitle", v)} />
         </h3>
         {education.map((edu, i) => (
@@ -140,7 +140,7 @@ const BusinessDevTemplate = ({ data: propData, setData: setPropData }) => {
 
       {/* CERTIFICATIONS */}
       <div>
-        <h3 style={{ fontSize: "13px", fontWeight: "900",paddingBottom:"6px", borderBottom: `1px solid ${divider}`, paddingBottom: "2px", marginBottom: "8px", textTransform: "uppercase" }}>
+        <h3 style={{ fontSize: "13px", fontWeight: "900",paddingBottom:"6px", borderBottom: `1px solid ${divider}`,  marginBottom: "8px", textTransform: "uppercase" }}>
           <E value={certTitle} onChange={(v) => u("certTitle", v)} />
         </h3>
         <ul style={{ margin: "0", paddingLeft: "18px", fontSize: "11px" }}>
