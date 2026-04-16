@@ -1,6 +1,6 @@
 // components/ResumeSlider.jsx
 import { useState, useRef, useEffect } from "react";
-import SoftwareEnn from "../../template/softwareEnn";
+import SoftwareEnn from "../../template/SoftwareEnn";
 import ClassicTemplate from "../../template/ClassicTemplate";
 import ModernTemplate from "../../template/ModernTemplate";
 import MinimalTemplate from "../../template/MinimalTemplate";
