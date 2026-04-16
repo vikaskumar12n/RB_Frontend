@@ -94,7 +94,7 @@ export default function Navbar() {
           {/* Logo */}
           <a href="/" className="flex items-center gap-2 text-[#1a3fa8] font-semibold text-2xl">
             <LogoIcon />
-            <span>Sikha.com</span>
+            <span>Shiksha.com</span>
           </a>
 
           {/* Right Side */}
