@@ -101,8 +101,9 @@ const categoryTemplates = {
 // ─── Modal ─────────────────────────────────────────────────────────────────────
 // \Background pe click karne se modal BAND NAHI HOGA — taaki editing safe rahe
 const Modal = ({ children, onClose }) => {
-   const modalRef = useRef(null);  
-    useEffect(() => {
+  const modalRef = useRef(null);
+
+  useEffect(() => {
     const handleClickOutside = (e) => {
       if (modalRef.current && !modalRef.current.contains(e.target)) {
         onClose();
@@ -113,17 +114,15 @@ const Modal = ({ children, onClose }) => {
   }, [onClose]);
 
   return (
-    <div className="fixed inset-0 z-50 flex items-start justify-center bg-black/60 overflow-y-auto py-6">
+    <div className="fixed inset-0 z-50 flex items-start justify-center bg-black/60 overflow-y-auto py-0 sm:py-6">
       <div
-      ref={modalRef}
-        className="bg-gray-100 w-full max-w-5xl rounded-xl shadow-2xl relative"
-        // \stopPropagation — accidental close na ho
+        ref={modalRef}
+        className="bg-gray-100 w-full sm:max-w-5xl sm:rounded-xl shadow-2xl relative min-h-screen sm:min-h-0"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Close Button — top-right corner */}
         <button
           onClick={onClose}
-          className="absolute top-4 right-6 z-100 text-gray-500 hover:text-red-500 text-2xl font-bold leading-none"
+          className="absolute top-3 right-4 z-50 text-gray-500 hover:text-red-500 text-2xl font-bold leading-none"
           title="Close"
         >
           ✕
@@ -259,52 +258,65 @@ const TemplateEditor = ({ template, onBack }) => {
   const [resumeData, setResumeData] = useState({});
   const [hasPage2, setHasPage2] = useState(false);
   const [page2Data, setPage2Data] = useState({});
+  const [scale, setScale] = useState(1);           // ← add karo
+  const canvasRef = useRef(null);                  // ← add karo
 
-  const { downloadResumePDF, downloading, setDownloading } = useResume();
-           
-
+  const { downloadResumePDF, downloading } = useResume();
   const TemplComp = template.component;
   const accentColor = template.color;
 
+  useEffect(() => {
+    const updateScale = () => {
+      if (canvasRef.current) {
+        const containerWidth = canvasRef.current.offsetWidth;
+        const newScale = Math.min(1, (containerWidth - 32) / A4_WIDTH_PX);
+        setScale(newScale);
+      }
+    };
+    updateScale();
+    window.addEventListener("resize", updateScale);
+    return () => window.removeEventListener("resize", updateScale);
+  }, []);
+
 const handleDownload = async () => {
-  if (!resumeData || Object.keys(resumeData).length === 0) {
-    alert("❌ Resume is empty, please fill in some details first");
-    return;
-  }
+    if (!resumeData || Object.keys(resumeData).length === 0) {
+      alert("❌ Resume is empty, please fill in some details first");
+      return;
+    }
+    try {
+      await downloadResumePDF({ ...resumeData }, template.id, hasPage2);
+    } catch (err) {
+      console.error("Download error:", err);
+      alert("❌ Error downloading PDF");
+    }
+  };
 
-  try {
-    await downloadResumePDF({ ...resumeData }, template.id, hasPage2);
-  } catch (err) {
-    console.error("Download error:", err);
-    alert("❌ Error downloading PDF");
-  }
-};
 
-  return (
-    <div id="category" className="max-h-[80vh] bg-gray-100 rounded-xl overflow-y-auto rounded-xl">
+return (
+    <div id="category" className="max-h-[80vh] bg-gray-100 rounded-xl overflow-y-auto">
 
       {/* ── Top Bar ── */}
-      <div className="bg-white border-b border-gray-200 px-6 py-3 flex items-center justify-between sticky top-0 z-40 shadow-sm">
-        <div className="flex items-center gap-3"> 
+      <div className="bg-white border-b border-gray-200 px-4 sm:px-6 py-3 flex items-center justify-between sticky top-0 z-40 shadow-sm">
+        <div className="flex items-center gap-2 sm:gap-3 min-w-0">
           <button
             onClick={onBack}
-            className="text-sm text-gray-500 hover:text-gray-900 transition-colors flex items-center gap-1"
+            className="text-sm text-gray-500 hover:text-gray-900 transition-colors flex items-center gap-1 whitespace-nowrap"
           >
-            ← Back to Templates
+            ← Back
           </button>
           <span className="text-gray-300">|</span>
-          <span className="text-sm font-semibold" style={{ color: template.color }}>
+          <span className="text-sm font-semibold truncate" style={{ color: template.color }}>
             {template.name}
           </span>
           {hasPage2 && (
-            <span className="text-xs text-gray-400 bg-gray-100 px-2 py-0.5 rounded-full">2 Pages</span>
+            <span className="text-xs text-gray-400 bg-gray-100 px-2 py-0.5 rounded-full whitespace-nowrap">2 Pages</span>
           )}
         </div>
 
         <button
           onClick={handleDownload}
           disabled={downloading}
-          className="px-3 py-2 mr-4 rounded-lg text-white text-sm font-semibold transition-all"
+          className="px-3 py-2 rounded-lg text-white text-sm font-semibold transition-all whitespace-nowrap flex-shrink-0"
           style={{ backgroundColor: downloading ? "#93c5fd" : "#2563eb" }}
         >
           {downloading ? "Generating..." : "⬇ Download PDF"}
@@ -317,21 +329,37 @@ const handleDownload = async () => {
       </div>
 
       {/* ── Resume Canvas ── */}
-      <div className="pb-3   flex flex-col items-center gap-8">
+      {/* ← ref yahan lagao — yahi container measure hoga */}
+      <div ref={canvasRef} className="pb-6 flex flex-col items-center gap-8 w-full">
 
         {/* Page 1 */}
-        <div>
-          <div className="text-xs text-gray-400 text-center  tracking-widest uppercase">Page 1</div>
+        <div className="w-full flex flex-col items-center">
+          <div className="text-xs text-gray-400 text-center mt-4 mb-1 tracking-widest uppercase">Page 1</div>
+
+          {/* ← Yeh wrapper asli fix hai */}
           <div
-            id="resume"
-            className="shadow-2xl rounded overflow-hidden"
-            style={{ width: `${A4_WIDTH_PX}px` }}
+            style={{
+              width: `${A4_WIDTH_PX * scale}px`,
+              height: `${A4_HEIGHT_PX * scale}px`,
+              overflow: "hidden",
+              flexShrink: 0,
+            }}
           >
-            <TemplComp
-              key={template.id}
-              data={resumeData}
-              setData={setResumeData}
-            />
+            <div
+              id="resume"
+              className="shadow-2xl rounded overflow-hidden"
+              style={{
+                width: `${A4_WIDTH_PX}px`,
+                transformOrigin: "top left",
+                transform: `scale(${scale})`,
+              }}
+            >
+              <TemplComp
+                key={template.id}
+                data={resumeData}
+                setData={setResumeData}
+              />
+            </div>
           </div>
         </div>
 
@@ -339,9 +367,9 @@ const handleDownload = async () => {
         {!hasPage2 && (
           <button
             onClick={() => setHasPage2(true)}
-            className="flex items-center justify-center gap-2 text-sm font-medium px-6 pb-4 rounded-xl border-2 border-dashed transition-all hover:shadow-md"
+            className="flex items-center justify-center gap-2 text-sm font-medium px-6 py-4 rounded-xl border-2 border-dashed transition-all hover:shadow-md"
             style={{
-              width: `${A4_WIDTH_PX}px`,
+              width: `${A4_WIDTH_PX * scale}px`,
               borderColor: "#d1d5db",
               color: "#9ca3af",
               backgroundColor: "#f9fafb",
@@ -354,22 +382,39 @@ const handleDownload = async () => {
 
         {/* Page 2 */}
         {hasPage2 && (
-          <div>
+          <div className="w-full flex flex-col items-center">
             <div className="text-xs text-gray-400 text-center mb-2 tracking-widest uppercase">Page 2</div>
-            <div className="shadow-2xl rounded overflow-hidden">
-              <BlankPage
-                pageData={page2Data}
-                setPageData={setPage2Data}
-                accentColor={accentColor}
-                onRemove={() => { setHasPage2(false); setPage2Data({}); }}
-              />
+            <div
+              style={{
+                width: `${A4_WIDTH_PX * scale}px`,
+                height: `${A4_HEIGHT_PX * scale}px`,
+                overflow: "hidden",
+                flexShrink: 0,
+              }}
+            >
+              <div
+                className="shadow-2xl rounded overflow-hidden"
+                style={{
+                  width: `${A4_WIDTH_PX}px`,
+                  transformOrigin: "top left",
+                  transform: `scale(${scale})`,
+                }}
+              >
+                <BlankPage
+                  pageData={page2Data}
+                  setPageData={setPage2Data}
+                  accentColor={accentColor}
+                  onRemove={() => { setHasPage2(false); setPage2Data({}); }}
+                />
+              </div>
             </div>
           </div>
         )}
       </div>
     </div>
   );
-};
+}
+ 
  
 export default function CategoryNav() {
  const { downloading } = useResume(); 

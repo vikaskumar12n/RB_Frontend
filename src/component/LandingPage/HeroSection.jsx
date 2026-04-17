@@ -4,6 +4,7 @@ import Loader from "../../helper/loader";
 import { useEffect, useState } from "react";
 import React from "react";
 
+
 export default function HeroSection() {
     const Navigate = useNavigate();
     const [loading, setloding] = useState(false)

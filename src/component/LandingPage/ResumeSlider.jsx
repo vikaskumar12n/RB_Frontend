@@ -10,6 +10,7 @@ import { saveToAPI } from "../../api/Api";
 import html2pdf from "html2pdf.js";
 import React from "react";
 import Loader from "../../helper/loader";
+
 const templates = [
     { id: "softwareEnn", label: "Software", component: SoftwareEnn },
     { id: "classic", label: "Classic", component: ClassicTemplate },
@@ -18,6 +19,71 @@ const templates = [
     { id: "executive", label: "Executive", component: ExecutiveTemplate },
     { id: "creative", label: "Creative", component: CreativeTemplate },
 ];
+
+// Helper function to normalize resume data for templates
+const normalizeResumeData = (data) => {
+    if (!data) return {};
+    
+    return {
+        // Basic info
+        name: data.name || data.personalInfo?.name || "FIRST LAST",
+        title: data.title || data.personalInfo?.title || "",
+        location: data.location || data.personalInfo?.location || "Bay Area, California",
+        phone: data.phone || data.personalInfo?.phone || "+1-234-456-789",
+        email: data.email || data.personalInfo?.email || "professionalemail@resumeworded.com",
+        linkedin: data.linkedin || data.personalInfo?.linkedin || "linkedin.com/in/username",
+        
+        // Section titles
+        objectiveTitle: data.objectiveTitle || "Objective",
+        experienceTitle: data.experienceTitle || "Professional Experience",
+        projectTitle: data.projectTitle || "Projects",
+        educationTitle: data.educationTitle || "Education",
+        skillsTitle: data.skillsTitle || "Skills",
+        certificationTitle: data.certificationTitle || "Certifications",
+        
+        // Content
+        objective: data.objective || data.summary || "",
+        
+        // Arrays - ensure they exist and are proper arrays
+        experience: Array.isArray(data.experience) ? data.experience : [],
+        projects: Array.isArray(data.projects) ? data.projects : [],
+        education: Array.isArray(data.education) ? data.education : [],
+        certifications: Array.isArray(data.certifications) ? data.certifications : [],
+        skills: Array.isArray(data.skills) ? data.skills : [],
+        
+        // Additional fields for compatibility
+        contact: data.contact || "",
+        links: data.links || "",
+        skillsList: data.skillsList || "",
+        summary: data.summary || data.objective || "",
+    };
+};
+
+// Get initial data for a specific template
+const getInitialDataForTemplate = (templateId) => {
+    // You can customize initial data per template if needed
+    const defaultData = {
+        name: "FIRST LAST",
+        location: "Bay Area, California",
+        phone: "+1-234-456-789",
+        email: "professionalemail@resumeworded.com",
+        linkedin: "linkedin.com/in/username",
+        objectiveTitle: "Objective",
+        experienceTitle: "Professional Experience",
+        projectTitle: "Projects",
+        educationTitle: "Education",
+        skillsTitle: "Skills",
+        certificationTitle: "Certifications",
+        objective: `Proactive and detail-oriented Full Stack Developer with expertise in designing, developing, and maintaining scalable web applications.`,
+        experience: [],
+        projects: [],
+        education: [],
+        certifications: [],
+        skills: [["HTML", "CSS", "JavaScript", "React"], ["Node.js", "Express", "MongoDB", "SQL"]],
+    };
+    
+    return defaultData;
+};
 
 export default function ResumeSlider({ resumeData, onClose }) {
     const [current, setCurrent] = useState(0);
@@ -28,30 +94,73 @@ export default function ResumeSlider({ resumeData, onClose }) {
     const previewRef = useRef(null);
     const modalRef = useRef(null);
     const [loading, setLoading] = useState(false);
-    // ✅ NEW: ref pointing only at the resume content div inside the modal
     const resumeRef = useRef(null);
-
-    const goTo = (i) => setCurrent(i);
-    const prev = () => setCurrent((c) => (c - 1 + templates.length) % templates.length);
-    const next = () => setCurrent((c) => (c + 1) % templates.length);
+    
+    // Store data for each template separately
+    const [templateDataMap, setTemplateDataMap] = useState({});
+    
+    // Get current template data
+    const currentTemplateId = templates[current].id;
+    const currentData = templateDataMap[currentTemplateId] || normalizeResumeData(resumeData) || getInitialDataForTemplate(currentTemplateId);
+    
+    // Initialize data for all templates when resumeData changes
+    useEffect(() => {
+        if (resumeData && Object.keys(resumeData).length > 0) {
+            const normalized = normalizeResumeData(resumeData);
+            const newMap = {};
+            templates.forEach(template => {
+                // Create a deep copy for each template
+                newMap[template.id] = JSON.parse(JSON.stringify(normalized));
+            });
+            setTemplateDataMap(newMap);
+        }
+    }, [resumeData]);
+    
+    // Update data for current template
+    const updateCurrentData = (newData) => {
+        setTemplateDataMap(prev => ({
+            ...prev,
+            [currentTemplateId]: newData
+        }));
+    };
+    
+    // Switch template and optionally save current data
+    const switchTemplate = async (newIndex) => {
+        // Optional: Auto-save current template data before switching
+        // await saveCurrentData();
+        
+        setCurrent(newIndex);
+        // No need to reset data - each template has its own data
+    };
+    
+    const goTo = (i) => switchTemplate(i);
+    const prev = () => switchTemplate((current - 1 + templates.length) % templates.length);
+    const next = () => switchTemplate((current + 1) % templates.length);
 
     const showToast = (msg, type = "success") => {
         setToast({ msg, type });
         setTimeout(() => setToast(null), 3000);
     };
 
-    const handleSave = async () => {
+    const saveCurrentData = async () => {
         setSaving(true);
-         setLoading(true)
+        setLoading(true);
         try {
-            await saveToAPI(resumeData, templates[current].id);
-            showToast("Resume saved successfully!");
-        } catch {
+            await saveToAPI(currentData, currentTemplateId);
+            showToast(`Resume (${templates[current].label}) saved successfully!`);
+            return true;
+        } catch (err) {
+            console.error(err);
             showToast("Save failed. Please try again.", "error");
+            return false;
         } finally {
             setSaving(false);
-             
+            setLoading(false);
         }
+    };
+
+    const handleSave = async () => {
+        await saveCurrentData();
     };
 
     useEffect(() => {
@@ -64,7 +173,6 @@ export default function ResumeSlider({ resumeData, onClose }) {
         return () => document.removeEventListener("mousedown", handleClickOutside);
     }, [onClose]);
 
-    // ✅ FIXED: accept a ref, validate it, then download
     const handleDownload = async (ref) => {
         const target = ref?.current;
         if (!target) {
@@ -76,48 +184,52 @@ export default function ResumeSlider({ resumeData, onClose }) {
             await html2pdf()
                 .set({
                     margin: 0,
-                    filename: `resume-${templates[current].id}.pdf`,
+                    filename: `resume-${currentTemplateId}.pdf`,
                     image: { type: "jpeg", quality: 0.98 },
                     html2canvas: { scale: 2, useCORS: true, logging: false },
                     jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
                 })
                 .from(target)
                 .save();
+            showToast("PDF downloaded successfully!");
         } catch (err) {
             console.error("Download error:", err);
             showToast("Download failed. Please try again.", "error");
         } finally {
             setDownloading(false);
-             setLoading(false);
+            setLoading(false);
         }
     };
+
     const handleSaveAndDownload = async () => {
         try {
             setSaving(true);
-             setLoading(true);
-
-            // 1. Save
-            await handleSave();
-
-            // 2. Download
+            setLoading(true);
+            // Save current template data
+            await saveCurrentData();
+            // Download PDF
             await handleDownload(resumeRef);
-
         } catch (err) {
             console.error(err);
+            showToast("Operation failed. Please try again.", "error");
         } finally {
             setSaving(false);
+            setLoading(false);
         }
     };
 
     const ActiveTemplate = templates[current].component;
 
+    // Force re-render when template changes
+    const templateKey = `${currentTemplateId}-${Date.now()}`;
+
     return (
-        <>{loading && <Loader />}
+        <>
+            {loading && <Loader />}
             <section className="bg-[linear-gradient(135deg,#1a237e_0%,#283593_30%,#1565c0_60%,#6a1b9a_100%)]">
                 <div className="max-w-5xl mx-auto py-9 grid grid-cols-1 lg:grid-cols-2 items-center">
-
                     {/* Left Panel */}
-                    <div className="max-w-100 text-white space-y-4">
+                    <div className="max-w-100 text-white space-y-4 pl-2 pb-2">
                         <h1 className="text-4xl lg:text-4xl font-bold leading-tight">
                             Every detail on your resume, built to perfection
                         </h1>
@@ -155,9 +267,11 @@ export default function ResumeSlider({ resumeData, onClose }) {
                                                     width: "238%",
                                                     pointerEvents: "none",
                                                 }}
-                                                ref={t.id === templates[current].id ? previewRef : null}
+                                                ref={t.id === currentTemplateId ? previewRef : null}
                                             >
-                                                <t.component data={resumeData} />
+                                                <t.component 
+                                                    data={templateDataMap[t.id] || normalizeResumeData(resumeData)} 
+                                                />
                                             </div>
                                             <div
                                                 className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all duration-300 flex items-end justify-center pb-5"
@@ -165,7 +279,7 @@ export default function ResumeSlider({ resumeData, onClose }) {
                                             >
                                                 <button
                                                     onClick={() => {
-                                                        setCurrent(templates.findIndex((tp) => tp.id === t.id));
+                                                        switchTemplate(templates.findIndex((tp) => tp.id === t.id));
                                                         setModalOpen(true);
                                                     }}
                                                     className="opacity-0 group-hover:opacity-100 translate-y-3 group-hover:translate-y-0 transition-all duration-300 bg-white text-blue-900 text-xs font-semibold px-4 py-2 rounded-full shadow-lg hover:bg-blue-50"
@@ -207,17 +321,17 @@ export default function ResumeSlider({ resumeData, onClose }) {
             {/* Modal */}
             {modalOpen && (
                 <div
-                    className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4"
+                    className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-0 sm:p-4"
                     onClick={(e) => e.target === e.currentTarget && setModalOpen(false)}
                 >
                     <div
                         ref={modalRef}
-                        className="bg-white rounded-2xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-hidden flex flex-col"
+                        className="bg-white sm:rounded-2xl shadow-2xl w-full h-100 sm:h-auto sm:max-w-4xl sm:max-h-[90vh] overflow-hidden flex flex-col"
                     >
                         {/* Modal Header */}
-                        <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100">
+                        <div className="flex items-center justify-between px-4 sm:px-6 py-3 sm:py-4 border-b border-gray-100">
                             <div>
-                                <h2 className="text-lg font-semibold text-gray-800">
+                                <h2 className="text-base sm:text-lg font-semibold text-gray-800">
                                     {templates[current].label} Template
                                 </h2>
                                 <p className="text-xs text-gray-400 mt-0.5">Preview · Edit · Download</p>
@@ -227,10 +341,10 @@ export default function ResumeSlider({ resumeData, onClose }) {
                                     {templates.map((t, i) => (
                                         <button
                                             key={t.id}
-                                            onClick={() => setCurrent(i)}
+                                            onClick={() => switchTemplate(i)}
                                             className={`text-xs px-2.5 py-1 rounded-md transition-all font-medium ${i === current
-                                                    ? "bg-white text-blue-700 shadow-sm"
-                                                    : "text-gray-500 hover:text-gray-700"
+                                                ? "bg-white text-blue-700 shadow-sm"
+                                                : "text-gray-500 hover:text-gray-700"
                                                 }`}
                                         >
                                             {t.label}
@@ -244,19 +358,51 @@ export default function ResumeSlider({ resumeData, onClose }) {
                             </div>
                         </div>
 
-                        {/* Modal Body — ✅ resumeRef yahan attach karo */}
-                        <div className="flex-1 overflow-auto bg-gray-50 p-6 flex justify-center">
-                            <div
-                                ref={resumeRef}
-                                className="bg-white shadow-lg rounded-lg overflow-hidden"
-                                style={{ width: "794px", minHeight: "1123px" }}
-                            >
-                                <ActiveTemplate data={resumeData} />
+                        {/* Template Tabs - mobile only */}
+                        <div className="flex sm:hidden gap-1 bg-gray-100 p-1 mx-4 mt-2 rounded-lg overflow-x-auto">
+                            {templates.map((t, i) => (
+                                <button
+                                    key={t.id}
+                                    onClick={() => switchTemplate(i)}
+                                    className={`text-xs px-2.5 py-1 rounded-md transition-all font-medium whitespace-nowrap ${i === current
+                                        ? "bg-white text-blue-700 shadow-sm"
+                                        : "text-gray-500 hover:text-gray-700"
+                                        }`}
+                                >
+                                    {t.label}
+                                </button>
+                            ))}
+                        </div>
+
+                        {/* Modal Body */}
+                        <div className="flex-1 overflow-auto bg-gray-50 p-3 sm:p-6 flex justify-center items-start">
+                            <div className="w-full flex justify-center">
+                                <div
+                                    style={{
+                                        width: "794px",
+                                        minHeight: "1123px",
+                                        transformOrigin: "top center",
+                                        transform: `scale(var(--resume-scale, 1))`,
+                                    }}
+                                    className="[--resume-scale:0.38] xs:[--resume-scale:0.45] sm:[--resume-scale:0.65] md:[--resume-scale:0.8] lg:[--resume-scale:1]"
+                                >
+                                    <div
+                                        ref={resumeRef}
+                                        className="bg-white shadow-lg rounded-lg overflow-hidden"
+                                        style={{ width: "794px", minHeight: "1123px" }}
+                                    >
+                                        <ActiveTemplate 
+                                            key={currentTemplateId}
+                                            data={currentData} 
+                                            setData={updateCurrentData}
+                                        />
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
                         {/* Modal Footer */}
-                        <div className="flex items-center justify-between px-6 py-4 border-t border-gray-100 bg-white">
+                        <div className="flex items-center justify-between px-4 sm:px-6 py-3 sm:py-4 border-t border-gray-100 bg-white flex-wrap gap-2">
                             <div className="flex gap-1">
                                 <button onClick={prev} className="text-xs text-gray-500 hover:text-gray-800 px-2 py-1 rounded hover:bg-gray-100 transition">← Prev</button>
                                 <button onClick={next} className="text-xs text-gray-500 hover:text-gray-800 px-2 py-1 rounded hover:bg-gray-100 transition">Next →</button>
@@ -266,7 +412,7 @@ export default function ResumeSlider({ resumeData, onClose }) {
                                 <button
                                     onClick={handleSaveAndDownload}
                                     disabled={saving || downloading}
-                                    className="flex items-center gap-2 bg-blue-700 text-white text-sm font-medium px-5 py-2 rounded-lg hover:bg-blue-800 transition disabled:opacity-60"
+                                    className="flex items-center gap-2 bg-blue-700 text-white text-sm font-medium px-4 sm:px-5 py-2 rounded-lg hover:bg-blue-800 transition disabled:opacity-60"
                                 >
                                     {(saving || downloading) ? (
                                         <svg className="animate-spin w-4 h-4" fill="none" viewBox="0 0 24 24">
@@ -278,7 +424,6 @@ export default function ResumeSlider({ resumeData, onClose }) {
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
                                         </svg>
                                     )}
-
                                     {(saving || downloading) ? "Processing..." : "Save & Download PDF"}
                                 </button>
                             </div>
@@ -290,7 +435,7 @@ export default function ResumeSlider({ resumeData, onClose }) {
             {/* Toast */}
             {toast && (
                 <div className={`fixed bottom-6 right-6 px-5 py-3 rounded-xl text-white text-sm font-medium shadow-lg z-[60] transition-all
-          ${toast.type === "error" ? "bg-red-500" : "bg-green-600"}`}>
+                    ${toast.type === "error" ? "bg-red-500" : "bg-green-600"}`}>
                     {toast.msg}
                 </div>
             )}

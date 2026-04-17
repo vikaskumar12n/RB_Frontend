@@ -151,7 +151,7 @@ const CreativeTemplate = ({ data: propData, setData: setPropData }) => {
               <E value={skillsTitle} onChange={(v) => u("skillsTitle", v)} />
             </RightHeading>
             <div style={{ display: "flex", flexWrap: "wrap", gap: "6px" }}>
-              {skills.flat().map((skill, i) => (
+              {skills?.flat().map((skill, i) => (
                 <span key={i} style={{ fontSize: "10px", padding: "2px 0", width: "45%", color: "#444" }}>
                   • <E value={skill} onChange={(v) => {
                       const flat = dataRef.current.skills.flat();

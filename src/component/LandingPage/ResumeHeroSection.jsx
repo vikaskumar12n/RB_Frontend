@@ -22,45 +22,45 @@ const handleNavigateToCategory = () => {
   return (
     <>
       {loading && <Loader />}
-      <div
-        className={`relative max-w-6xl overflow-hidden rounded-2xl px-14 mb-10 mx-auto py-12 flex items-center justify-between min-h-[220px] transition-opacity duration-700 bg-[linear-gradient(135deg,#1a237e_0%,#283593_30%,#1565c0_60%,#6a1b9a_100%)] ${
-          visible ? "opacity-100" : "opacity-0"
-        }`}
-      >
-        {/* Glow effect */}
-        <div 
-          className="absolute -top-16 -left-16 w-56 h-56 rounded-full bg-[radial-gradient(circle,rgba(100,120,255,0.3)_0%,transparent_70%)]" 
-        />
+     <div
+  className={`relative max-w-6xl overflow-hidden rounded-2xl px-6 md:px-14 mb-10 mx-auto py-10 md:py-12 flex flex-col md:flex-row items-center justify-between min-h-[220px] transition-opacity duration-700 bg-[linear-gradient(135deg,#1a237e_0%,#283593_30%,#1565c0_60%,#6a1b9a_100%)] ${
+    visible ? "opacity-100" : "opacity-0"
+  }`}
+>
+  {/* Glow effect (Mobile par thoda chota kiya) */}
+  <div className="absolute -top-16 -left-16 w-40 h-40 md:w-56 md:h-56 rounded-full bg-[radial-gradient(circle,rgba(100,120,255,0.3)_0%,transparent_70%)]" />
 
-        {/* Left: Text + Button */}
-        <div className="relative z-10 max-w-sm">
-          <h1 className="text-white text-3xl font-bold leading-snug mb-6">
-            Start building your resume today, land your dream job tomorrow
-          </h1>
-          <button
-            onClick={handleNavigateToCategory}
-            className="bg-white text-indigo-900 font-bold px-7 py-2 rounded-lg hover:bg-indigo-50 active:scale-95 transition-all shadow-lg"
-          >
-            Create my resume
-          </button>
-        </div>
+  {/* Left: Text + Button (Mobile par center align) */}
+  <div className="relative z-10 max-w-sm text-center md:text-left flex flex-col items-center md:items-start mb-12 md:mb-0">
+    <h1 className="text-white text-2xl md:text-3xl font-bold leading-tight md:leading-snug mb-6">
+      Start building your resume today, land your dream job tomorrow
+    </h1>
+    <button
+      onClick={handleNavigateToCategory}
+      className="bg-white text-indigo-900 font-bold px-8 py-3 rounded-lg hover:bg-indigo-50 active:scale-95 transition-all shadow-lg text-sm md:text-base w-fit"
+    >
+      Create my resume
+    </button>
+  </div>
 
-        {/* Right: Resume Cards */}
-        <div className="relative z-10 w-72 h-52 flex-shrink-0">
-          {/* Card 1 - back left */}
-          <div className="absolute bottom-0 left-0 bg-white rounded shadow-xl p-3 w-44 -rotate-6">
-            <ResumeCardContent name="Rahul" />
-          </div>
-          {/* Card 2 - middle */}
-          <div className="absolute bottom-4 left-14 bg-white rounded shadow-xl p-3 w-44 -rotate-1 z-10">
-            <ResumeCardContent name="Arjun" />
-          </div>
-          {/* Card 3 - front right */}
-          <div className="absolute bottom-5 right-0 bg-white rounded shadow-2xl p-3 w-44 z-20 border-t-2 border-indigo-500">
-            <ResumeCardContent name="Aman" large />
-          </div>
-        </div>
-      </div>
+  {/* Right: Resume Cards (Mobile par responsive scaling) */}
+  <div className="relative z-10 w-full max-w-[280px] md:w-72 h-44 md:h-52 flex-shrink-0 scale-90 sm:scale-100">
+    {/* Card 1 - back left */}
+    <div className="absolute bottom-0 left-0 bg-white rounded shadow-xl p-2 md:p-3 w-32 md:w-44 -rotate-6">
+      <ResumeCardContent name="Rahul" />
+    </div>
+    
+    {/* Card 2 - middle */}
+    <div className="absolute bottom-4 left-8 md:left-14 bg-white rounded shadow-xl p-2 md:p-3 w-32 md:w-44 -rotate-1 z-10">
+      <ResumeCardContent name="Arjun" />
+    </div>
+    
+    {/* Card 3 - front right */}
+    <div className="absolute bottom-5 right-0 bg-white rounded shadow-2xl p-2 md:p-3 w-32 md:w-44 z-20 border-t-2 border-indigo-500">
+      <ResumeCardContent name="Aman" large />
+    </div>
+  </div>
+</div>
     </>
   );
 }

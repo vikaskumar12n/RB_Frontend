@@ -326,179 +326,121 @@ const ResumeEditorModal = ({
   isOverflowing, downloading, onDownload, onClose,
   onTemplateChange, resetKey,
 }) => {
-  const selectedTemplate  = TEMPLATES.find((t) => t.id === selectedId);
+  const selectedTemplate = TEMPLATES.find((t) => t.id === selectedId);
   const TemplateComponent = selectedTemplate?.component;
-  const accentColor       = selectedTemplate?.preview?.accent;
+  const accentColor = selectedTemplate?.preview?.accent;
+
+  // ── Responsive Logic ──
+  const [isMobile, setIsMobile] = React.useState(false);
+  const [scale, setScale] = React.useState(1);
+
+  React.useEffect(() => {
+    const handleResize = () => {
+      const sw = window.innerWidth;
+      setIsMobile(sw < 768);
+      
+      // Scaling logic for mobile/small screens
+      if (sw < 850) {
+        setScale((sw - 40) / A4_WIDTH_PX);
+      } else {
+        setScale(1);
+      }
+    };
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   return (
     <Overlay onClose={onClose}>
-      <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
-      <div style={{
-        width: "min(960px, 98vw)", height: "95vh",
-        background: "#f3f4f6", borderRadius: "16px",
-        display: "flex", flexDirection: "column", overflow: "hidden",
-        boxShadow: "0 24px 60px rgba(0,0,0,0.4)",
-      }}>
+      {/* BACKDROP (Centering Div): 
+        Laptop par ye visible rahega (padding ki wajah se), 
+        click karne par onClose call hoga.
+      */}
+      <div 
+        onClick={onClose} 
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          width: "100vw",
+          height: "100vh",
+          backgroundColor: isMobile ? "#f3f4f6" : "rgba(0,0,0,0.5)", // Laptop pe dark backdrop
+          padding: isMobile ? "0" : "20px", // Laptop pe padding taaki side mein click ho sake
+          boxSizing: "border-box",
+          cursor: isMobile ? "default" : "pointer" // Pointer cursor laptop pe taaki pata chale click hoga
+        }}
+      >
+        
+        {/* MODAL CONTENT BOX: 
+          stopPropagation() taaki modal ke andar click karne se modal band na ho.
+        */}
+        <div 
+          onClick={(e) => e.stopPropagation()} 
+          style={{
+            width: isMobile ? "100%" : "min(960px, 95%)", 
+            height: isMobile ? "100%" : "95vh",
+            background: "#f3f4f6", 
+            borderRadius: isMobile ? "0" : "16px",
+            display: "flex", 
+            flexDirection: "column", 
+            overflow: "hidden",
+            boxShadow: isMobile ? "none" : "0 24px 60px rgba(0,0,0,0.4)",
+            position: "relative",
+            cursor: "default" // Modal ke andar normal cursor
+          }}
+        >
 
-        {/* ── Top bar ── */}
-        <div style={{
-          background: "#fff", borderBottom: "1px solid #e5e7eb",
-          padding: "12px 20px", display: "flex", alignItems: "center",
-          justifyContent: "space-between", flexShrink: 0,
-          boxShadow: "0 1px 4px rgba(0,0,0,0.06)",
-        }}>
-          <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-            <button onClick={onClose} style={{ background: "none", border: "none", cursor: "pointer", fontSize: "13px", color: "#6b7280" }}>
-              ← Back
-            </button>
-            <span style={{ color: "#d1d5db" }}>|</span>
-            <span style={{ fontSize: "13px", fontWeight: 600, color: "#374151" }}>
-              {selectedTemplate?.name} Template
-            </span>
-            {hasPage2 && (
-              <span style={{ fontSize: "11px", color: "#9ca3af", background: "#f3f4f6", padding: "2px 8px", borderRadius: "999px" }}>
-                2 Pages
-              </span>
-            )}
-          </div>
-
-          <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-            {/* Template switcher */}
-            <select
-              value={selectedId || ""}
-              onChange={(e) => onTemplateChange(e.target.value)}
-              style={{
-                fontSize: "13px", border: "1px solid #d1d5db", borderRadius: "8px",
-                padding: "6px 12px", color: "#374151", background: "#fff", outline: "none",
-              }}
-            >
-              {TEMPLATES.map((t) => (
-                <option key={t.id} value={t.id}>{t.name}</option>
-              ))}
-            </select>
-
-            {/* Download button */}
-            <button
-              onClick={onDownload}
-              disabled={downloading}
-              style={{
-                padding: "8px 20px", borderRadius: "8px", border: "none",
-                color: "#fff", fontSize: "13px", fontWeight: 600,
-                background: downloading ? "#93c5fd" : "#2563eb",
-                cursor: downloading ? "not-allowed" : "pointer",
-                display: "flex", alignItems: "center", gap: "6px",
-              }}
-            >
-              {downloading ? (
-                <>
-                  <span style={{
-                    width: "13px", height: "13px",
-                    border: "2px solid rgba(255,255,255,0.4)",
-                    borderTopColor: "#fff", borderRadius: "50%",
-                    animation: "spin 0.7s linear infinite",
-                    display: "inline-block",
-                  }} />
-                  Generating...
-                </>
-              ) : "⬇ Download PDF"}
-            </button>
-
-            <button onClick={onClose} style={{
-              background: "#f3f4f6", border: "none", borderRadius: "50%",
-              width: "34px", height: "34px", cursor: "pointer", fontSize: "18px",
-              display: "flex", alignItems: "center", justifyContent: "center", color: "#374151",
-            }}>×</button>
-          </div>
-        </div>
-
-        {/* Hint bar */}
-        <div style={{
-          textAlign: "center", fontSize: "12px", color: "#9ca3af",
-          padding: "6px", background: "#f9fafb", borderBottom: "1px solid #e5e7eb", flexShrink: 0,
-        }}>
-          💡 Click on any text to edit it directly
-        </div>
-
-        {/* Overflow warning */}
-        {isOverflowing && !hasPage2 && (
-          <div style={{
-            display: "flex", alignItems: "center", justifyContent: "space-between",
-            padding: "10px 20px", background: "#fff7ed", borderBottom: "", flexShrink: 0,
+          {/* ── Top Bar ── */}
+          <div style={{ 
+            background: "#fff", padding: "10px 15px", display: "flex", 
+            justifyContent: "space-between", alignItems: "center", borderBottom: "1px solid #e5e7eb", zIndex: 50 
           }}>
-            <span style={{ fontSize: "13px", color: "#92400e" }}>
-               
-            </span>
-            
-          </div>
-        )}
-
-        {/* ── Scrollable canvas ── */}
-        <div style={{
-          flex: 1, overflowY: "auto", padding: "24px 0",
-          display: "flex", flexDirection: "column", alignItems: "center", gap: "24px",
-        }}>
-
-          {/* Page 1 */}
-          <div>
-            <div style={{ fontSize: "10px", color: "#9ca3af", textAlign: "center", marginBottom: "6px", letterSpacing: "0.1em", textTransform: "uppercase" }}>
-              Page 1
-            </div>
-            <div
-              id="resume-page-1"
-              style={{
-                width: `${A4_WIDTH_PX}px`,
-                boxShadow: "0 8px 32px rgba(0,0,0,0.18)",
-                borderRadius: "4px", overflow: "hidden",
-                outline: isOverflowing && !hasPage2 ? "2px dashed #f97316" : "2px solid transparent",
-              }}
-            >
-              {TemplateComponent && (
-                <TemplateComponent
-                  key={`${selectedId}-${resetKey}`}
-                  data={resumeData}
-                  setData={setResumeData}
-                />
-              )}
-            </div>
-          </div>
-
-          {/* Add Page 2 button */}
-          {!hasPage2 && (
-            <button
-              onClick={() => setHasPage2(true)}
-              style={{
-                width: `${A4_WIDTH_PX}px`, padding: "18px", cursor: "pointer",
-                border: `2px dashed ${isOverflowing ? (accentColor || "#f97316") : "#d1d5db"}`,
-                borderRadius: "12px",
-                background: isOverflowing ? "#fff7ed" : "#f9fafb",
-                color: isOverflowing ? (accentColor || "#f97316") : "#9ca3af",
-                fontSize: "13px", fontWeight: 500,
-                display: "flex", alignItems: "center", justifyContent: "center", gap: "8px",
-              }}
-            >
-              <span style={{ fontSize: "20px" }}>+</span>
-              {isOverflowing ? "⚠️add page 2— content exceeds A4 size" : " add Page 2(optional)"}
+            <button onClick={onClose} style={{ background: "none", border: "none", cursor: "pointer", fontSize: "14px", color: "#64748b", fontWeight: "600" }}>
+              {isMobile ? "✕" : "← Back"}
             </button>
-          )}
+            <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
+              <select value={selectedId} onChange={(e) => onTemplateChange(e.target.value)} style={{ padding: "6px", fontSize: "12px", borderRadius: "6px", border: "1px solid #d1d5db" }}>
+                {TEMPLATES.map(t => <option key={t.id} value={t.id}>{t.name}</option>)}
+              </select>
+              <button onClick={onDownload} disabled={downloading} style={{ padding: "8px 16px", background: "#2563eb", color: "#fff", borderRadius: "8px", border: "none", fontWeight: "700", fontSize: "13px" }}>
+                {downloading ? "Wait..." : (isMobile ? "PDF" : "Download PDF")}
+              </button>
+            </div>
+          </div>
 
-          {/* Page 2 */}
-          {hasPage2 && (
-            <div>
-              <div style={{ fontSize: "10px", color: "#9ca3af", textAlign: "center", marginBottom: "6px", letterSpacing: "0.1em", textTransform: "uppercase" }}>
-                Page 2
-              </div>
-              <div style={{ boxShadow: "0 8px 32px rgba(0,0,0,0.18)", borderRadius: "4px", overflow: "hidden" }}>
-                <BlankPage
-                  pageData={page2Data}
-                  setPageData={setPage2Data}
-                  accentColor={accentColor}
-                  onRemove={() => { setHasPage2(false); setPage2Data({}); }}
-                />
+          {/* ── Scrollable Canvas ── */}
+          <div style={{ flex: 1, overflowY: "auto", padding: "40px 0", display: "flex", flexDirection: "column", alignItems: "center" }}>
+            
+            {/* Page 1 */}
+            <div style={{ width: "100%", display: "flex", justifyContent: "center", height: `${A4_HEIGHT_PX * scale}px`, marginBottom: "30px" }}>
+              <div style={{ transform: `scale(${scale})`, transformOrigin: "top center" }}>
+                <div id="resume-page-1" style={{ width: `${A4_WIDTH_PX}px`, background: "#fff", boxShadow: "0 4px 20px rgba(0,0,0,0.1)" }}>
+                  {TemplateComponent && (
+                    <TemplateComponent key={`${selectedId}-${resetKey}`} data={resumeData} setData={setResumeData} />
+                  )}
+                </div>
               </div>
             </div>
-          )}
 
-          <div style={{ height: "40px" }} />
+            {/* Page 2 logic */}
+            {hasPage2 && (
+              <div style={{ width: "100%", display: "flex", justifyContent: "center", height: `${A4_HEIGHT_PX * scale}px`, marginTop: "20px" }}>
+                <div style={{ transform: `scale(${scale})`, transformOrigin: "top center" }}>
+                  <div id="resume-page-2" style={{ width: `${A4_WIDTH_PX}px`, background: "#fff", boxShadow: "0 4px 20px rgba(0,0,0,0.1)" }}>
+                    <BlankPage pageData={page2Data} setPageData={setPage2Data} accentColor={accentColor} onRemove={() => { setHasPage2(false); setPage2Data({}); }} />
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {!hasPage2 && (
+               <button onClick={() => setHasPage2(true)} style={{ marginTop: "20px", padding: "12px 24px", border: "2px dashed #cbd5e1", borderRadius: "12px", color: "#64748b", background: "white", cursor: "pointer" }}>
+                 + Add Page 2
+               </button>
+            )}
+            <div style={{ height: "60px" }} />
+          </div>
         </div>
       </div>
     </Overlay>
@@ -564,7 +506,7 @@ const Builder = () => {
 
   try {
     //  API save
-    await saveToAPI(resumeData, selectedId);
+   await saveToAPI(resumeData, selectedId);
 
     //  PDF generate
     await generatePDF(selectedId, hasPage2);

@@ -2,6 +2,8 @@
 const API_URL = import.meta.env.VITE_API_URL;
 export const saveToAPI = async (resumeData, templateId) => {
   try {
+     console.log("API received data:", resumeData);
+        console.log("Template ID:", templateId);
     const res = await fetch(`${API_URL}/api/resume/save`, {
       method: "POST",
       headers: {
