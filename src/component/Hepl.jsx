@@ -85,7 +85,7 @@ export default function HelpPage() {
 const onSubmit = async (data) => {
   try {
     const res = await axios.post(
-      "http://localhost:3000/api/query",
+      "http://13.202.253.175:3000/api/query",
       data
     );
 
