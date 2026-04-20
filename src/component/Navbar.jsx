@@ -97,7 +97,7 @@ export default function Navbar() {
             <span>
               <img
                 src="/images/logo.png"
-                className="h-25  inline-block"
+                className="h-18  inline-block"
               />
             </span>
           </Link>

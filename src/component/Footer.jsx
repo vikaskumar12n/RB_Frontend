@@ -65,7 +65,7 @@ export default function Footer() {
                 <img
                   src="/images/logo.png"
                   alt="NexStep Logo"
-                  className="h-24 w-auto object-contain object-left"
+                  className="h-20 w-auto object-contain object-left"
                 />
               </Link>
 

@@ -115,7 +115,7 @@ const AboutUs = () => {
                             Resume Builder — About Us
                         </span>
                         <h1 className="text-4xl md:text-5xl font-bold text-white mb-4 leading-tight">
-                            Build Resumes That <span className="text-blue-900">Get You Hired</span>
+                            Build Resumes That <span className="text-blue-300">Get You Hired</span>
                         </h1>
                         <p className="text-base text-white/60 leading-relaxed">
                             We're on a mission to help every job seeker create a professional, standout resume in minutes — not hours.
