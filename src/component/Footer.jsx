@@ -166,7 +166,7 @@ export default function Footer() {
           {/* Bottom Bar */}
           <div className="flex flex-col gap-3">
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-              <span className="text-xs text-gray-400">Copyright © NexStep.com 2026</span>
+              <span className="text-xs text-gray-400">Copyright © HireCreaftly.com 2026</span>
               <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
                 {["Terms", "Privacy", "Privacy Center"].map((item) => (
                   <a key={item} href="#" className="text-xs text-gray-500 hover:text-gray-900 transition-colors">{item}</a>
@@ -179,7 +179,7 @@ export default function Footer() {
               </div>
             </div>
             <p className="text-xs text-gray-400 italic leading-relaxed">
-              The information on this site is provided as a courtesy. NexStep.com is not a career or legal advisor and does not guarantee job interviews or offers.
+              The information on this site is provided as a courtesy. HireCreaftly.com is not a career or legal advisor and does not guarantee job interviews or offers.
             </p>
           </div>
 
