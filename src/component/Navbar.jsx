@@ -84,18 +84,23 @@ export default function Navbar() {
     <div className="font-sans">
 
       {/* ── Loading Overlay ── */}
-       {loading && <Loader />}
-      
+      {loading && <Loader />}
+
 
       {/* ── Navbar ── */}
       <nav className={`fixed top-0 left-0 w-full z-50 bg-white border-b border-gray-100 px-6 md:px-8 transition-transform duration-300 shadow-sm ${showNavbar ? "translate-y-0" : "-translate-y-full"}`}>
         <div className="flex items-center h-16">
 
           {/* Logo */}
-          <a href="/" className="flex items-center gap-2 text-[#1a3fa8] font-semibold text-2xl">
-            <LogoIcon />
-            <span>Shiksha.com</span>
-          </a>
+          <Link to={"/"} className="flex items-center gap-2 text-[#1a3fa8] font-semibold text-2xl">
+           
+            <span>
+              <img
+                src="/images/logo.png"
+                className="h-25  inline-block"
+              />
+            </span>
+          </Link>
 
           {/* Right Side */}
           <div className="ml-auto flex items-center gap-3">
@@ -165,7 +170,7 @@ export default function Navbar() {
                       </div>
                     </div>
 
-                   
+
 
                     {/* Menu Items */}
                     <div className="  ">
@@ -187,7 +192,7 @@ export default function Navbar() {
                         </svg>
                       </button>
 
-                     
+
                     </div>
 
                     {/* Logout */}
@@ -247,7 +252,7 @@ export default function Navbar() {
                 {item.label}
               </Link>
             ))}
-          
+
             {!user.isLoggedIn && (
               <div className="pt-2 space-y-2">
                 <Link to="/login" className="block text-center px-5 py-2 text-sm font-medium text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-50" onClick={() => setMobileOpen(false)}>

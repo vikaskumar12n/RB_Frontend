@@ -1,4 +1,9 @@
 @import "tailwindcss";
+@import "tailwindcss";
+ 
+/* Tailwind v4 mein dark mode aise enable hota hai */
+@custom-variant dark (&:where(.dark, .dark *));
+ 
 @media print { .no-print { display: none !important; } }
 @layer base {
   html {
@@ -6,4 +11,3 @@
     font-size:medium;
   }
 }
- 

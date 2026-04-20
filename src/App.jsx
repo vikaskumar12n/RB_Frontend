@@ -6,6 +6,8 @@
  import ProfilePage from './component/MyProfile'
   import LanginfPage from './component/page/LangingPage'
 import './App.css'
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import Register from "../src/Auth/Register"
 import Login from "../src/Auth/Login"
 import AboutUs from './component/AboutUs'
@@ -29,6 +31,11 @@ function App() {
       </Routes>
       <Footer/> 
     </BrowserRouter>
+       <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        theme="light"
+      />
     </>
    )
 }

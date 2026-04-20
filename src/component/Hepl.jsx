@@ -3,7 +3,9 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-
+ 
+import { toast } from "react-toastify";
+import axios from "axios";
 const faqs = [
   {
     q: "How do I create my first resume?",
@@ -31,7 +33,7 @@ const categories = ["General", "Account", "Billing", "Templates", "Export"];
 
 // ✅ Yup validation schema
 const schema = yup.object({
-  name: yup
+  fullname: yup
     .string()
     .min(2, "Name must be at least 2 characters")
     .max(50, "Name too long")
@@ -71,7 +73,7 @@ export default function HelpPage() {
   } = useForm({
     resolver: yupResolver(schema),
     defaultValues: {
-      name: "",
+      fullname: "",
       email: "",
       subject: "",
       message: "",
@@ -80,19 +82,40 @@ export default function HelpPage() {
 
   const messageValue = watch("message", "");
 
-  const onSubmit = async (data) => {
-    // simulate API call
-    await new Promise((res) => setTimeout(res, 800));
-    console.log("Form data:", data);
-    setSubmitted(true);
-  };
+const onSubmit = async (data) => {
+  try {
+    const res = await axios.post(
+      "http://localhost:3000/api/query",
+      data
+    );
 
+    if (res?.status === 201 || res?.data?.success === true) {
+      toast.success("query saved successfully", {
+        icon: "✅",
+      });
+
+      setSubmitted(true);
+
+      reset({
+        fullname: "",
+        email: "",
+        subject: "",
+        message: "",
+      });
+    } else {
+      toast.error(res?.data?.message || "Something went wrong");
+    }
+
+  } catch (error) {
+    console.log("Error:", error);
+    toast.error("Server error, try again later");
+  }
+};
   const handleReset = () => {
     reset();
     setSubmitted(false);
   };
-
-  // ✅ Reusable error message component
+ 
   const ErrorMsg = ({ field }) =>
     errors[field] ? (
       <p className="text-red-500 text-xs mt-1 flex items-center gap-1">
@@ -203,11 +226,10 @@ export default function HelpPage() {
               <button
                 key={cat}
                 onClick={() => setActiveCategory(cat)}
-                className={`px-4 py-1.5 rounded-full text-xs font-semibold border transition-all ${
-                  activeCategory === cat
+                className={`px-4 py-1.5 rounded-full text-xs font-semibold border transition-all ${activeCategory === cat
                     ? "bg-blue-900 text-white border-blue-600 shadow-sm"
                     : "bg-white text-blue-600 border-blue-200 hover:bg-blue-50"
-                }`}
+                  }`}
               >
                 {cat}
               </button>
@@ -218,18 +240,16 @@ export default function HelpPage() {
             {faqs.map((faq, i) => (
               <div
                 key={i}
-                className={`border rounded-xl overflow-hidden transition-all ${
-                  openFaq === i ? "border-blue-500 shadow-sm" : "border-slate-100"
-                }`}
+                className={`border rounded-xl overflow-hidden transition-all ${openFaq === i ? "border-blue-500 shadow-sm" : "border-slate-100"
+                  }`}
               >
                 <button
                   onClick={() => setOpenFaq(openFaq === i ? null : i)}
                   className="w-full flex items-center justify-between px-5 py-2 text-left text-sm font-medium text-blue-900 hover:bg-blue-50 transition-colors"
                 >
                   {faq.q}
-                  <div className={`w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 ml-3 transition-all ${
-                    openFaq === i ? "bg-blue-900" : "bg-blue-50"
-                  }`}>
+                  <div className={`w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 ml-3 transition-all ${openFaq === i ? "bg-blue-900" : "bg-blue-50"
+                    }`}>
                     <svg
                       className={`w-3.5 h-3.5 transition-transform ${openFaq === i ? "rotate-180 text-white" : "text-blue-500"}`}
                       fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"
@@ -287,12 +307,11 @@ export default function HelpPage() {
                   <input
                     type="text"
                     placeholder="Your name"
-                    {...register("name")}
-                    className={`w-full px-4 py-2.5 text-sm border rounded-xl bg-blue-50/40 focus:outline-none focus:ring-2 focus:bg-white placeholder-slate-300 text-slate-700 transition-all ${
-                      errors.name
+                    {...register("fullname")}
+                    className={`w-full px-4 py-2.5 text-sm border rounded-xl bg-blue-50/40 focus:outline-none focus:ring-2 focus:bg-white placeholder-slate-300 text-slate-700 transition-all ${errors.name
                         ? "border-red-400 focus:ring-red-300"
                         : "border-blue-100 focus:ring-blue-400"
-                    }`}
+                      }`}
                   />
                   <ErrorMsg field="name" />
                 </div>
@@ -306,11 +325,10 @@ export default function HelpPage() {
                     type="email"
                     placeholder="you@email.com"
                     {...register("email")}
-                    className={`w-full px-4 py-2.5 text-sm border rounded-xl bg-blue-50/40 focus:outline-none focus:ring-2 focus:bg-white placeholder-slate-300 text-slate-700 transition-all ${
-                      errors.email
+                    className={`w-full px-4 py-2.5 text-sm border rounded-xl bg-blue-50/40 focus:outline-none focus:ring-2 focus:bg-white placeholder-slate-300 text-slate-700 transition-all ${errors.email
                         ? "border-red-400 focus:ring-red-300"
                         : "border-blue-100 focus:ring-blue-400"
-                    }`}
+                      }`}
                   />
                   <ErrorMsg field="email" />
                 </div>
@@ -323,11 +341,10 @@ export default function HelpPage() {
                 </label>
                 <select
                   {...register("subject")}
-                  className={`w-full px-4 py-2.5 text-sm border rounded-xl bg-blue-50/40 focus:outline-none focus:ring-2 focus:bg-white text-slate-600 transition-all ${
-                    errors.subject
+                  className={`w-full px-4 py-2.5 text-sm border rounded-xl bg-blue-50/40 focus:outline-none focus:ring-2 focus:bg-white text-slate-600 transition-all ${errors.subject
                       ? "border-red-400 focus:ring-red-300"
                       : "border-blue-100 focus:ring-blue-400"
-                  }`}
+                    }`}
                 >
                   <option value="">Select a topic</option>
                   <option>Account Issue</option>
@@ -348,11 +365,10 @@ export default function HelpPage() {
                   rows={5}
                   placeholder="Describe your issue or question in detail..."
                   {...register("message")}
-                  className={`w-full px-4 py-2.5 text-sm border rounded-xl bg-blue-50/40 focus:outline-none focus:ring-2 focus:bg-white placeholder-slate-300 text-slate-700 resize-none transition-all ${
-                    errors.message
+                  className={`w-full px-4 py-2.5 text-sm border rounded-xl bg-blue-50/40 focus:outline-none focus:ring-2 focus:bg-white placeholder-slate-300 text-slate-700 resize-none transition-all ${errors.message
                       ? "border-red-400 focus:ring-red-300"
                       : "border-blue-100 focus:ring-blue-400"
-                  }`}
+                    }`}
                 />
                 {/* ✅ Character counter */}
                 <div className="flex items-start justify-between mt-1">

@@ -62,7 +62,7 @@ export default function HeroSection() {
           <h1 className="text-5xl text-gray-900 leading-tight mb-4">
             Free Resume Samples and Examples
           </h1>
-          <p className="text-gray-600 text-xl mb-7 leading-relaxed">
+          <p className="text-gray-600  mb-7 leading-relaxed">
             Use professionally written and formatted resume samples that will
             get you the job you want. Search over 100 HR approved resume
             examples.

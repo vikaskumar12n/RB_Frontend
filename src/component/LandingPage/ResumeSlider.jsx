@@ -6,6 +6,7 @@ import ModernTemplate from "../../template/ModernTemplate";
 import MinimalTemplate from "../../template/MinimalTemplate";
 import ExecutiveTemplate from "../../template/ExecutiveTemplate";
 import CreativeTemplate from "../../template/CreativeTemplate";
+import SoftwareEnnV2 from "../../template/SoftwareEnnv2";
 import { saveToAPI } from "../../api/Api";
 import html2pdf from "html2pdf.js";
 import React from "react";
@@ -13,6 +14,7 @@ import Loader from "../../helper/loader";
 
 const templates = [
     { id: "softwareEnn", label: "Software", component: SoftwareEnn },
+    { id: "Developer", label: "Developer", component: SoftwareEnnV2 },
     { id: "classic", label: "Classic", component: ClassicTemplate },
     { id: "modern", label: "Modern", component: ModernTemplate },
     { id: "minimal", label: "Minimal", component: MinimalTemplate },

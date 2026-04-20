@@ -6,6 +6,7 @@ import ModernTemplate from "../../template/ModernTemplate";
 import MinimalTemplate from "../../template/MinimalTemplate";
 import ExecutiveTemplate from "../../template/ExecutiveTemplate";
 import CreativeTemplate from "../../template/CreativeTemplate";
+import SoftwareEnnV2 from "../../template/SoftwareEnnv2";
 import { saveToAPI } from "../../api/Api";
 const A4_HEIGHT_PX = 1122;
 const A4_WIDTH_PX  = 794;
@@ -56,6 +57,13 @@ const TEMPLATES = [
     description: "White and dark",
     preview: { accent: "#1a1a2e" },
     component: SoftwareEnn,
+  },
+   {
+    id: "Software developer",
+    name: "Software Developer",
+    description: "White and dark",
+    preview: { accent: "#1a1a2e" },
+    component: SoftwareEnnV2,
   },
 ];
   
@@ -240,7 +248,7 @@ const AllTemplatesModal = ({ onSelect, onClose }) => (
         <div>
           <h2 style={{ margin: 0, fontSize: "20px", fontWeight: 700, color: "#111827" }}>All Templates</h2>
           <p style={{ margin: "4px 0 0", fontSize: "13px", color: "#6b7280" }}>
-            Koi bhi template chunein aur seedha edit karein
+            Select a template to customize your resume immediately
           </p>
         </div>
         <button onClick={onClose} style={{
@@ -557,7 +565,7 @@ const Builder = () => {
           gridTemplateColumns: "repeat(auto-fill, minmax(220px, 1fr))",
           gap: "20px", marginBottom: "32px",
         }}>
-          {TEMPLATES.slice(0, 5).map((t) => (
+          {TEMPLATES.slice(0, 7).map((t) => (
             <TemplateCard key={t.id} template={t} onOpen={handleOpenTemplate} />
           ))}
 
@@ -589,9 +597,7 @@ const Builder = () => {
             <span style={{ fontSize: "14px", fontWeight: 600 }}>All Templates</span>
             <span style={{ fontSize: "11px", opacity: 0.7 }}>See all template</span>
           </div>
-        </div>
-
-        {/* Re-open editor bar (when editor is closed but template is selected) */}
+        </div> 
         {selectedId && !showEditorModal && (
           <div style={{
             display: "flex", alignItems: "center", justifyContent: "space-between",

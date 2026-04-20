@@ -5,6 +5,7 @@ import ClassicTemplate from "../template/ClassicTemplate";
 import ModernTemplate from "../template/ModernTemplate";
 import MinimalTemplate from "../template/MinimalTemplate";
 import CreativeTemplate from "../template/CreativeTemplate";
+import SoftwareEnnV2 from "../template/SoftwareEnnv2";
 import { saveToAPI } from "../api/Api";
 
 const A4_WIDTH_PX = 794;
@@ -12,6 +13,7 @@ const A4_HEIGHT_PX = 1122;
 const CARD_SCALE = 0.22;
 
 const TEMPLATES = [
+  { id: "Software Developer",     name: "Software Developer Template", component: SoftwareEnnV2, color: "#8b5cf6" },
   { id: "software-eng", name: "Software Engineer", component: SoftwareEnn,      color: "#2563eb" },
   { id: "classic",      name: "Classic Template",  component: ClassicTemplate,  color: "#1e3a5f" },
   { id: "modern",       name: "Modern Template",   component: ModernTemplate,   color: "#0ea5e9" },
@@ -19,37 +21,37 @@ const TEMPLATES = [
   { id: "creative",     name: "Creative Template", component: CreativeTemplate, color: "#8b5cf6" },
 ];
 
-const getInitialData = () => ({
-  name: "FIRST LAST",
-  location: "Bay Area, California",
-  phone: "+1-234-456-789",
-  email: "professionalemail@resumeworded.com",
-  linkedin: "linkedin.com/in/username",
-  objectiveTitle: "Objective",
-  experienceTitle: "Professional Experience",
-  projectTitle: "Projects",
-  educationTitle: "Education",
-  skillsTitle: "Skills",
-  certificationTitle: "Certifications",
-  objective: "Proactive and detail-oriented Full Stack Developer with expertise in designing, developing, and maintaining scalable web applications.",
-  projects: [
-    { title: "CRM System",         description: "Complete CRM system with Finance, Accounts, and HR modules." },
-    { title: "E-commerce Website", description: "Full stack platform with authentication and payment integration." },
-  ],
-  certifications: ["Full Stack Web Development - Udemy", "React Developer Certification"],
-  experience: [
-    {
-      company: "XYZ Solutions Pvt. Ltd.", period: "2018 – Present",
-      roles: [{ title: "Front End Developer", bullets: ["Built full-scale CRM project", "Improved system performance", "Team collaboration"] }],
-    },
-    {
-      company: "Technano Pvt. Ltd.", period: "2014 – 2017",
-      roles: [{ title: "Front End Developer", bullets: ["Improved load time by 22%", "Converted wireframes to code"] }],
-    },
-  ],
-  education: [{ school: "Millennium Group of Institutions", year: "2013", degree: "Bachelor of Engineering, IT" }],
-  skills: [["HTML", "CSS", "JavaScript", "React"], ["Node.js", "Express", "MongoDB", "SQL"]],
-});
+// const getInitialData = () => ({
+//   name: "FIRST LAST",
+//   location: "Bay Area, California",
+//   phone: "+1-234-456-789",
+//   email: "professionalemail@resumeworded.com",
+//   linkedin: "linkedin.com/in/username",
+//   objectiveTitle: "Objective",
+//   experienceTitle: "Professional Experience",
+//   projectTitle: "Projects",
+//   educationTitle: "Education",
+//   skillsTitle: "Skills",
+//   certificationTitle: "Certifications",
+//   objective: "Proactive and detail-oriented Full Stack Developer with expertise in designing, developing, and maintaining scalable web applications.",
+//   projects: [
+//     { title: "CRM System",         description: "Complete CRM system with Finance, Accounts, and HR modules." },
+//     { title: "E-commerce Website", description: "Full stack platform with authentication and payment integration." },
+//   ],
+//   certifications: ["Full Stack Web Development - Udemy", "React Developer Certification"],
+//   experience: [
+//     {
+//       company: "XYZ Solutions Pvt. Ltd.", period: "2018 – Present",
+//       roles: [{ title: "Front End Developer", bullets: ["Built full-scale CRM project", "Improved system performance", "Team collaboration"] }],
+//     },
+//     {
+//       company: "Technano Pvt. Ltd.", period: "2014 – 2017",
+//       roles: [{ title: "Front End Developer", bullets: ["Improved load time by 22%", "Converted wireframes to code"] }],
+//     },
+//   ],
+//   education: [{ school: "Millennium Group of Institutions", year: "2013", degree: "Bachelor of Engineering, IT" }],
+//   skills: [["HTML", "CSS", "JavaScript", "React"], ["Node.js", "Express", "MongoDB", "SQL"]],
+// });
 
 // ── PDF helpers ───────────────────────────────────────────────────────────────
 const loadLibraries = () =>
@@ -347,54 +349,52 @@ const EditorModal = ({ isOpen, onClose, template, resumeData, setResumeData, onS
         </div>
 
         {/* ── Preview Area ── */}
-        <div
-          ref={previewAreaRef}
-          style={{
-            flex: 1,
-            overflowY: "auto",
-            padding: isMobile ? "16px 16px 60px" : "32px 24px 60px",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            gap: "16px",
-            background: "#f1f5f9",
-          }}
-        >
-          <div style={{
-            fontSize: "11px", color: "#94a3b8",
-            letterSpacing: "2px", textTransform: "uppercase",
-          }}>
-            Page 1
-          </div>
+       <div
+  ref={previewAreaRef}
+  style={{
+    flex: 1,
+    overflowY: "auto",
+    padding: isMobile ? "16px 16px 60px" : "32px 24px 60px",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    gap: "16px",
+    background: "#f1f5f9",
+  }}
+>
+  <div style={{
+    fontSize: "11px", color: "#94a3b8",
+    letterSpacing: "2px", textTransform: "uppercase",
+  }}>
+    Page 1
+  </div>
 
-          {/* Resume wrapper — scales correctly */}
-          <div style={{
-            width: `${A4_WIDTH_PX}px`,
-            transformOrigin: "top center",
-            transform: `scale(${previewScale})`,
-            // Compensate vertical space eaten by scale-down
-            marginBottom: previewScale < 1
-              ? `${-(A4_HEIGHT_PX * (1 - previewScale))}px`
-              : "0",
-            // Also compensate left offset from transform origin shift
-            // (top center means left shifts by half the shrinkage)
-            marginLeft: previewScale < 1
-              ? `${-((A4_WIDTH_PX * (1 - previewScale)) / 2)}px`
-              : "0",
-          }}>
-            <div
-              id="resume-page-1"
-              style={{
-                boxShadow: "0 8px 40px rgba(0,0,0,0.22)",
-                borderRadius: "2px",
-                width: `${A4_WIDTH_PX}px`,
-                background: "#fff",
-              }}
-            >
-              <TemplateComponent data={resumeData} setData={setResumeData} />
-            </div>
-          </div>
-        </div>
+  {/* Resume wrapper — FIXED */}
+  <div style={{
+    width: `${A4_WIDTH_PX * previewScale}px`,   // ← container shrinks with scale
+    height: `${A4_HEIGHT_PX * previewScale}px`, // ← height bhi adjust hoti h
+    flexShrink: 0,
+    overflow: "visible",
+  }}>
+    <div style={{
+      width: `${A4_WIDTH_PX}px`,
+      transformOrigin: "top left",              // ← top left kiya
+      transform: `scale(${previewScale})`,      // ← sirf scale, koi margin nahi
+    }}>
+      <div
+        id="resume-page-1"
+        style={{
+          boxShadow: "0 8px 40px rgba(0,0,0,0.22)",
+          borderRadius: "2px",
+          width: `${A4_WIDTH_PX}px`,
+          background: "#fff",
+        }}
+      >
+        <TemplateComponent data={resumeData} setData={setResumeData} />
+      </div>
+    </div>
+  </div>
+</div>
       </div>
     </div>
   );
@@ -435,7 +435,7 @@ const TemplateBottomSheet = ({ isOpen, onClose, templates, selectedId, resumeDat
             const isActive = t.id === selectedId;
             const hasData  = !!resumeDataMap[t.id];
             const Comp     = t.component;
-            const data     = resumeDataMap[t.id] || getInitialData();
+            const data     = resumeDataMap[t.id] ;
             return (
               <div
                 key={t.id}
@@ -489,7 +489,7 @@ export default function ProfilePage({ user }) {
   const [sheetOpen,          setSheetOpen]           = useState(false);
 
   const selectedTemplate = TEMPLATES.find(t => t.id === selectedTemplateId);
-  const resumeData       = resumeDataMap[selectedTemplateId] || getInitialData();
+  const resumeData       = resumeDataMap[selectedTemplateId] ;
 
   const setResumeData = (data) => {
     setResumeDataMap(prev => ({ ...prev, [selectedTemplateId]: data }));
@@ -590,7 +590,7 @@ export default function ProfilePage({ user }) {
                   key={t.id} t={t}
                   isActive={t.id === selectedTemplateId}
                   hasData={!!resumeDataMap[t.id]}
-                  data={resumeDataMap[t.id] || getInitialData()}
+                  data={resumeDataMap[t.id] }
                   onClick={() => setSelectedTemplateId(t.id)}
                 />
               ))}
@@ -633,7 +633,7 @@ export default function ProfilePage({ user }) {
                     key={t.id} t={t}
                     isActive={t.id === selectedTemplateId}
                     hasData={!!resumeDataMap[t.id]}
-                    data={resumeDataMap[t.id] || getInitialData()}
+                    data={resumeDataMap[t.id] }
                     onClick={() => { setSelectedTemplateId(t.id); setLeftPanelOpen(false); }}
                   />
                 ))}

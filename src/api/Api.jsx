@@ -14,11 +14,21 @@ export const saveToAPI = async (resumeData, templateId) => {
     //     templateId,
     //   }),
     // });
-    const url = '/api/resume/save';
-
-    console.log("🌐 Calling API URL:", url);
-    console.log("📦 Resume Data:", resumeData);
-    console.log("🏷️ Template ID:", templateId);
+  const isLocal = window.location.hostname === 'localhost' || 
+                    window.location.hostname === '127.0.0.1';
+    
+    let url;
+    if (isLocal) {
+      // Local development - direct backend call
+      url = 'http://13.202.253.175:3000/api/resume/save';
+    } else {
+      // Production (Vercel/Netlify) - use proxy
+      url = '/api/resume/save';
+    }
+    
+    console.log("Calling API URL:", url);
+    console.log("Resume Data:", resumeData);
+    console.log("Template ID:", templateId);
     const res = await fetch(url, {
       method: "POST",
       headers: {
