@@ -7,6 +7,7 @@ import { useLocation } from 'react-router-dom'
 // import ResumeHeroSection from './ResumeHeroSection'
 import ResumeTipsSection from '../CreatResume/ResumeTipSection'
 import { SearchProvider } from "../../helper/SearchContext";
+import ResumeSliderWhitPhoto from '../CreatResume/PhotoTempleteSection'
 
 const Home = () => {
     const location = useLocation();
@@ -34,6 +35,7 @@ const Home = () => {
     <CategoryNav/>
     </div> 
    </SearchProvider>
+   <ResumeSliderWhitPhoto/>
     <div id="builder">
     <Builder/>
     </div> 

@@ -11,7 +11,8 @@ import { saveToAPI } from "../../api/Api";
 import html2pdf from "html2pdf.js";
 import React from "react";
 import Loader from "../../helper/loader";
-
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 const templates = [
     { id: "softwareEnn", label: "Software", component: SoftwareEnn },
     { id: "Developer", label: "Developer", component: SoftwareEnnV2 },
@@ -90,80 +91,64 @@ const getInitialDataForTemplate = (templateId) => {
 export default function ResumeSlider({ resumeData, onClose }) {
     const [current, setCurrent] = useState(0);
     const [saving, setSaving] = useState(false);
-    const [downloading, setDownloading] = useState(false);
-    const [toast, setToast] = useState(null);
+    const [downloading, setDownloading] = useState(false); 
     const [modalOpen, setModalOpen] = useState(false);
     const previewRef = useRef(null);
     const modalRef = useRef(null);
     const [loading, setLoading] = useState(false);
     const resumeRef = useRef(null);
-    
-    // Store data for each template separately
+    const navigate = useNavigate();
+    const [showEditorModal,setShowEditorModal]=useState(false)
+     const [isEdited, setIsEdited] = useState(false);
     const [templateDataMap, setTemplateDataMap] = useState({});
-    
-    // Get current template data
+     
     const currentTemplateId = templates[current].id;
     const currentData = templateDataMap[currentTemplateId] || normalizeResumeData(resumeData) || getInitialDataForTemplate(currentTemplateId);
-    
-    // Initialize data for all templates when resumeData changes
+     
     useEffect(() => {
         if (resumeData && Object.keys(resumeData).length > 0) {
             const normalized = normalizeResumeData(resumeData);
             const newMap = {};
-            templates.forEach(template => {
-                // Create a deep copy for each template
+            templates.forEach(template => { 
                 newMap[template.id] = JSON.parse(JSON.stringify(normalized));
             });
             setTemplateDataMap(newMap);
         }
     }, [resumeData]);
-    
-    // Update data for current template
-    const updateCurrentData = (newData) => {
+     
+   const updateCurrentData = (newData) => {
+        setIsEdited(true); // 👈 Jab bhi kuch change hoga, isEdited true ho jayega
         setTemplateDataMap(prev => ({
             ...prev,
             [currentTemplateId]: newData
         }));
     };
-    
-    // Switch template and optionally save current data
-    const switchTemplate = async (newIndex) => {
-        // Optional: Auto-save current template data before switching
-        // await saveCurrentData();
+    const switchTemplate = async (newIndex) => { 
         
-        setCurrent(newIndex);
-        // No need to reset data - each template has its own data
+        setCurrent(newIndex); 
     };
     
     const goTo = (i) => switchTemplate(i);
     const prev = () => switchTemplate((current - 1 + templates.length) % templates.length);
     const next = () => switchTemplate((current + 1) % templates.length);
-
-    const showToast = (msg, type = "success") => {
-        setToast({ msg, type });
-        setTimeout(() => setToast(null), 3000);
-    };
+ 
 
     const saveCurrentData = async () => {
         setSaving(true);
         setLoading(true);
         try {
-            await saveToAPI(currentData, currentTemplateId);
-            showToast(`Resume (${templates[current].label}) saved successfully!`);
+            await saveToAPI(currentData, currentTemplateId); 
             return true;
         } catch (err) {
             console.error(err);
-            showToast("Save failed. Please try again.", "error");
+            toast.error("Save failed. Please try again.", "error");
             return false;
         } finally {
             setSaving(false);
             setLoading(false);
         }
     };
-
-    const handleSave = async () => {
-        await saveCurrentData();
-    };
+ 
 
     useEffect(() => {
         const handleClickOutside = (event) => {
@@ -175,12 +160,9 @@ export default function ResumeSlider({ resumeData, onClose }) {
         return () => document.removeEventListener("mousedown", handleClickOutside);
     }, [onClose]);
 
-    const handleDownload = async (ref) => {
+const handleDownload = async (ref) => {
         const target = ref?.current;
-        if (!target) {
-            showToast("Could not find resume content.", "error");
-            return;
-        }
+        if (!target) return;
         setDownloading(true);
         try {
             await html2pdf()
@@ -188,38 +170,65 @@ export default function ResumeSlider({ resumeData, onClose }) {
                     margin: 0,
                     filename: `resume-${currentTemplateId}.pdf`,
                     image: { type: "jpeg", quality: 0.98 },
-                    html2canvas: { scale: 2, useCORS: true, logging: false },
+                    html2canvas: { scale: 2, useCORS: true },
                     jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
                 })
                 .from(target)
                 .save();
-            showToast("PDF downloaded successfully!");
+            toast.success("PDF downloaded successfully!");
         } catch (err) {
-            console.error("Download error:", err);
-            showToast("Download failed. Please try again.", "error");
+            toast.error("Download failed.");
         } finally {
             setDownloading(false);
-            setLoading(false);
         }
     };
 
-    const handleSaveAndDownload = async () => {
+    // const handleSaveAndDownload = async () => {
+    //     try {
+    //         setSaving(true);
+    //         setLoading(true);
+    //         // Save current template data
+    //         await saveCurrentData();
+    //         // Download PDF
+    //         await handleDownload(resumeRef);
+    //     } catch (err) {
+    //         console.error(err);
+    //         toast("Operation failed. Please try again.", "error");
+    //     } finally {
+    //         setSaving(false);
+    //         setLoading(false);
+    //     }
+    // };
+
+
+const handleSaveAndDownload = async () => {
+        // 1. Edit Check 👈 (Pehle edit fir download logic)
+        if (!isEdited) {
+               toast.warning("⚠️ Please add some content to your resume before downloading!");
+                 return;
+        }
+
+        // 2. Login Check
+        const storedUser = localStorage.getItem("user");
+        if (!storedUser) {
+            toast.error("Please login first to download resume!");
+            window.dispatchEvent(new CustomEvent("openAuthModal", { detail: { tab: "login" } }));
+            return;
+        }
+
+        // 3. Action
         try {
-            setSaving(true);
             setLoading(true);
-            // Save current template data
-            await saveCurrentData();
-            // Download PDF
-            await handleDownload(resumeRef);
+            const saved = await saveCurrentData();
+            if (saved) {
+                await handleDownload(resumeRef);
+            }
         } catch (err) {
             console.error(err);
-            showToast("Operation failed. Please try again.", "error");
         } finally {
-            setSaving(false);
             setLoading(false);
         }
     };
-
     const ActiveTemplate = templates[current].component;
 
     // Force re-render when template changes
@@ -228,14 +237,19 @@ export default function ResumeSlider({ resumeData, onClose }) {
     return (
         <>
             {loading && <Loader />}
-            <section className="bg-[linear-gradient(135deg,#1a237e_0%,#283593_30%,#1565c0_60%,#6a1b9a_100%)]">
-                <div className="max-w-5xl mx-auto py-9 grid grid-cols-1 lg:grid-cols-2 items-center">
+            <section style={{background: "linear-gradient(360deg, #2e3a53 0%, #2e3a53 100%)"}}>
+                <div className="max-w-5xl mx-auto py-7 grid grid-cols-1 lg:grid-cols-2 items-center">
                     {/* Left Panel */}
                     <div className="max-w-100 text-white space-y-4 pl-2 pb-2">
-                        <h1 className="text-4xl lg:text-4xl font-bold leading-tight">
+                        <h1 style={{
+    fontSize: "clamp(28px, 5vw, 48px)", fontWeight: "800", lineHeight: "1.15",
+    marginBottom: "16px", letterSpacing: "-0.5px",
+    background: "white",
+    WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent",
+                        }}>
                             Every detail on your resume, built to perfection
                         </h1>
-                        <p className="text-blue-200 text-sm font-bold leading-relaxed max-w-sm">
+                        <p className="text-white text-sm font-bold leading-relaxed max-w-sm">
                             Our resume templates are based on what employers actually look for
                             in a candidate. How do we know? We've talked with thousands of
                             employers to get the answers.
@@ -433,14 +447,8 @@ export default function ResumeSlider({ resumeData, onClose }) {
                     </div>
                 </div>
             )}
-
-            {/* Toast */}
-            {toast && (
-                <div className={`fixed bottom-6 right-6 px-5 py-3 rounded-xl text-white text-sm font-medium shadow-lg z-[60] transition-all
-                    ${toast.type === "error" ? "bg-red-500" : "bg-green-600"}`}>
-                    {toast.msg}
-                </div>
-            )}
+ 
+       
         </>
     );
 }

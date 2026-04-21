@@ -41,19 +41,28 @@ export default function Footer() {
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
-  const handleNavigate = (path) => {
-    setLoading(true);
-    setTimeout(() => {
-      navigate(path);
-      setLoading(false);
-    }, 500);
-  };
+  
+  const handleNavigate = () => {
+  const storedUser = localStorage.getItem("user");
+  if (!storedUser) {
+    window.dispatchEvent(new CustomEvent("openAuthModal", {
+      detail: {
+        tab: "login",
+        onSuccess: () => {
+          navigate("/home"); // ✅ login ke baad /home par bhejo
+        }
+      }
+    }));
+    return;
+  }
+  navigate("/home"); // ✅ already logged in hai to seedha /home
+};
 
   return (
     <>
       {loading && <Loader />}
       <footer className="">
-        <div className="max-w-6xl mx-auto">
+        <div className="max-w-6xl mt-10 mx-auto">
 
           {/* Top Columns */}
           <div className="grid grid-cols-1 sm:grid-cols-4 gap-8 mb-10">
@@ -65,7 +74,7 @@ export default function Footer() {
                 <img
                   src="/images/logo.png"
                   alt="NexStep Logo"
-                  className="h-20 w-auto object-contain object-left"
+                  className="h-15 w-auto object-contain object-left"
                 />
               </Link>
 

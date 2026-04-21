@@ -7,7 +7,13 @@ import MinimalTemplate from "../../template/MinimalTemplate";
 import ExecutiveTemplate from "../../template/ExecutiveTemplate";
 import CreativeTemplate from "../../template/CreativeTemplate";
 import SoftwareEnnV2 from "../../template/SoftwareEnnv2";
+import Ptemplates3 from "../../withPhotoTemplate/Ptemplate3";
+import Ptemplates4 from "../../withPhotoTemplate/Ptemplate4";
 import { saveToAPI } from "../../api/Api";
+ import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+import Ptemplates5 from "../../withPhotoTemplate/Ptempletes5";
+
 const A4_HEIGHT_PX = 1122;
 const A4_WIDTH_PX  = 794;
 const CARD_SCALE   = 0.32;
@@ -64,6 +70,26 @@ const TEMPLATES = [
     description: "White and dark",
     preview: { accent: "#1a1a2e" },
     component: SoftwareEnnV2,
+  },
+    {
+    id: "Graphic Designer",
+    name: "Graphic designer",
+    description: "White and dark",
+    preview: { accent: "#1a1a2e" },
+    component: Ptemplates3,
+  },
+   {
+    id: "Frontend Developer",
+    name: "frontend Developer",
+    description: "White and dark",
+    preview: { accent: "#1a1a2e" },
+    component: Ptemplates4,
+  },  {
+    id: "Backend Developer",
+    name: "Backend Developer",
+    description: "White and dark",
+    preview: { accent: "#1a1a2e" },
+    component: Ptemplates5,
   },
 ];
   
@@ -158,7 +184,7 @@ const generatePDF = async (selectedId, hasPage2) => {
 // ── Overlay backdrop ───────────────────────────────────────────────────────
 const Overlay = ({ children, onClose }) => {
   useEffect(() => {
-    document.body.style.overflow = "hidden";
+    document.body.style.overflow = "";
     return () => { document.body.style.overflow = ""; };
   }, []);
 
@@ -183,7 +209,7 @@ const TemplateCard = ({ template, onOpen }) => {
     <div
       onClick={() => onOpen(template.id)}
       style={{
-        cursor: "pointer", borderRadius: "12px", overflow: "hidden",
+        cursor: "pointer", borderRadius: "12px", 
         border: "2px solid #e5e7eb", transition: "all 0.2s", background: "#fff",
       }}
       onMouseEnter={(e) => {
@@ -237,7 +263,7 @@ const AllTemplatesModal = ({ onSelect, onClose }) => (
     <div style={{
       width: "min(900px, 95vw)", maxHeight: "90vh",
       background: "#fff", borderRadius: "16px",
-      display: "flex", flexDirection: "column", overflow: "hidden",
+      display: "flex", flexDirection: "column",
       boxShadow: "0 24px 60px rgba(0,0,0,0.3)",
     }}>
       {/* header */}
@@ -459,14 +485,14 @@ const ResumeEditorModal = ({
 // ── Main Builder ──────────────────────────────────────────────────────────────
 // ─────────────────────────────────────────────────────────────────────────────
 const Builder = () => {
+  const navigate = useNavigate();
   const [selectedId,    setSelectedId]    = useState(null);
   const [resumeData,    setResumeData]    = useState({});
   const [isOverflowing, setIsOverflowing] = useState(false);
   const [hasPage2,      setHasPage2]      = useState(false);
   const [page2Data,     setPage2Data]     = useState({});
   const [resetKey,      setResetKey]      = useState(0);
-  const [downloading,   setDownloading]   = useState(false);
-  const [toast,         setToast]         = useState(null); // { type, msg }
+  const [downloading,   setDownloading]   = useState(false); 
 
   const [showAllModal,    setShowAllModal]    = useState(false);
   const [showEditorModal, setShowEditorModal] = useState(false);
@@ -474,10 +500,7 @@ const Builder = () => {
   const selectedTemplate = TEMPLATES.find((t) => t.id === selectedId);
   const accentColor      = selectedTemplate?.preview?.accent;
 
-  const showToast = (type, msg) => {
-    setToast({ type, msg });
-    setTimeout(() => setToast(null), 3500);
-  };
+ 
 
   // Open a template → launch editor
   const handleOpenTemplate = (id) => {
@@ -499,29 +522,39 @@ const Builder = () => {
   };
 
   // ── Download: save → generate PDF ──────────────────────────────────────
- const handleDownload = async () => {
-  if (!selectedId) {
-    alert("❌ please Select any One template");
-    return;
-  }
-
+const handleDownload = async () => {
+  const storedUser = localStorage.getItem("user");
   if (!resumeData || Object.keys(resumeData).length === 0) {
-    alert("❌ Resume empty");
+    toast.warning("⚠️ Please add some content to your resume before downloading!");
     return;
   }
 
+  if (!storedUser) {
+    toast.error("Please login first to download resume!","error", );
+    setTimeout(() => {
+       setShowEditorModal(false);
+    window.dispatchEvent(new CustomEvent("openAuthModal", { detail: { tab: "login" , onSuccess: () => {
+            setShowEditorModal(true);  
+          }} }));
+    },0);
+    return;
+  }
+
+  if (!selectedId) {
+    toast.error("Please select any one template!","warning");
+    return;
+  }
+
+  
   setDownloading(true);
 
   try {
-    //  API save
-   await saveToAPI(resumeData, selectedId);
-
-    //  PDF generate
+    await saveToAPI(resumeData, selectedId);
     await generatePDF(selectedId, hasPage2);
-
+    toast.success( "Resume downloaded successfully!","success",);
   } catch (err) {
     console.error(err);
-    alert("Error: " + err.message);
+    toast.error("error", "Error: " + err.message);
   } finally {
     setDownloading(false);
   }
@@ -624,25 +657,7 @@ const Builder = () => {
         )}
       </div>
 
-      {/* Toast notification */}
-      {toast && (
-        <div style={{
-          position: "fixed", bottom: "24px", right: "24px", zIndex: 99999,
-          padding: "12px 20px", borderRadius: "10px",
-          background: toast.type === "success" ? "#d1fae5"
-            : toast.type === "error"   ? "#fee2e2"
-            : toast.type === "warning" ? "#fff7ed"
-            : "#dbeafe",
-          color: toast.type === "success" ? "#065f46"
-            : toast.type === "error"   ? "#991b1b"
-            : toast.type === "warning" ? "#92400e"
-            : "#1e40af",
-          fontSize: "13px", fontWeight: 600,
-          boxShadow: "0 4px 16px rgba(0,0,0,0.12)",
-        }}>
-          {toast.msg}
-        </div>
-      )}
+   
 
       {/* All Templates Modal */}
       {showAllModal && (

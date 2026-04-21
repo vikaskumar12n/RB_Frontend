@@ -6,17 +6,25 @@ const ResumeBuilderCTA = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
 
-  const handleClick = () => {
-    setLoading(true);
-
-    setTimeout(() => {
-      navigate("/myresume");
-      setLoading(false);
-    }, 400);
-  };
+ const handleClick = () => {
+  const storedUser = localStorage.getItem("user");
+  if (!storedUser) {
+    window.dispatchEvent(new CustomEvent("openAuthModal", {
+      detail: {
+        tab: "login",
+        onSuccess: () => {
+          navigate("/home"); // ✅ login ke baad /home par bhejo
+        }
+      }
+    }));
+    return;
+  }
+  navigate("/home"); // ✅ already logged in hai to seedha /home
+};
 
   return (
-    <div className="w-full p-10 mb-8 bg-blue-900 py-10 px-4">
+    <div className="w-full p-10 mb-20 py-10 px-4" 
+  style={{ background: "linear-gradient(360deg, #2e3a53 0%, #2e3a53 100%)" }}>
  
       {loading && <Loader />}
 

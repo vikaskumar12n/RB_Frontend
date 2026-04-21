@@ -68,7 +68,8 @@ const ResumeTipsSection = () => {
           </div>
         ))}
  
-        <div className="bg-gradient-to-br from-blue-900 to-blue-600 rounded-2xl p-5">
+        <div className="bg-gradient-to-br rounded-2xl p-5"
+        style={{background: "linear-gradient(360deg, #2e3a53 0%, #2e3a53 100%)"}}>
           <div className="w-11 h-11 rounded-xl bg-white/15 flex items-center justify-center mb-4">
             {/* Icon */}
           </div>

@@ -11,3 +11,18 @@
     font-size:medium;
   }
 }
+
+
+.Toastify__toast-container {
+  z-index: 99999 !important;
+}
+.animate-text-gradient {
+  background-size: 200% auto; /* Background ko bada rakha taaki movement dikhe */
+  animation: shine 4s linear infinite;
+}
+
+@keyframes shine {
+  to {
+    background-position: 200% center;
+  }
+}

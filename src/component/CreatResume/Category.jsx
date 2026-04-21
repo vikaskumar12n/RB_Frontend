@@ -33,9 +33,17 @@ import BusinessInternTemplate from "../../template/Intern/BussinessIntern";
 import DesignInternTemplate from "../../template/Intern/DesignInter";
 import SchoolTeacherTemplate from "../../template/Teacher/SchoolTeacher";
 import CollegeProfessorTemplate from "../../template/Teacher/SchoolProfessior";
+import PTemplate from "../../withPhotoTemplate/PCPAResume";
+import Withphototemplate from "../../withPhotoTemplate/bussenessPhoto";
+import Cashierphoto from "../../withPhotoTemplate/CashierPhotoTemp";
+import PTemplate3 from "../../template/Designer/Ptemplate3";
 import { Link } from "react-router-dom";
 import { useSearch } from "../../helper/SearchContext";
  import Loader from "../../helper/loader";
+ import PTemplates6 from "../../withPhotoTemplate/Ptemplates6";
+ import PTemplates1 from "../../withPhotoTemplate/Ptemplates1";
+ import Ptemplate2 from "../../withPhotoTemplate/Ptemplates2";
+import { toast } from "react-toastify";
 const categories = [
   "Accountant", "Business", "Cashier", "Engineer",
   "Designer", "Developer", "Manager", "Nurse", "Intern", "Teacher",
@@ -50,15 +58,18 @@ const categoryTemplates = {
     { id: "acc-1", name: "Professional Accountant", description: "Clean format with finance-focused layout", color: "#1a1a2e", sections: ["Summary", "Experience", "Skills", "Education", "Certifications"], component: AccountantTemplate },
     { id: "acc-2", name: "Senior Accountant", description: "Executive style with detailed work history", color: "#1a1a2e", sections: ["Objective", "Work History", "Core Skills", "Education"], component: SeniorAccountantTemplate },
     { id: "acc-3", name: "CPA Resume", description: "Certification-focused accounting resume", color: "#1a1a2e", sections: ["Profile", "Certifications", "Experience", "Skills"], component: CPATemplate },
+    { id: "acc-4", name: "Image with resume", description: "Certification-focused accounting resume", color: "#1a1a2e", sections: ["Profile", "Certifications", "Experience", "Skills"], component: PTemplate },
   ],
   Business: [
     { id: "bus-1", name: "Business Analyst", description: "Data-driven layout for business professionals", color: "#312e81", sections: ["Summary", "Experience", "Skills", "Education"], component: BusinessAnalystTemplate },
     { id: "bus-2", name: "Business Development", description: "Sales & growth focused resume", color: "#1a1a2e", sections: ["Objective", "Achievements", "Experience", "Skills"], component: BusinessDevTemplate },
     { id: "bus-3", name: "MBA Graduate", description: "Academic + corporate hybrid format", color: "#1a1a2e", sections: ["Profile", "Education", "Experience", "Projects"], component: MBATemplate },
+    { id: "bus-4", name: "with photo Graduate", description: "Academic + corporate hybrid format", color: "#1a1a2e", sections: ["Profile", "Education", "Experience", "Projects"], component: Withphototemplate },
   ],
   Cashier: [
     { id: "cas-1", name: "Retail Cashier", description: "Simple and clean entry-level format", color: "#1a1a2e", sections: ["Objective", "Skills", "Experience", "Education"], component: RetailCashierTemplate },
     { id: "cas-2", name: "Senior Cashier", description: "Experienced cashier with supervisor skills", color: "#1a1a2e", sections: ["Summary", "Experience", "Skills", "Education"], component: SeniorCashierTemplate },
+    { id: "cas-3", name: "junior Cashier", description: "Experienced cashier with supervisor skills", color: "#1a1a2e", sections: ["Summary", "Experience", "Skills", "Education"], component: Cashierphoto },
   ],
   Engineer: [
     { id: "eng-1", name: "Software Engineer", description: "Tech-focused with project highlights", color: "#1a1a2e", sections: ["Summary", "Skills", "Projects", "Experience", "Education"], component: SoftwareDevTemplate },
@@ -70,6 +81,7 @@ const categoryTemplates = {
     { id: "des-1", name: "UI/UX Designer", description: "Creative layout with portfolio section", color: "#1a1a2e", sections: ["Summary", "Portfolio", "Skills", "Experience", "Education"], component: UIUXDesignerTemplate },
     { id: "des-2", name: "Graphic Designer", description: "Visual-focused minimalist design", color: "#1a1a2e", sections: ["Profile", "Skills", "Experience", "Education"], component: GraphicDesignerTemplate },
     { id: "des-3", name: "Product Designer", description: "Product thinking + design skills", color: "#1a1a2e", sections: ["Summary", "Skills", "Projects", "Experience"], component: ProductDesignerTemplate },
+    { id: "des-4", name: "Product Designer", description: "Product thinking + design skills", color: "#1a1a2e", sections: ["Summary", "Skills", "Projects", "Experience"], component: PTemplate3 },
   ],
   Developer: [
     { id: "dev-1", name: "Full Stack Developer", description: "MERN/MEAN stack focused resume", color: "#1a1a2e", sections: ["Summary", "Skills", "Projects", "Experience", "Education"], component: FullStackMinimalTemplate },
@@ -81,6 +93,7 @@ const categoryTemplates = {
     { id: "mgr-1", name: "Project Manager", description: "PMP-style with leadership highlights", color: "#1a1a2e", sections: ["Summary", "Core Competencies", "Experience", "Education", "Certifications"], component: ProjectManagerTemplate },
     { id: "mgr-2", name: "Product Manager", description: "Product roadmap & stakeholder focus", color: "#1a1a2e", sections: ["Profile", "Skills", "Experience", "Education"], component: BusinessDevTemplates },
     { id: "mgr-3", name: "Operations Manager", description: "Process & efficiency focused layout", color: "#1a1a2e", sections: ["Summary", "Achievements", "Experience", "Skills", "Education"], component: OperationsManagerTemplate },
+    { id: "mgr-4", name: "Operations Manager", description: "Process & efficiency focused layout", color: "#1a1a2e", sections: ["Summary", "Achievements", "Experience", "Skills", "Education"], component: PTemplates6 },
   ],
   Nurse: [
     { id: "nur-1", name: "Registered Nurse", description: "Clinical skills focused nursing resume", color: "#1a1a2e", sections: ["Summary", "Licenses", "Clinical Experience", "Skills", "Education"], component: NurseResumeTemplate },
@@ -90,11 +103,13 @@ const categoryTemplates = {
   Intern: [
     { id: "int-1", name: "Tech Intern", description: "Skills & projects focused for freshers", color: "#1a1a2e", sections: ["Objective", "Skills", "Projects", "Education"], component: TechInternTemplate },
     { id: "int-2", name: "Business Intern", description: "Extracurricular + academics focused", color: "#1a1a2e", sections: ["Objective", "Education", "Activities", "Skills"], component: BusinessInternTemplate },
-    { id: "int-3", name: "Design Intern", description: "Portfolio-ready internship resume", color: "#1a1a2e", sections: ["Summary", "Portfolio", "Skills", "Education"], component: DesignInternTemplate },
+    { id: "int-3", name: "full stack  Intern", description: "Portfolio-ready internship resume", color: "#1a1a2e", sections: ["Summary", "Portfolio", "Skills", "Education"], component: PTemplates1 },
+    { id: "int-4", name: "Design Intern", description: "Portfolio-ready internship resume", color: "#1a1a2e", sections: ["Summary", "Portfolio", "Skills", "Education"], component: DesignInternTemplate }
   ],
   Teacher: [
     { id: "tea-1", name: "School Teacher", description: "Education-focused traditional format", color: "#1a1a2e", sections: ["Objective", "Education", "Experience", "Skills", "Certifications"], component: SchoolTeacherTemplate },
-    { id: "tea-2", name: "College Professor", description: "Academic CV style with publications", color: "#1a1a2e", sections: ["Profile", "Education", "Publications", "Experience", "Skills"], component: CollegeProfessorTemplate },
+     { id: "tea-2", name: "College Professor", description: "Academic CV style with publications", color: "#1a1a2e", sections: ["Profile", "Education", "Publications", "Experience", "Skills"], component: CollegeProfessorTemplate },
+    { id: "tea-3", name: "College principle", description: "Academic CV style with publications", color: "#1a1a2e", sections: ["Profile", "Education", "Publications", "Experience", "Skills"], component: Ptemplate2 },
   ],
 };
 
@@ -279,17 +294,23 @@ const TemplateEditor = ({ template, onBack }) => {
   }, []);
 
 const handleDownload = async () => {
-    if (!resumeData || Object.keys(resumeData).length === 0) {
-      alert("❌ Resume is empty, please fill in some details first");
-      return;
-    }
-    try {
-      await downloadResumePDF({ ...resumeData }, template.id, hasPage2);
-    } catch (err) {
-      console.error("Download error:", err);
-      alert("❌ Error downloading PDF");
-    }
-  };
+  // 1. Validation check with toast
+  if (!resumeData || Object.keys(resumeData).length === 0) {
+     toast.warning("⚠️ Please add some content to your resume before downloading!"); 
+    return;
+  } 
+  try {
+    await downloadResumePDF({ ...resumeData }, template.id, hasPage2);
+    
+    // 2. Success toast
+    toast.success("PDF downloaded successfully!", { id: toastId });
+  } catch (err) {
+    console.error("Download error:", err);
+    
+    // 3. Error toast
+    toast.error("Error downloading PDF. Please try again.", { id: toastId });
+  }
+};
 
 
 return (

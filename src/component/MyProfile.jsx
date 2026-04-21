@@ -505,7 +505,7 @@ export default function ProfilePage({ user }) {
   const rightW = isDesktop ? "220px" : "200px";
 
   return (
-    <div style={{ minHeight: "100vh", background: "#f1f5f9", fontFamily: "'Segoe UI', system-ui, sans-serif" }}>
+    <div style={{ minHeight: "100vh", background: "#f1f5f9", fontFamily: "'Segoe UI', system-ui, sans-serif", }}>
 
       <style>{`
         @media (max-width: 639px) {
@@ -519,9 +519,10 @@ export default function ProfilePage({ user }) {
       {/* ── Top bar ── */}
       <div style={{
         background: "#fff", borderBottom: "1px solid #e2e8f0",
-        padding: "0 16px", height: "57px",
+        
+       height: "57px",
         display: "flex", alignItems: "center", gap: "10px",
-        position: "sticky", top: 0, zIndex: 100,
+        marginTop:"70px" 
       }}>
         <button
           onClick={() => navigate(-1)}

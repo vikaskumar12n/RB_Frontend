@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import React from "react";
-import {Link} from "react-router-dom"
+import {useNavigate} from "react-router-dom"
 const slides = [
   "/images/resume builder.png",
   "/images/semple.png",
@@ -9,7 +9,28 @@ const slides = [
 
 export default function SliderSection() {
   const [current, setCurrent] = useState(0);
+const navigate = useNavigate();
 
+const handleMyResume = () => {
+  const storedUser = localStorage.getItem("user");
+  if (!storedUser) {
+    window.dispatchEvent(new CustomEvent("openAuthModal", {
+      detail: {
+        tab: "login",
+        onSuccess: () => navigate("/myresume")
+      }
+    }));
+    return;
+  }
+  navigate("/myresume");
+};
+
+const handleBuilder = () => {
+  
+    return  navigate("/home");
+  }
+ 
+ 
   // Auto slide
   useEffect(() => {
     const interval = setInterval(() => {
@@ -30,14 +51,20 @@ export default function SliderSection() {
       </p>
 
       {/* Buttons */}
-      <div className="flex justify-center gap-3 mt-5">
-        <button className= "bg-gray-200 text-gray-700 px-5 py-2 rounded-full text-sm font-medium hover:bg-gray-300 transition">
-         <Link to="myresume">My Resume</Link>
-        </button>
-        <button className="bg-gray-200 text-gray-700 px-5 py-2 rounded-full text-sm font-medium hover:bg-gray-300 transition">
-          <Link to="home#builder">Resume Builder</Link>
-        </button>
-      </div>
+     <div className="flex justify-center gap-3 mt-5">
+  <button
+    onClick={handleMyResume}
+    className="bg-gray-200 text-gray-700 px-5 py-2 rounded-full text-sm font-medium hover:bg-gray-300 transition"
+  >
+    My Resume
+  </button>
+  <button
+    onClick={handleBuilder}
+    className="bg-gray-200 text-gray-700 px-5 py-2 rounded-full text-sm font-medium hover:bg-gray-300 transition"
+  >
+    Resume Builder
+  </button>
+</div>
 
  {/* Slider */}
 <div className="mt-4 flex justify-center px-4">
@@ -48,7 +75,7 @@ export default function SliderSection() {
 
     {/*  Main Card */}
 <div className="flex justify-center   mt-5">
-  <div className="relative w-full max-w-5xl rounded-3xl shadow-sm overflow-hidden">
+  <div className="relative w-full max-w-4xl rounded-3xl shadow-sm overflow-hidden">
 
     {/* 🌈 Gradient Background */}
     <div className="absolute inset-0 bg-gradient-to-br from-purple-400 via-blue-400 to-blue-400"></div>

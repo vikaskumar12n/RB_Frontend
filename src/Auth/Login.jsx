@@ -1,8 +1,14 @@
 // Login.jsx
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { loginUser } from "../api/Api"; // path adjust karo
 
 const Login = () => {
+
+   useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+  const navigate=useNavigate()
   const [formData, setFormData] = useState({
     email: '',
     password: ''
@@ -35,23 +41,37 @@ const Login = () => {
     return newErrors;
   };
 
-  const handleSubmit = async (e) => {
+
+ const handleSubmit = async (e) => {
     e.preventDefault();
     const newErrors = validate();
+
     if (Object.keys(newErrors).length === 0) {
-      setIsLoading(true);
-      console.log('Login data:', formData);
-      setTimeout(() => {
-        alert('Login successful!');
+      try {
+        setIsLoading(true);
+        const res = await loginUser(formData);
+        
+        // ✅ localStorage mein save karo
+        localStorage.setItem("token", res.token);
+        localStorage.setItem("user", JSON.stringify(res.user));
+
+        // ✅ Navbar ko signal do ki user login ho gaya
+        window.dispatchEvent(new Event("userUpdated"));
+
+        navigate("/home");
+      } catch (error) {
+        console.error("Login Error:", error);
+        alert("Login failed. Please check credentials.");
+      } finally {
         setIsLoading(false);
-      }, 1000);
+      }
     } else {
       setErrors(newErrors);
     }
   };
 
   return (
-    <div className="min-h-screen  flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8"
+    <div className="min-h-screen mb-10  flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8"
       style={{
         background: `
       radial-gradient(ellipse at 30% 40%, rgba(80,120,80,0.5) 0%, transparent 60%),

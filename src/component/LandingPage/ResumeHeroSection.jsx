@@ -23,9 +23,9 @@ const handleNavigateToCategory = () => {
     <>
       {loading && <Loader />}
      <div
-  className={`relative max-w-6xl overflow-hidden rounded-2xl px-6 md:px-14 mb-10 mx-auto py-10 md:py-12 flex flex-col md:flex-row items-center justify-between min-h-[220px] transition-opacity duration-700 bg-[linear-gradient(135deg,#1a237e_0%,#283593_30%,#1565c0_60%,#6a1b9a_100%)] ${
-    visible ? "opacity-100" : "opacity-0"
-  }`}
+ className={`relative max-w-6xl overflow-hidden rounded-2xl px-6 md:px-14 mb-10 mx-auto py-10 md:py-12 flex flex-col md:flex-row items-center justify-between min-h-[220px] transition-opacity duration-700 ${
+  visible ? "opacity-100" : "opacity-0"
+} bg-[linear-gradient(360deg,#2e3a53_0%,#2e3a53_100%)]`}
 >
   {/* Glow effect (Mobile par thoda chota kiya) */}
   <div className="absolute -top-16 -left-16 w-40 h-40 md:w-56 md:h-56 rounded-full bg-[radial-gradient(circle,rgba(100,120,255,0.3)_0%,transparent_70%)]" />

@@ -3,24 +3,25 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
-
+import { z } from 'zod'; 
+import { registerUser } from "../api/Api";  
 const registerSchema = z
-  .object({
-    fullname: z.string().min(1, 'Full name is required').min(3, 'Name must be at least 3 characters').max(50),
-    email: z.string().min(1, 'Email is required').email('Please enter a valid email'),
-    password: z.string().min(1, 'Password is required').min(6, 'Password must be at least 6 characters').max(50),
-    confirmPassword: z.string().min(1, 'Please confirm your password'),
-  })
-  .refine((data) => data.password === data.confirmPassword, {
+.object({
+  fullname: z.string().min(1, 'Full name is required').min(3, 'Name must be at least 3 characters').max(50),
+  email: z.string().min(1, 'Email is required').email('Please enter a valid email'),
+  password: z.string().min(1, 'Password is required').min(6, 'Password must be at least 6 characters').max(50),
+  confirmPassword: z.string().min(1, 'Please confirm your password'),
+})
+.refine((data) => data.password === data.confirmPassword, {
     message: 'Passwords do not match',
     path: ['confirmPassword'],
   });
-
-const Register = () => {
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const navigate = useNavigate();
+  
+  const Register = () => {
+    const [showPassword, setShowPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+    const navigate = useNavigate();
+    
 
   const {
     register,
@@ -31,15 +32,25 @@ const Register = () => {
     mode: 'onChange',
   });
 
-  const onSubmit = async (data) => {
-    console.log('Registration data:', data);
-    await new Promise((res) => setTimeout(res, 1000));
-    alert('Registration successful! Please login.');
-    navigate('/login');
-  };
+ const onSubmit = async (data) => {
+  try {
+    console.log("Registration data:", data); 
+    const res = await registerUser(data); 
+    console.log("API Response:", res); 
+    if (res.token) {
+      localStorage.setItem("token", res.token);
+    }  
+    alert("Registration successful! Please login."); 
+    navigate("/login");
+
+  } catch (error) {
+    console.error("Register Error:", error); 
+    alert("Registration failed. Try again.");
+  }
+};
 
   return (
-    <div className="min-h-screen   flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8"
+    <div className="min-h-screen mb-10  flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8"
       style={{
         background: `
       radial-gradient(ellipse at 30% 40%, rgba(80,120,80,0.5) 0%, transparent 60%),
