@@ -4,7 +4,11 @@ import Loader from "../helper/loader";
 
 const item = [
   { label: "Build a Resume", link: "/myresume" },
-  { label: "Samples", link: "/home" }
+
+];
+const semple = [
+   { label: "Samples", link: "/home" }
+  
 ];
 
 const items = [
@@ -41,21 +45,33 @@ export default function Footer() {
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
-  
-  const handleNavigate = () => {
+  const handleNavigate = (path) => {
+    setLoading(true);
+    setTimeout(() => {
+      navigate(path);
+      setLoading(false);
+    }, 400);
+  };
+const handleClick = (path) => {
   const storedUser = localStorage.getItem("user");
+
   if (!storedUser) {
-    window.dispatchEvent(new CustomEvent("openAuthModal", {
-      detail: {
-        tab: "login",
-        onSuccess: () => {
-          navigate("/home"); // ✅ login ke baad /home par bhejo
+    setLoading(true);
+    setTimeout(() => {
+      window.dispatchEvent(new CustomEvent("openAuthModal", {
+        detail: {
+          tab: "login",
+          onSuccess: () => {
+            navigate(path); // ✅ dynamic path
+          }
         }
-      }
-    }));
+      }));
+      setLoading(false);
+    }, 400);
     return;
   }
-  navigate("/home"); // ✅ already logged in hai to seedha /home
+
+  navigate(path); // ✅ dynamic path
 };
 
   return (
@@ -83,23 +99,40 @@ export default function Footer() {
               </p>
 
             </div>
+ 
+         <div>
+  <h3 className="text-sm font-semibold text-gray-900 mb-4">
+    Job Seekers
+  </h3>
 
-            {/* Job Seekers */}
-            <div>
-              <h3 className="text-sm font-semibold text-gray-900 mb-4">Job Seekers</h3>
-              <ul className="space-y-2.5">
-                {item?.map((data, index) => (
-                  <li key={index}>
-                    <button
-                      onClick={() => handleNavigate(data.link)}
-                      className="text-sm text-gray-500 hover:text-gray-900 transition-colors"
-                    >
-                      {data.label}
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            </div>
+  {/* First List */}
+  <ul className="space-y-2.5">
+    {item.map((data, index) => (
+      <li key={index}>
+        <button
+          onClick={() => handleClick(data.link)}
+          className="text-sm text-gray-500 hover:text-gray-900 transition-colors"
+        >
+          {data.label}
+        </button>
+      </li>
+    ))}
+  </ul>
+
+  {/* Second List */}
+  <ul className=" mt-3 space-y-2.5">
+    {semple.map((data, index) => (
+      <li key={index}>
+        <button
+          onClick={() => handleNavigate(data.link)}   
+          className="text-sm text-gray-500 hover:text-gray-900 transition-colors"
+        >
+          {data.label}
+        </button>
+      </li>
+    ))}
+  </ul>
+</div>
 
             {/* Need Help */}
             <div>
