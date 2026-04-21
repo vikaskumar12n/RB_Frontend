@@ -132,7 +132,7 @@ const onSubmit = async (data) => {
       {/* ── Hero ── */}
       <div
         className="relative px-6 py-20 text-center overflow-hidden"
-        style={{ background: "linear-gradient(135deg, #1c398e 0%, #1c398e 60%, #1e3a8a 100%)" }}
+        style={{ background: "linear-gradient(135deg, #2e3a53 0%, #2e3a53 60%, #2e3a53 100%)" }}
       >
         <div className="absolute -top-10 -left-10 w-64 h-64 rounded-full opacity-10 bg-white" />
         <div className="absolute -bottom-16 -right-10 w-80 h-80 rounded-full opacity-10 bg-white" />
@@ -384,7 +384,7 @@ const onSubmit = async (data) => {
                 type="submit"
                 disabled={isSubmitting}
                 className="w-full py-3 rounded-xl text-sm font-semibold text-white transition-all flex items-center justify-center gap-2 disabled:opacity-70"
-                style={{ background: "linear-gradient(135deg, #1c398e, #1c398e)" }}
+                style={{ background: "linear-gradient(135deg, #2e3a53, #2e3a53)" }}
               >
                 {isSubmitting ? (
                   <>
@@ -405,7 +405,7 @@ const onSubmit = async (data) => {
         {/* ── Contact Strip ── */}
         <div
           className="rounded-2xl px-8 py-7 flex flex-col md:flex-row gap-6 md:gap-0 md:justify-between items-center"
-          style={{ background: "linear-gradient(135deg, #1c398e 0%, #1c398e 60%, #1e3a8a 100%)" }}
+          style={{ background: "linear-gradient(135deg, #2e3a53 0%, #2e3a53 60%, #2e3a53 100%)" }}
         >
           {[
             {

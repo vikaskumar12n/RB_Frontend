@@ -26,7 +26,7 @@ const templates = [
 // Helper function to normalize resume data for templates
 const normalizeResumeData = (data) => {
     if (!data) return {};
-    
+
     return {
         // Basic info
         name: data.name || data.personalInfo?.name || "FIRST LAST",
@@ -35,7 +35,7 @@ const normalizeResumeData = (data) => {
         phone: data.phone || data.personalInfo?.phone || "+1-234-456-789",
         email: data.email || data.personalInfo?.email || "professionalemail@resumeworded.com",
         linkedin: data.linkedin || data.personalInfo?.linkedin || "linkedin.com/in/username",
-        
+
         // Section titles
         objectiveTitle: data.objectiveTitle || "Objective",
         experienceTitle: data.experienceTitle || "Professional Experience",
@@ -43,17 +43,17 @@ const normalizeResumeData = (data) => {
         educationTitle: data.educationTitle || "Education",
         skillsTitle: data.skillsTitle || "Skills",
         certificationTitle: data.certificationTitle || "Certifications",
-        
+
         // Content
         objective: data.objective || data.summary || "",
-        
+
         // Arrays - ensure they exist and are proper arrays
         experience: Array.isArray(data.experience) ? data.experience : [],
         projects: Array.isArray(data.projects) ? data.projects : [],
         education: Array.isArray(data.education) ? data.education : [],
         certifications: Array.isArray(data.certifications) ? data.certifications : [],
         skills: Array.isArray(data.skills) ? data.skills : [],
-        
+
         // Additional fields for compatibility
         contact: data.contact || "",
         links: data.links || "",
@@ -84,60 +84,60 @@ const getInitialDataForTemplate = (templateId) => {
         certifications: [],
         skills: [["HTML", "CSS", "JavaScript", "React"], ["Node.js", "Express", "MongoDB", "SQL"]],
     };
-    
+
     return defaultData;
 };
 
 export default function ResumeSlider({ resumeData, onClose }) {
     const [current, setCurrent] = useState(0);
     const [saving, setSaving] = useState(false);
-    const [downloading, setDownloading] = useState(false); 
+    const [downloading, setDownloading] = useState(false);
     const [modalOpen, setModalOpen] = useState(false);
     const previewRef = useRef(null);
     const modalRef = useRef(null);
     const [loading, setLoading] = useState(false);
     const resumeRef = useRef(null);
     const navigate = useNavigate();
-    const [showEditorModal,setShowEditorModal]=useState(false)
-     const [isEdited, setIsEdited] = useState(false);
+    const [showEditorModal, setShowEditorModal] = useState(false)
+    const [isEdited, setIsEdited] = useState(false);
     const [templateDataMap, setTemplateDataMap] = useState({});
-     
+
     const currentTemplateId = templates[current].id;
     const currentData = templateDataMap[currentTemplateId] || normalizeResumeData(resumeData) || getInitialDataForTemplate(currentTemplateId);
-     
+
     useEffect(() => {
         if (resumeData && Object.keys(resumeData).length > 0) {
             const normalized = normalizeResumeData(resumeData);
             const newMap = {};
-            templates.forEach(template => { 
+            templates.forEach(template => {
                 newMap[template.id] = JSON.parse(JSON.stringify(normalized));
             });
             setTemplateDataMap(newMap);
         }
     }, [resumeData]);
-     
-   const updateCurrentData = (newData) => {
+
+    const updateCurrentData = (newData) => {
         setIsEdited(true); // 👈 Jab bhi kuch change hoga, isEdited true ho jayega
         setTemplateDataMap(prev => ({
             ...prev,
             [currentTemplateId]: newData
         }));
     };
-    const switchTemplate = async (newIndex) => { 
-        
-        setCurrent(newIndex); 
+    const switchTemplate = async (newIndex) => {
+
+        setCurrent(newIndex);
     };
-    
+
     const goTo = (i) => switchTemplate(i);
     const prev = () => switchTemplate((current - 1 + templates.length) % templates.length);
     const next = () => switchTemplate((current + 1) % templates.length);
- 
+
 
     const saveCurrentData = async () => {
         setSaving(true);
         setLoading(true);
         try {
-            await saveToAPI(currentData, currentTemplateId); 
+            await saveToAPI(currentData, currentTemplateId);
             return true;
         } catch (err) {
             console.error(err);
@@ -148,7 +148,7 @@ export default function ResumeSlider({ resumeData, onClose }) {
             setLoading(false);
         }
     };
- 
+
 
     useEffect(() => {
         const handleClickOutside = (event) => {
@@ -160,7 +160,7 @@ export default function ResumeSlider({ resumeData, onClose }) {
         return () => document.removeEventListener("mousedown", handleClickOutside);
     }, [onClose]);
 
-const handleDownload = async (ref) => {
+    const handleDownload = async (ref) => {
         const target = ref?.current;
         if (!target) return;
         setDownloading(true);
@@ -201,11 +201,11 @@ const handleDownload = async (ref) => {
     // };
 
 
-const handleSaveAndDownload = async () => {
+    const handleSaveAndDownload = async () => {
         // 1. Edit Check 👈 (Pehle edit fir download logic)
         if (!isEdited) {
-               toast.warning("⚠️ Please add some content to your resume before downloading!");
-                 return;
+            toast.warning("⚠️ Please add some content to your resume before downloading!");
+            return;
         }
 
         // 2. Login Check
@@ -237,19 +237,19 @@ const handleSaveAndDownload = async () => {
     return (
         <>
             {loading && <Loader />}
-            <section style={{background: "linear-gradient(360deg, #2e3a53 0%, #2e3a53 100%)"}}>
+            <section style={{ background: "linear-gradient(360deg, #2e3a53 0%, #2e3a53 100%)" }}>
                 <div className="max-w-5xl mx-auto py-7 grid grid-cols-1 lg:grid-cols-2 items-center">
                     {/* Left Panel */}
                     <div className="max-w-100 text-white space-y-4 pl-2 pb-2">
                         <h1 style={{
-    fontSize: "clamp(28px, 5vw, 48px)", fontWeight: "800", lineHeight: "1.15",
-    marginBottom: "16px", letterSpacing: "-0.5px",
-    background: "white",
-    WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent",
+                            fontSize: "clamp(20px, 3vw, 48px)", fontWeight: "800", lineHeight: "1.15",
+                            marginBottom: "16px", letterSpacing: "-0.5px",
+                            background: "white",
+                            WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent",
                         }}>
                             Every detail on your resume, built to perfection
                         </h1>
-                        <p className="text-white text-sm font-bold leading-relaxed max-w-sm">
+                        <p className="text-white text-sm  leading-relaxed max-w-sm">
                             Our resume templates are based on what employers actually look for
                             in a candidate. How do we know? We've talked with thousands of
                             employers to get the answers.
@@ -285,8 +285,8 @@ const handleSaveAndDownload = async () => {
                                                 }}
                                                 ref={t.id === currentTemplateId ? previewRef : null}
                                             >
-                                                <t.component 
-                                                    data={templateDataMap[t.id] || normalizeResumeData(resumeData)} 
+                                                <t.component
+                                                    data={templateDataMap[t.id] || normalizeResumeData(resumeData)}
                                                 />
                                             </div>
                                             <div
@@ -407,9 +407,9 @@ const handleSaveAndDownload = async () => {
                                         className="bg-white shadow-lg rounded-lg overflow-hidden"
                                         style={{ width: "794px", minHeight: "1123px" }}
                                     >
-                                        <ActiveTemplate 
+                                        <ActiveTemplate
                                             key={currentTemplateId}
-                                            data={currentData} 
+                                            data={currentData}
                                             setData={updateCurrentData}
                                         />
                                     </div>
@@ -447,8 +447,8 @@ const handleSaveAndDownload = async () => {
                     </div>
                 </div>
             )}
- 
-       
+
+
         </>
     );
 }

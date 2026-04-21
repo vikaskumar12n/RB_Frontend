@@ -100,7 +100,7 @@ const AboutUs = () => {
                 {/* ── Hero ── */}
                 <section
                     className="relative overflow-hidden text-center px-6 py-20"
-                    style={{ background: "linear-gradient(135deg, #1c398e 0%, #1c398e 60%, #1e3a8a 100%)" }}
+                    style={{ background: "linear-gradient(135deg, #2e3a53 40%, #2e3a53 80%, #2e3a53 100%)" }}
                 >
                     {/* decorative circles */}
                     <div className="absolute -top-10 -left-10 w-64 h-64 rounded-full opacity-10 bg-white" />
@@ -196,13 +196,13 @@ const AboutUs = () => {
 
                 {/* ── CTA ── */}
                 <div className="mx-6 mb-16 rounded-2xl text-center px-8 py-14"
-                    style={{ background: "linear-gradient(135deg, #1c398e 0%, #1c398e 60%, #1e3a8a 100%)" }}
+                    style={{ background: "linear-gradient(135deg, #2e3a53 0%, #2e3a53 60%,#2e3a53 100%)" }}
                 >
 
                     <div className="absolute -top-10 -left-10 w-64 h-64 rounded-full opacity-10 bg-white" />
                     <div className="absolute -bottom-16 -right-10 w-80 h-80 rounded-full opacity-10 bg-white" />
                     <h2 className="text-3xl font-bold text-white mb-3">Ready to land your next job?</h2>
-                    <p className="text-sm text-white/60 mb-6">
+                    <p className="text-sm text-white mb-6">
                         Join 2 million+ professionals who've built their resume with us. It's free to start.
                     </p>
                     <button
