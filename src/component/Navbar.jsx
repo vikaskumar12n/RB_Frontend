@@ -60,7 +60,19 @@ export default function Navbar() {
       setLoading(false);
     }, 400);
   };
+  useEffect(() => {
+    const handleScroll = () => {
+      if (mobileOpen) {
+        setMobileOpen(false);
+      }
+    };
 
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [mobileOpen]);
   useEffect(() => {
     const handleScroll = () => {
       setShowNavbar(window.scrollY <= lastScrollY);
@@ -228,7 +240,7 @@ export default function Navbar() {
               /* User logged out — modal open karo */
               <div className="flex items-center gap-2">
                 <button
-             onClick={() => setAuthModal({ open: true, tab: "register" })}
+                  onClick={() => setAuthModal({ open: true, tab: "register" })}
                   className="hidden md:block px-5 py-2 rounded-lg text-sm font-semibold border border-[#1a3fa8] text-[#1a3fa8] hover:bg-blue-50 transition">
                   Sign Up
                 </button>
@@ -238,7 +250,7 @@ export default function Navbar() {
             {/* Mobile Hamburger */}
             <button
               onClick={() => setMobileOpen(!mobileOpen)}
-              className="p-2 rounded-lg text-gray-600 hover:bg-gray-100 md:hidden"
+              className=" p-2 rounded-lg  text-gray-600 hover:bg-gray-100 md:hidden"
             >
               <HamburgerIcon />
             </button>
@@ -251,7 +263,7 @@ export default function Navbar() {
         <div className="md:hidden bg-white border-b fixed top-16 left-0 w-full z-40 shadow-md">
           <div className="px-6 py-4 space-y-3">
 
-            {user && NAV_ITEMS.map((item) => (
+            {NAV_ITEMS.map((item) => (
               <Link
                 key={item.label}
                 to={item.path}
@@ -265,7 +277,7 @@ export default function Navbar() {
             {!user && (
               <div className="flex items-center gap-2">
                 <button
-               onClick={() => setAuthModal({ open: true, tab: "register" })}
+                  onClick={() => setAuthModal({ open: true, tab: "register" })}
                   className="hidden md:block px-5 py-2 rounded-lg text-sm font-semibold border border-[#1a3fa8] text-[#1a3fa8] hover:bg-blue-50 transition"  >
                   Sign Up
                 </button>
