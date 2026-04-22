@@ -278,7 +278,7 @@ export default function Navbar() {
               <div className="flex items-center gap-2">
                 <button
                   onClick={() => setAuthModal({ open: true, tab: "register" })}
-                  className="hidden md:block px-5 py-2 rounded-lg text-sm font-semibold border border-[#1a3fa8] text-[#1a3fa8] hover:bg-blue-50 transition"  >
+                  className=" px-5 py-2 rounded-lg text-sm font-semibold border border-[#1a3fa8] text-[#1a3fa8] hover:bg-blue-50 transition"  >
                   Sign Up
                 </button>
               </div>

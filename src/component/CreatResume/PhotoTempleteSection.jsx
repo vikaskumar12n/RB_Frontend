@@ -56,11 +56,8 @@ const normalizeResumeData = (data) => {
   };
 };
 
-// Helper function to check if data has any meaningful content
 const hasMeaningfulContent = (data) => {
   if (!data) return false;
-  
-  // Check if any of the important fields have non-default/empty values
   const hasName = data.name && data.name !== "FIRST LAST" && data.name.trim() !== "";
   const hasEmail = data.email && data.email !== "professionalemail@resumeworded.com" && data.email.trim() !== "";
   const hasPhone = data.phone && data.phone !== "+1-234-456-789" && data.phone.trim() !== "";
@@ -69,13 +66,11 @@ const hasMeaningfulContent = (data) => {
   const hasExperience = data.experience && data.experience.length > 0 && data.experience.some(e => e.company && e.company.trim() !== "");
   const hasProjects = data.projects && data.projects.length > 0 && data.projects.some(p => p.title && p.title.trim() !== "");
   const hasEducation = data.education && data.education.length > 0 && data.education.some(e => e.school && e.school.trim() !== "");
-  
   return hasName || hasEmail || hasPhone || hasObjective || hasSkills || hasExperience || hasProjects || hasEducation;
 };
 
 /* ─── Inline Styles ─────────────────────────────────────────────── */
 const S = {
-  /* Hero section */
   hero: {
     background: "linear-gradient(360deg, #2e3a53 0%, #2e3a53 40%, #2e3a53 100%)",
     position: "relative",
@@ -133,7 +128,6 @@ const S = {
   statNum: { fontSize: "22px", fontWeight: "800", color: "#f1f5f9" },
   statLabel: { fontSize: "11px", color: "white", fontWeight: "500" },
 
-  /* Slider card */
   sliderWrap: {
     display: "flex", flexDirection: "column", alignItems: "center", gap: "16px",
   },
@@ -155,11 +149,10 @@ const S = {
   },
   cardOverlay: {
     position: "absolute", inset: 0,
-    height: '100%', // Isse overlay poore card ko cover karega
-    backgroundColor: 'rgba(0, 0, 0, 0.6)', // Blackish color,
+    height: '100%',
+    backgroundColor: 'rgba(0, 0, 0, 0.6)',
     display: "flex", alignItems: "flex-end", justifyContent: "center", paddingBottom: "16px",
     opacity: 0, transition: "opacity 0.3s",
-    
   },
   useBtn: {
     background: "rgba(255,255,255,0.95)", color: "#1e1b4b",
@@ -191,11 +184,16 @@ const S = {
 
   /* ── Modal ── */
   modalOverlay: {
-    position: "fixed", inset: 0, zIndex: 50,
-    background: "rgba(0,0,0,0.75)", backdropFilter: "blur(6px)",
-    display: "flex", alignItems: "center", justifyContent: "center",
-    padding: "0",
-    fontFamily: "'DM Sans', 'Segoe UI', sans-serif",
+    position: "fixed",
+    top: 0,
+    left: 0,
+    width: "100vw",
+    height: "100vh",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    background: "rgba(0,0,0,0.5)",
+    zIndex: 9999,
   },
   modal: {
     background: "#f8fafc", width: "100%", height: "100%",
@@ -234,18 +232,39 @@ const S = {
     background: "#fff", borderBottom: "0.5px solid #e2e8f0",
     overflowX: "auto", flexShrink: 0,
   },
+
+  // ✅ FIXED: Modal body — overflow hidden + proper centering
   modalBody: {
-    flex: 1, overflow: "auto",
+    flex: 1,
+    overflow: "auto",
     background: "#f1f5f9",
-    display: "flex", justifyContent: "center",
-    alignItems: "flex-start", padding: "24px 16px",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "flex-start",
+    padding: "24px 0",          // horizontal padding removed — handled by inner wrapper
   },
+
+  // ✅ FIXED: Outer scroll container that limits visible width on mobile
+  resumeScrollContainer: {
+    width: "100%",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "flex-start",
+    overflow: "hidden",          // clips the scaled resume so it doesn't overflow screen
+  },
+
+  // ✅ FIXED: The 794px resume wrapper — scale applied here
   resumeWrapper: {
-    width: "794px", minHeight: "1123px",
+    width: "794px",
+    minHeight: "1123px",
     transformOrigin: "top center",
-    background: "#fff", borderRadius: "8px", overflow: "hidden",
+    background: "#fff",
+    borderRadius: "8px",
+    overflow: "hidden",
     boxShadow: "0 8px 32px rgba(0,0,0,0.12)",
+    flexShrink: 0,              // prevent squishing
   },
+
   modalFooter: {
     display: "flex", alignItems: "center", justifyContent: "space-between",
     padding: "12px 20px", background: "#fff",
@@ -286,49 +305,36 @@ export default function ResumeSliderWhitPhoto({ resumeData, onClose }) {
   const resumeRef = useRef(null);
   const navigate = useNavigate();
   const [templateDataMap, setTemplateDataMap] = useState({});
-  const [ShowEditorModal,setShowEditorModal]=useState(false)
-  
-  // Store initial data for EACH template separately
+  const [ShowEditorModal, setShowEditorModal] = useState(false);
   const [initialDataMap, setInitialDataMap] = useState({});
-  // Track which templates have been edited
   const [editedTemplates, setEditedTemplates] = useState({});
 
   const currentTemplateId = templates[current].id;
   const currentData = templateDataMap[currentTemplateId] || normalizeResumeData(resumeData) || {};
-  
-  // Check if current template has been edited
   const hasCurrentTemplateEdits = editedTemplates[currentTemplateId] || false;
 
-  // Initialize template data and initial data
   useEffect(() => {
     if (resumeData && Object.keys(resumeData).length > 0) {
       const normalized = normalizeResumeData(resumeData);
       const newMap = {};
       const newInitialMap = {};
-      
       templates.forEach((t) => {
         const templateData = JSON.parse(JSON.stringify(normalized));
         newMap[t.id] = templateData;
         newInitialMap[t.id] = JSON.parse(JSON.stringify(normalized));
       });
-      
       setTemplateDataMap(newMap);
       setInitialDataMap(newInitialMap);
       setEditedTemplates({});
     }
   }, [resumeData]);
 
-  // Update data for current template and mark as edited
   const updateCurrentData = (newData) => {
     setTemplateDataMap((prev) => ({ ...prev, [currentTemplateId]: newData }));
-    
-    // Compare with initial data for this specific template
     const initialDataForThisTemplate = initialDataMap[currentTemplateId];
     if (initialDataForThisTemplate) {
       const currentDataStr = JSON.stringify(newData);
       const initialDataStr = JSON.stringify(initialDataForThisTemplate);
-      
-      // Mark this template as edited if data changed
       if (currentDataStr !== initialDataStr) {
         setEditedTemplates(prev => ({ ...prev, [currentTemplateId]: true }));
       } else {
@@ -339,15 +345,11 @@ export default function ResumeSliderWhitPhoto({ resumeData, onClose }) {
     }
   };
 
-  const switchTemplate = (newIndex) => {
-    setCurrent(newIndex);
-  };
-  
+  const switchTemplate = (newIndex) => setCurrent(newIndex);
   const goTo = (i) => switchTemplate(i);
   const prev = () => switchTemplate((current - 1 + templates.length) % templates.length);
   const next = () => switchTemplate((current + 1) % templates.length);
 
-  /* Close modal on outside click */
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (modalRef.current && !modalRef.current.contains(e.target)) onClose?.();
@@ -356,7 +358,6 @@ export default function ResumeSliderWhitPhoto({ resumeData, onClose }) {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [onClose]);
 
-  // Save function
   const saveCurrentData = async () => {
     try {
       await saveToAPI(currentData, currentTemplateId);
@@ -368,11 +369,9 @@ export default function ResumeSliderWhitPhoto({ resumeData, onClose }) {
     }
   };
 
-  // Download function
   const handleDownload = async (ref) => {
     const target = ref?.current;
     if (!target) return false;
-    
     try {
       await html2pdf()
         .set({
@@ -389,44 +388,39 @@ export default function ResumeSliderWhitPhoto({ resumeData, onClose }) {
       return false;
     }
   };
-  // Main Action - Check if current template has been edited
+
   const handleSaveAndDownload = async () => {
     const storedUser = localStorage.getItem("user");
-       if (!hasCurrentTemplateEdits && !hasMeaningfulContent(currentData)) {
+    if (!hasCurrentTemplateEdits && !hasMeaningfulContent(currentData)) {
       toast.warning("⚠️ Please add some content to your resume before downloading!");
       return;
     }
     if (!storedUser) {
-       toast.error("Please login first to download resume!","error", );
-       setTimeout(() => {
-    setShowEditorModal(false);
-    window.dispatchEvent(new CustomEvent("openAuthModal", {
-      detail: {
-        tab: "login",
-        onSuccess: () => {
-          setShowEditorModal(true);
-        }
-      }
-    }));
-  }, 0);
-      return
+      toast.error("Please login first to download resume!", "error");
+      setTimeout(() => {
+        setShowEditorModal(false);
+        window.dispatchEvent(new CustomEvent("openAuthModal", {
+          detail: {
+            tab: "login",
+            onSuccess: () => { setShowEditorModal(true); }
+          }
+        }));
+      }, 0);
+      return;
     }
- 
+
     setLoading(true);
-    setSaving(true); 
-    try { 
+    setSaving(true);
+    try {
       const isSaved = await saveCurrentData();
-      
-      if (isSaved) { 
+      if (isSaved) {
         const isDownloaded = await handleDownload(resumeRef);
-        
         if (isDownloaded) {
-          toast.success("Saved & Downloaded successfully!"); 
+          toast.success("Saved & Downloaded successfully!");
           setInitialDataMap(prev => ({
             ...prev,
             [currentTemplateId]: JSON.parse(JSON.stringify(currentData))
           }));
-       
           setEditedTemplates(prev => ({ ...prev, [currentTemplateId]: false }));
         }
       }
@@ -441,18 +435,22 @@ export default function ResumeSliderWhitPhoto({ resumeData, onClose }) {
   const ActiveTemplate = templates[current].component;
   const isProcessing = saving || downloading;
 
-  // Get resume scale
+  // ✅ FIXED: Better scale calculation — uses actual container width
   const getResumeScale = useCallback(() => {
     const w = window.innerWidth;
-    if (w < 400) return 0.36;
-    if (w < 640) return 0.44;
+    const RESUME_WIDTH = 794;
+    // On mobile: fit resume to screen width with some padding
+    if (w < 640) {
+      const availableWidth = w - 16; // 8px padding each side
+      return Math.min(availableWidth / RESUME_WIDTH, 1);
+    }
     if (w < 900) return 0.65;
     if (w < 1100) return 0.82;
     return 1;
   }, []);
-  
+
   const [resumeScale, setResumeScale] = useState(1);
-  
+
   useEffect(() => {
     const update = () => setResumeScale(getResumeScale());
     update();
@@ -467,6 +465,10 @@ export default function ResumeSliderWhitPhoto({ resumeData, onClose }) {
     return () => window.removeEventListener("resize", check);
   }, []);
 
+  // ✅ FIXED: Calculate the scaled height so container doesn't collapse
+  const scaledHeight = 1123 * resumeScale;
+  const scaledWidth = 794 * resumeScale;
+
   return (
     <>
       {loading && <Loader />}
@@ -475,7 +477,6 @@ export default function ResumeSliderWhitPhoto({ resumeData, onClose }) {
       <section style={S.hero}>
         <div style={S.heroBg} />
 
-        {/* Decorative circles */}
         <div style={{
           position: "absolute", width: "300px", height: "300px", borderRadius: "50%",
           border: "0.5px solid rgba(99,102,241,0.08)", top: "-80px", right: "-80px",
@@ -493,7 +494,6 @@ export default function ResumeSliderWhitPhoto({ resumeData, onClose }) {
         }}>
           {/* Left */}
           <div style={S.heroLeft}>
-            
             <h1 style={S.h1}>
               Every detail,<br />built to perfection
             </h1>
@@ -525,7 +525,6 @@ export default function ResumeSliderWhitPhoto({ resumeData, onClose }) {
 
           {/* Right — Slider */}
           <div style={S.sliderWrap}>
-            {/* Card */}
             <div
               style={S.card}
               onMouseEnter={() => setCardHovered(true)}
@@ -541,7 +540,6 @@ export default function ResumeSliderWhitPhoto({ resumeData, onClose }) {
                       <t.component data={templateDataMap[t.id] || normalizeResumeData(resumeData)} />
                     </div>
 
-                    {/* Hover overlay */}
                     <div style={{
                       ...S.cardOverlay,
                       opacity: cardHovered ? 1 : 0,
@@ -563,11 +561,9 @@ export default function ResumeSliderWhitPhoto({ resumeData, onClose }) {
                 ))}
               </div>
 
-              {/* Nav buttons */}
               <button style={S.navBtn("left")} onClick={prev}>‹</button>
               <button style={S.navBtn("right")} onClick={next}>›</button>
 
-              {/* Top badge */}
               <div style={{
                 position: "absolute", top: "12px", left: "12px",
                 background: "rgba(99,102,241,0.9)", color: "white",
@@ -579,7 +575,6 @@ export default function ResumeSliderWhitPhoto({ resumeData, onClose }) {
               </div>
             </div>
 
-            {/* Label + Dots */}
             <p style={S.templateLabel}>{templates[current].label} Template</p>
             <div style={S.dots}>
               {templates.map((_, i) => (
@@ -593,23 +588,35 @@ export default function ResumeSliderWhitPhoto({ resumeData, onClose }) {
       {/* ── Modal ── */}
       {modalOpen && (
         <div style={S.modalOverlay} onClick={(e) => e.target === e.currentTarget && setModalOpen(false)}>
-          <div ref={modalRef} style={{
-            ...S.modal,
-            ...(isMobile ? {} : {
-              width: "95vw", height: "95vh", maxWidth: "1100px", maxHeight: "90vh",
-              borderRadius: "20px",
-            })
-          }}>
-
+          <div
+            ref={modalRef}
+            style={{
+              ...S.modal,
+              ...(isMobile ? {
+                width: "100vw",
+                height: "100vh",
+                maxWidth: "100vw",
+                maxHeight: "100vh",
+                borderRadius: "0px",
+                margin: "0",
+              } : {
+                width: "95vw",
+                height: "95vh",
+                maxWidth: "1100px",
+                maxHeight: "90vh",
+                borderRadius: "20px",
+              }),
+            }}
+          >
             {/* Header */}
             <div style={S.modalHeader}>
               <div style={{ flexShrink: 0 }}>
                 <div style={S.modalTitle}>
                   {templates[current].label} Template
                   {hasCurrentTemplateEdits && (
-                    <span style={{ 
-                      fontSize: "10px", 
-                      background: "#fef3c7", 
+                    <span style={{
+                      fontSize: "10px",
+                      background: "#fef3c7",
                       color: "#d97706",
                       padding: "2px 6px",
                       borderRadius: "10px",
@@ -622,7 +629,6 @@ export default function ResumeSliderWhitPhoto({ resumeData, onClose }) {
                 <div style={S.modalSubtitle}>Preview · Edit · Download</div>
               </div>
 
-              {/* Tabs — desktop */}
               {!isMobile && (
                 <div style={S.tabsDesktop}>
                   {templates.map((t, i) => (
@@ -630,12 +636,9 @@ export default function ResumeSliderWhitPhoto({ resumeData, onClose }) {
                       <span>{t.label}</span>
                       {editedTemplates[t.id] && (
                         <span style={{
-                          width: "6px",
-                          height: "6px",
-                          background: "#10b981",
-                          borderRadius: "50%",
-                          display: "inline-block",
-                          marginLeft: "4px"
+                          width: "6px", height: "6px",
+                          background: "#10b981", borderRadius: "50%",
+                          display: "inline-block", marginLeft: "4px"
                         }} />
                       )}
                     </button>
@@ -672,12 +675,9 @@ export default function ResumeSliderWhitPhoto({ resumeData, onClose }) {
                     {t.label}
                     {editedTemplates[t.id] && (
                       <span style={{
-                        width: "6px",
-                        height: "6px",
+                        width: "6px", height: "6px",
                         background: i === current ? "#fff" : "#10b981",
-                        borderRadius: "50%",
-                        display: "inline-block",
-                        marginLeft: "4px"
+                        borderRadius: "50%", display: "inline-block", marginLeft: "4px"
                       }} />
                     )}
                   </button>
@@ -685,21 +685,42 @@ export default function ResumeSliderWhitPhoto({ resumeData, onClose }) {
               </div>
             )}
 
-            {/* Body */}
+            {/* ✅ FIXED: Body — proper mobile resume scaling */}
             <div style={S.modalBody}>
+              {/*
+                Outer container: exact size of the SCALED resume
+                This prevents overflow and centers correctly on all screen sizes
+              */}
               <div style={{
-                ...S.resumeWrapper,
-                transform: `scale(${resumeScale})`,
-                marginBottom: resumeScale < 1
-                  ? `${-(1123 * (1 - resumeScale))}px`
-                  : "0",
+                width: `${scaledWidth}px`,
+                height: `${scaledHeight}px`,
+                position: "relative",
+                flexShrink: 0,
               }}>
-                <div ref={resumeRef} style={{ width: "794px", minHeight: "1123px" }}>
-                  <ActiveTemplate
-                    key={currentTemplateId}
-                    data={currentData}
-                    setData={updateCurrentData}
-                  />
+                {/*
+                  Inner: always 794px wide, scaled down via transform
+                  transformOrigin: top left so it scales from the correct anchor
+                */}
+                <div style={{
+                  width: "794px",
+                  minHeight: "1123px",
+                  transform: `scale(${resumeScale})`,
+                  transformOrigin: "top left",
+                  background: "#fff",
+                  borderRadius: "8px",
+                  overflow: "hidden",
+                  boxShadow: "0 8px 32px rgba(0,0,0,0.12)",
+                  position: "absolute",
+                  top: 0,
+                  left: 0,
+                }}>
+                  <div ref={resumeRef} style={{ width: "794px", minHeight: "1123px" }}>
+                    <ActiveTemplate
+                      key={currentTemplateId}
+                      data={currentData}
+                      setData={updateCurrentData}
+                    />
+                  </div>
                 </div>
               </div>
             </div>
@@ -720,7 +741,6 @@ export default function ResumeSliderWhitPhoto({ resumeData, onClose }) {
               </div>
 
               <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-                {/* Template counter */}
                 <span style={{ fontSize: "12px", color: "#94a3b8", fontWeight: "500" }}>
                   {current + 1} / {templates.length}
                 </span>
