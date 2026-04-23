@@ -122,7 +122,7 @@ export default function Navbar() {
 
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2 text-[#1a3fa8] font-semibold text-2xl">
-            <img src="/images/logo.png" className="h-15 inline-block" />
+            <img src="/images/edulogo.png" className="h-25 inline-block" />
           </Link>
 
           {/* Right Side */}

@@ -11,7 +11,7 @@
 //   const downloadResumePDF = async (resumeData, selectedId, hasPage2) => {
 //     try {
 //       setDownloading(true);
-      
+
 //       const html2canvas = (await import("html2canvas")).default;
 //       const jsPDFModule = await import("jspdf");
 //       const jsPDF = jsPDFModule.default || jsPDFModule.jsPDF;
@@ -20,13 +20,13 @@
 //      await saveToAPI(resumeData, selectedId);
 
 //       console.log(" Resume saved");
- 
+
 //    const capture = async (id) => {
 //   const el = document.getElementById(id);
 //   if (!el) throw new Error(`Element ${id} not found`);
- 
+
 //   window.scrollTo(0, 0);
- 
+
 //   await new Promise(resolve => setTimeout(resolve, 150));
 
 //   const canvas = await html2canvas(el, {
@@ -56,13 +56,13 @@
 //       // Capture Page 1
 //       console.log("Capturing page 1...");
 //       const c1 = await capture("resume");
-      
+
 //       // Calculate proper dimensions for A4
 //       const imgWidth = 210; // A4 width in mm
 //       const imgHeight = (c1.height * imgWidth) / c1.width;
-      
+
 //       console.log(`Canvas size: ${c1.width}x${c1.height}, PDF height: ${imgHeight}mm`);
-      
+
 //       pdf.addImage(c1.toDataURL("image/jpeg", 1.0), "JPEG", 0, 0, imgWidth, imgHeight);
 
 //       // Capture Page 2 if exists
@@ -106,52 +106,49 @@ const ResumeContext = createContext();
 
 export const ResumeProvider = ({ children }) => {
   const [downloading, setDownloading] = useState(false);
- 
+
   const [showEditorModal, setShowEditorModal] = useState(false);
 
   const downloadResumePDF = async (resumeData, selectedId, hasPage2) => {
-
     const storedUser = localStorage.getItem("user");
-    console.log("User check:", storedUser);
-
     if (!storedUser) {
-  toast.error("Please login first to download resume!");
-  setTimeout(() => {
-    setShowEditorModal(false);
-    window.dispatchEvent(new CustomEvent("openAuthModal", {
-      detail: {
-        tab: "login",
-        onSuccess: () => {
-          setShowEditorModal(true);
-        }
-      }
-    }));
-  }, 0);
-  return;
-}
+      toast.error("Please login first to download resume!");
+      setTimeout(() => {
+        setShowEditorModal(false);
+        window.dispatchEvent(new CustomEvent("openAuthModal", {
+          detail: { tab: "login", onSuccess: () => setShowEditorModal(true) }
+        }));
+      }, 0);
+      return;
+    }
 
     try {
       setDownloading(true);
 
-      const html2canvas = (await import("html2canvas")).default;
-      const jsPDFModule = await import("jspdf");
-      const jsPDF = jsPDFModule.default || jsPDFModule.jsPDF;
- 
+      // API call aur imports PARALLEL mein shuru karo
       const dataWithoutPhoto = { ...resumeData };
-      delete dataWithoutPhoto.photo; 
-      await saveToAPI(dataWithoutPhoto, selectedId);
-      // yaha tk add hua h
-      console.log("Resume saved");
+      delete dataWithoutPhoto.photo;
+
+      const [html2canvasModule, jsPDFModule] = await Promise.all([
+        import("html2canvas"),
+        import("jspdf"),
+        saveToAPI(dataWithoutPhoto, selectedId).catch(err =>
+          console.log("Save failed", err)  // Save fail hone pe download rok mat
+        )
+      ]);
+
+      const html2canvas = html2canvasModule.default;
+      const jsPDF = jsPDFModule.default || jsPDFModule.jsPDF;
 
       const capture = async (id) => {
         const el = document.getElementById(id);
         if (!el) throw new Error(`Element ${id} not found`);
 
         window.scrollTo(0, 0);
-        await new Promise(resolve => setTimeout(resolve, 150));
+        await new Promise(resolve => setTimeout(resolve, 50));
 
-        const canvas = await html2canvas(el, {
-          scale: 3,
+        return html2canvas(el, {
+          scale: 1.2,           // 1.5 → 1.2, bahut faster, quality kaafi achhi rehti hai
           useCORS: true,
           backgroundColor: "#ffffff",
           logging: false,
@@ -165,33 +162,32 @@ export const ResumeProvider = ({ children }) => {
             clonedEl.style.transition = "none";
           }
         });
-
-        return canvas;
       };
 
-      const pdf = new jsPDF({
-        unit: "mm",
-        format: "a4",
-        orientation: "portrait"
-      });
+      const pdf = new jsPDF({ unit: "mm", format: "a4", orientation: "portrait" });
 
-      console.log("Capturing page 1...");
-      const c1 = await capture("resume");
+      // Page 1 aur Page 2 parallel capture karo
+      const capturePromises = [capture("resume")];
+      if (hasPage2) capturePromises.push(capture("resume-page-2"));
+
+      const [c1, c2] = await Promise.all(capturePromises);
+
       const imgWidth = 210;
-      const imgHeight = (c1.height * imgWidth) / c1.width;
-      pdf.addImage(c1.toDataURL("image/jpeg", 1.0), "JPEG", 0, 0, imgWidth, imgHeight);
+      pdf.addImage(
+        c1.toDataURL("image/jpeg", 0.75),  // 0.8 → 0.75, faster with negligible quality loss
+        "JPEG", 0, 0, imgWidth, (c1.height * imgWidth) / c1.width
+      );
 
-      if (hasPage2) {
-        console.log("Capturing page 2...");
-        const c2 = await capture("resume-page-2");
-        if (c2) {
-          const imgHeight2 = (c2.height * imgWidth) / c2.width;
-          pdf.addPage();
-          pdf.addImage(c2.toDataURL("image/jpeg", 1.0), "JPEG", 0, 0, imgWidth, imgHeight2);
-        }
+      if (c2) {
+        pdf.addPage();
+        pdf.addImage(
+          c2.toDataURL("image/jpeg", 0.75),
+          "JPEG", 0, 0, imgWidth, (c2.height * imgWidth) / c2.width
+        );
       }
 
       pdf.save(`resume-${selectedId || "file"}.pdf`);
+
       toast.success("Resume downloaded successfully!");
 
     } catch (err) {

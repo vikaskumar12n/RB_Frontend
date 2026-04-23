@@ -3,7 +3,7 @@ import React from "react";
 const Loader = () => {
   return (
     <div
-      className="fixed inset-0 z-[9999] flex items-center justify-center"
+      className="fixed inset-0 z-[99999] flex items-center justify-center"
       style={{ backgroundColor: "rgba(15, 23, 42, 0.70)", backdropFilter: "blur(10px)" }}
     >
       <div className="flex flex-col items-center gap-7">
@@ -51,7 +51,7 @@ const Loader = () => {
             _
           </span>
         </div>
- 
+
       </div>
 
       <style>{`

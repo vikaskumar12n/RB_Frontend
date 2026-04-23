@@ -7,8 +7,8 @@ const item = [
 
 ];
 const semple = [
-   { label: "Samples", link: "/home" }
-  
+  { label: "Samples", link: "/home" }
+
 ];
 
 const items = [
@@ -52,27 +52,27 @@ export default function Footer() {
       setLoading(false);
     }, 400);
   };
-const handleClick = (path) => {
-  const storedUser = localStorage.getItem("user");
+  const handleClick = (path) => {
+    const storedUser = localStorage.getItem("user");
 
-  if (!storedUser) {
-    setLoading(true);
-    setTimeout(() => {
-      window.dispatchEvent(new CustomEvent("openAuthModal", {
-        detail: {
-          tab: "login",
-          onSuccess: () => {
-            navigate(path); // ✅ dynamic path
+    if (!storedUser) {
+      setLoading(true);
+      setTimeout(() => {
+        window.dispatchEvent(new CustomEvent("openAuthModal", {
+          detail: {
+            tab: "login",
+            onSuccess: () => {
+              navigate(path); // ✅ dynamic path
+            }
           }
-        }
-      }));
-      setLoading(false);
-    }, 400);
-    return;
-  }
+        }));
+        setLoading(false);
+      }, 400);
+      return;
+    }
 
-  navigate(path); // ✅ dynamic path
-};
+    navigate(path); // ✅ dynamic path
+  };
 
   return (
     <>
@@ -88,9 +88,9 @@ const handleClick = (path) => {
 
               <Link to="#" className="block">
                 <img
-                  src="/images/logo.png"
+                  src="/images/edulogo.png"
                   alt="NexStep Logo"
-                  className="h-15 w-auto object-contain object-left"
+                  className="h-25 w-auto object-contain object-left"
                 />
               </Link>
 
@@ -99,40 +99,40 @@ const handleClick = (path) => {
               </p>
 
             </div>
- 
-         <div>
-  <h3 className="text-sm font-semibold text-gray-900 mb-4">
-    Job Seekers
-  </h3>
 
-  {/* First List */}
-  <ul className="space-y-2.5">
-    {item.map((data, index) => (
-      <li key={index}>
-        <button
-          onClick={() => handleClick(data.link)}
-          className="text-sm text-gray-500 hover:text-gray-900 transition-colors"
-        >
-          {data.label}
-        </button>
-      </li>
-    ))}
-  </ul>
+            <div>
+              <h3 className="text-sm font-semibold text-gray-900 mb-4">
+                Job Seekers
+              </h3>
 
-  {/* Second List */}
-  <ul className=" mt-3 space-y-2.5">
-    {semple.map((data, index) => (
-      <li key={index}>
-        <button
-          onClick={() => handleNavigate(data.link)}   
-          className="text-sm text-gray-500 hover:text-gray-900 transition-colors"
-        >
-          {data.label}
-        </button>
-      </li>
-    ))}
-  </ul>
-</div>
+              {/* First List */}
+              <ul className="space-y-2.5">
+                {item.map((data, index) => (
+                  <li key={index}>
+                    <button
+                      onClick={() => handleClick(data.link)}
+                      className="text-sm text-gray-500 hover:text-gray-900 transition-colors"
+                    >
+                      {data.label}
+                    </button>
+                  </li>
+                ))}
+              </ul>
+
+              {/* Second List */}
+              <ul className=" mt-3 space-y-2.5">
+                {semple.map((data, index) => (
+                  <li key={index}>
+                    <button
+                      onClick={() => handleNavigate(data.link)}
+                      className="text-sm text-gray-500 hover:text-gray-900 transition-colors"
+                    >
+                      {data.label}
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </div>
 
             {/* Need Help */}
             <div>
@@ -208,7 +208,7 @@ const handleClick = (path) => {
           {/* Bottom Bar */}
           <div className="flex flex-col gap-3">
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-              <span className="text-xs text-gray-400">Copyright © HireCreaftly.com 2026</span>
+              <span className="text-xs text-gray-400">Copyright © edumitrahub.com 2026</span>
               <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
                 {["Terms", "Privacy", "Privacy Center"].map((item) => (
                   <a key={item} href="#" className="text-xs text-gray-500 hover:text-gray-900 transition-colors">{item}</a>
@@ -221,7 +221,7 @@ const handleClick = (path) => {
               </div>
             </div>
             <p className="text-xs text-gray-400 italic leading-relaxed">
-              The information on this site is provided as a courtesy. HireCreaftly.com is not a career or legal advisor and does not guarantee job interviews or offers.
+              The information on this site is provided as a courtesy. edumitrahub.com is not a career or legal advisor and does not guarantee job interviews or offers.
             </p>
           </div>
 

@@ -1,8 +1,8 @@
 // components/ResumeSlider.jsx
 import { useState, useRef, useEffect, useCallback } from "react";
- 
+
 import CreativeTemplate from "../../template/CreativeTemplate";
- 
+
 import Ptemplate2 from "../../withPhotoTemplate/Ptemplates2";
 import Ptemplates3 from "../../withPhotoTemplate/Ptemplate3";
 import Ptemplates4 from "../../withPhotoTemplate/Ptemplate4";
@@ -18,14 +18,14 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 const templates = [
-  { id: "softwaredev", label: "Software developer",    component: PTemplates1 },
-  { id: "softwareEnn", label: "Software",    component: Ptemplate2 },
-  { id: "Developer", label: "Developer",  component: Ptemplates3 },
-  { id: "classic", label: "Classic",  component: PTemplate },
-  { id: "modern", label: "Modern",  component: Ptemplates5 },
-  { id: "minimal", label: "Minimal",   component: Ptemplates4 },
-  { id: "executive", label: "Executive",  component: Ptemplates6 },
-  { id: "creative", label: "Creative",  component: CreativeTemplate },
+  { id: "softwaredev", label: "Software developer", component: PTemplates1 },
+  { id: "softwareEnn", label: "Software", component: Ptemplate2 },
+  { id: "Developer", label: "Developer", component: Ptemplates3 },
+  { id: "classic", label: "Classic", component: PTemplate },
+  { id: "modern", label: "Modern", component: Ptemplates5 },
+  { id: "minimal", label: "Minimal", component: Ptemplates4 },
+  { id: "executive", label: "Executive", component: Ptemplates6 },
+  { id: "creative", label: "Creative", component: CreativeTemplate },
 ];
 
 const normalizeResumeData = (data) => {
@@ -76,8 +76,8 @@ const S = {
     position: "relative",
     overflow: "hidden",
     padding: "30px 2px 28px",
-    marginTop:"20px",
-    marginBottom:"20px",
+    marginTop: "20px",
+    marginBottom: "20px",
     fontFamily: "'DM Sans', 'Segoe UI', sans-serif",
   },
   heroBg: {
@@ -132,7 +132,7 @@ const S = {
     display: "flex", flexDirection: "column", alignItems: "center", gap: "16px",
   },
   card: {
-    position: "relative", width: "100%",  maxWidth: "320px",
+    position: "relative", width: "100%", maxWidth: "320px",
     background: "#fff", borderRadius: "16px",
     overflow: "hidden", height: "420px",
     boxShadow: "0 24px 80px rgba(0,0,0,0.5), 0 0 0 0.5px rgba(255,255,255,0.08)",
@@ -149,8 +149,8 @@ const S = {
   },
   cardOverlay: {
     position: "absolute", inset: 0,
-    height: '100%',
-    backgroundColor: 'rgba(0, 0, 0, 0.6)',
+    height: "100%",
+    backgroundColor: "rgba(0, 0, 0, 0.6)",
     display: "flex", alignItems: "flex-end", justifyContent: "center", paddingBottom: "16px",
     opacity: 0, transition: "opacity 0.3s",
   },
@@ -182,18 +182,12 @@ const S = {
     transition: "all 0.3s",
   }),
 
-  /* ── Modal ── */
   modalOverlay: {
-    position: "fixed",
-    top: 0,
-    left: 0,
-    width: "100vw",
-    height: "100vh",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    background: "rgba(0,0,0,0.5)",
-    zIndex: 9999,
+    position: "fixed", inset: 0, zIndex: 50,
+    background: "rgba(0,0,0,0.75)", backdropFilter: "blur(6px)",
+    display: "flex", alignItems: "center", justifyContent: "center",
+    padding: "0",
+    fontFamily: "'DM Sans', 'Segoe UI', sans-serif",
   },
   modal: {
     background: "#f8fafc", width: "100%", height: "100%",
@@ -232,39 +226,22 @@ const S = {
     background: "#fff", borderBottom: "0.5px solid #e2e8f0",
     overflowX: "auto", flexShrink: 0,
   },
-
-  // ✅ FIXED: Modal body — overflow hidden + proper centering
   modalBody: {
     flex: 1,
-    overflow: "auto",
+    overflowY: "auto",
+    overflowX: "hidden",
     background: "#f1f5f9",
     display: "flex",
     justifyContent: "center",
     alignItems: "flex-start",
-    padding: "24px 0",          // horizontal padding removed — handled by inner wrapper
+    padding: "20px",
   },
-
-  // ✅ FIXED: Outer scroll container that limits visible width on mobile
-  resumeScrollContainer: {
-    width: "100%",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "flex-start",
-    overflow: "hidden",          // clips the scaled resume so it doesn't overflow screen
-  },
-
-  // ✅ FIXED: The 794px resume wrapper — scale applied here
   resumeWrapper: {
-    width: "794px",
-    minHeight: "1123px",
+    width: "794px", minHeight: "1123px",
     transformOrigin: "top center",
-    background: "#fff",
-    borderRadius: "8px",
-    overflow: "hidden",
+    background: "#fff", borderRadius: "8px", overflow: "hidden",
     boxShadow: "0 8px 32px rgba(0,0,0,0.12)",
-    flexShrink: 0,              // prevent squishing
   },
-
   modalFooter: {
     display: "flex", alignItems: "center", justifyContent: "space-between",
     padding: "12px 20px", background: "#fff",
@@ -306,6 +283,7 @@ export default function ResumeSliderWhitPhoto({ resumeData, onClose }) {
   const navigate = useNavigate();
   const [templateDataMap, setTemplateDataMap] = useState({});
   const [ShowEditorModal, setShowEditorModal] = useState(false);
+
   const [initialDataMap, setInitialDataMap] = useState({});
   const [editedTemplates, setEditedTemplates] = useState({});
 
@@ -369,22 +347,22 @@ export default function ResumeSliderWhitPhoto({ resumeData, onClose }) {
     }
   };
 
-  const handleDownload = async (ref) => {
-    const target = ref?.current;
-    if (!target) return false;
+  const handleDownload = async () => {
+    const element = resumeRef.current;
+    if (!element) return false;
+    const opt = {
+      margin: [0, 0, 10, 0],
+      filename: `resume-${currentTemplateId}.pdf`,
+      image: { type: "jpeg", quality: 0.98 },
+      html2canvas: { scale: 1.5, useCORS: true },
+      jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
+      pagebreak: { mode: ["css", "legacy"] },
+    };
     try {
-      await html2pdf()
-        .set({
-          margin: 0,
-          filename: `resume-${currentTemplateId}.pdf`,
-          image: { type: "jpeg", quality: 0.98 },
-          html2canvas: { scale: 2, useCORS: true },
-          jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
-        })
-        .from(target)
-        .save();
+      await html2pdf().set(opt).from(element).save();
       return true;
     } catch (err) {
+      console.error(err);
       return false;
     }
   };
@@ -396,19 +374,18 @@ export default function ResumeSliderWhitPhoto({ resumeData, onClose }) {
       return;
     }
     if (!storedUser) {
-      toast.error("Please login first to download resume!", "error");
+      toast.error("Please login first to download resume!");
       setTimeout(() => {
         setShowEditorModal(false);
         window.dispatchEvent(new CustomEvent("openAuthModal", {
           detail: {
             tab: "login",
-            onSuccess: () => { setShowEditorModal(true); }
-          }
+            onSuccess: () => setShowEditorModal(true),
+          },
         }));
       }, 0);
       return;
     }
-
     setLoading(true);
     setSaving(true);
     try {
@@ -419,7 +396,7 @@ export default function ResumeSliderWhitPhoto({ resumeData, onClose }) {
           toast.success("Saved & Downloaded successfully!");
           setInitialDataMap(prev => ({
             ...prev,
-            [currentTemplateId]: JSON.parse(JSON.stringify(currentData))
+            [currentTemplateId]: JSON.parse(JSON.stringify(currentData)),
           }));
           setEditedTemplates(prev => ({ ...prev, [currentTemplateId]: false }));
         }
@@ -435,15 +412,10 @@ export default function ResumeSliderWhitPhoto({ resumeData, onClose }) {
   const ActiveTemplate = templates[current].component;
   const isProcessing = saving || downloading;
 
-  // ✅ FIXED: Better scale calculation — uses actual container width
   const getResumeScale = useCallback(() => {
     const w = window.innerWidth;
-    const RESUME_WIDTH = 794;
-    // On mobile: fit resume to screen width with some padding
-    if (w < 640) {
-      const availableWidth = w - 16; // 8px padding each side
-      return Math.min(availableWidth / RESUME_WIDTH, 1);
-    }
+    if (w < 400) return 0.36;
+    if (w < 640) return 0.44;
     if (w < 900) return 0.65;
     if (w < 1100) return 0.82;
     return 1;
@@ -465,10 +437,6 @@ export default function ResumeSliderWhitPhoto({ resumeData, onClose }) {
     return () => window.removeEventListener("resize", check);
   }, []);
 
-  // ✅ FIXED: Calculate the scaled height so container doesn't collapse
-  const scaledHeight = 1123 * resumeScale;
-  const scaledWidth = 794 * resumeScale;
-
   return (
     <>
       {loading && <Loader />}
@@ -477,6 +445,7 @@ export default function ResumeSliderWhitPhoto({ resumeData, onClose }) {
       <section style={S.hero}>
         <div style={S.heroBg} />
 
+        {/* Decorative circles */}
         <div style={{
           position: "absolute", width: "300px", height: "300px", borderRadius: "50%",
           border: "0.5px solid rgba(99,102,241,0.08)", top: "-80px", right: "-80px",
@@ -504,8 +473,14 @@ export default function ResumeSliderWhitPhoto({ resumeData, onClose }) {
             <button
               style={S.heroBtn}
               onClick={() => setModalOpen(true)}
-              onMouseEnter={(e) => { e.currentTarget.style.transform = "translateY(-2px)"; e.currentTarget.style.boxShadow = "0 12px 32px rgba(99,102,241,0.4)"; }}
-              onMouseLeave={(e) => { e.currentTarget.style.transform = ""; e.currentTarget.style.boxShadow = "0 8px 24px rgba(99,102,241,0.3)"; }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = "translateY(-2px)";
+                e.currentTarget.style.boxShadow = "0 12px 32px rgba(99,102,241,0.4)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = "";
+                e.currentTarget.style.boxShadow = "0 8px 24px rgba(99,102,241,0.3)";
+              }}
             >
               <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 4v16m8-8H4" />
@@ -540,6 +515,7 @@ export default function ResumeSliderWhitPhoto({ resumeData, onClose }) {
                       <t.component data={templateDataMap[t.id] || normalizeResumeData(resumeData)} />
                     </div>
 
+                    {/* Hover overlay */}
                     <div style={{
                       ...S.cardOverlay,
                       opacity: cardHovered ? 1 : 0,
@@ -561,9 +537,11 @@ export default function ResumeSliderWhitPhoto({ resumeData, onClose }) {
                 ))}
               </div>
 
+              {/* Nav buttons */}
               <button style={S.navBtn("left")} onClick={prev}>‹</button>
               <button style={S.navBtn("right")} onClick={next}>›</button>
 
+              {/* Top badge */}
               <div style={{
                 position: "absolute", top: "12px", left: "12px",
                 background: "rgba(99,102,241,0.9)", color: "white",
@@ -575,6 +553,7 @@ export default function ResumeSliderWhitPhoto({ resumeData, onClose }) {
               </div>
             </div>
 
+            {/* Label + Dots */}
             <p style={S.templateLabel}>{templates[current].label} Template</p>
             <div style={S.dots}>
               {templates.map((_, i) => (
@@ -587,19 +566,15 @@ export default function ResumeSliderWhitPhoto({ resumeData, onClose }) {
 
       {/* ── Modal ── */}
       {modalOpen && (
-        <div style={S.modalOverlay} onClick={(e) => e.target === e.currentTarget && setModalOpen(false)}>
+        <div
+          style={S.modalOverlay}
+          onClick={(e) => e.target === e.currentTarget && setModalOpen(false)}
+        >
           <div
             ref={modalRef}
             style={{
               ...S.modal,
-              ...(isMobile ? {
-                width: "100vw",
-                height: "100vh",
-                maxWidth: "100vw",
-                maxHeight: "100vh",
-                borderRadius: "0px",
-                margin: "0",
-              } : {
+              ...(isMobile ? {} : {
                 width: "95vw",
                 height: "95vh",
                 maxWidth: "1100px",
@@ -608,7 +583,7 @@ export default function ResumeSliderWhitPhoto({ resumeData, onClose }) {
               }),
             }}
           >
-            {/* Header */}
+            {/* ── Modal Header ── */}
             <div style={S.modalHeader}>
               <div style={{ flexShrink: 0 }}>
                 <div style={S.modalTitle}>
@@ -620,7 +595,7 @@ export default function ResumeSliderWhitPhoto({ resumeData, onClose }) {
                       color: "#d97706",
                       padding: "2px 6px",
                       borderRadius: "10px",
-                      marginLeft: "8px"
+                      marginLeft: "8px",
                     }}>
                       Edited
                     </span>
@@ -629,6 +604,7 @@ export default function ResumeSliderWhitPhoto({ resumeData, onClose }) {
                 <div style={S.modalSubtitle}>Preview · Edit · Download</div>
               </div>
 
+              {/* Tabs — desktop */}
               {!isMobile && (
                 <div style={S.tabsDesktop}>
                   {templates.map((t, i) => (
@@ -638,7 +614,7 @@ export default function ResumeSliderWhitPhoto({ resumeData, onClose }) {
                         <span style={{
                           width: "6px", height: "6px",
                           background: "#10b981", borderRadius: "50%",
-                          display: "inline-block", marginLeft: "4px"
+                          display: "inline-block", marginLeft: "4px",
                         }} />
                       )}
                     </button>
@@ -649,8 +625,14 @@ export default function ResumeSliderWhitPhoto({ resumeData, onClose }) {
               <button
                 style={S.closeBtn}
                 onClick={() => setModalOpen(false)}
-                onMouseEnter={(e) => { e.currentTarget.style.background = "#f1f5f9"; e.currentTarget.style.color = "#0f172a"; }}
-                onMouseLeave={(e) => { e.currentTarget.style.background = "#f8fafc"; e.currentTarget.style.color = "#64748b"; }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = "#f1f5f9";
+                  e.currentTarget.style.color = "#0f172a";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = "#f8fafc";
+                  e.currentTarget.style.color = "#64748b";
+                }}
               >
                 ×
               </button>
@@ -677,7 +659,7 @@ export default function ResumeSliderWhitPhoto({ resumeData, onClose }) {
                       <span style={{
                         width: "6px", height: "6px",
                         background: i === current ? "#fff" : "#10b981",
-                        borderRadius: "50%", display: "inline-block", marginLeft: "4px"
+                        borderRadius: "50%", display: "inline-block", marginLeft: "4px",
                       }} />
                     )}
                   </button>
@@ -685,34 +667,18 @@ export default function ResumeSliderWhitPhoto({ resumeData, onClose }) {
               </div>
             )}
 
-            {/* ✅ FIXED: Body — proper mobile resume scaling */}
+            {/* ── Modal Body ── */}
             <div style={S.modalBody}>
-              {/*
-                Outer container: exact size of the SCALED resume
-                This prevents overflow and centers correctly on all screen sizes
-              */}
               <div style={{
-                width: `${scaledWidth}px`,
-                height: `${scaledHeight}px`,
-                position: "relative",
-                flexShrink: 0,
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "flex-start",
+                width: "100%",
               }}>
-                {/*
-                  Inner: always 794px wide, scaled down via transform
-                  transformOrigin: top left so it scales from the correct anchor
-                */}
                 <div style={{
-                  width: "794px",
-                  minHeight: "1123px",
+                  ...S.resumeWrapper,
                   transform: `scale(${resumeScale})`,
-                  transformOrigin: "top left",
-                  background: "#fff",
-                  borderRadius: "8px",
-                  overflow: "hidden",
-                  boxShadow: "0 8px 32px rgba(0,0,0,0.12)",
-                  position: "absolute",
-                  top: 0,
-                  left: 0,
+                  transformOrigin: "top center",
                 }}>
                   <div ref={resumeRef} style={{ width: "794px", minHeight: "1123px" }}>
                     <ActiveTemplate
@@ -725,19 +691,25 @@ export default function ResumeSliderWhitPhoto({ resumeData, onClose }) {
               </div>
             </div>
 
-            {/* Footer */}
+            {/* ── Modal Footer ── */}
             <div style={S.modalFooter}>
               <div style={S.footerNav}>
                 <button
-                  style={S.footerNavBtn} onClick={prev}
+                  style={S.footerNavBtn}
+                  onClick={prev}
                   onMouseEnter={(e) => { e.currentTarget.style.background = "#f1f5f9"; }}
                   onMouseLeave={(e) => { e.currentTarget.style.background = "#fff"; }}
-                >← Prev</button>
+                >
+                  ← Prev
+                </button>
                 <button
-                  style={S.footerNavBtn} onClick={next}
+                  style={S.footerNavBtn}
+                  onClick={next}
                   onMouseEnter={(e) => { e.currentTarget.style.background = "#f1f5f9"; }}
                   onMouseLeave={(e) => { e.currentTarget.style.background = "#fff"; }}
-                >Next →</button>
+                >
+                  Next →
+                </button>
               </div>
 
               <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
@@ -749,18 +721,30 @@ export default function ResumeSliderWhitPhoto({ resumeData, onClose }) {
                   style={S.downloadBtn(isProcessing)}
                   onClick={handleSaveAndDownload}
                   disabled={isProcessing}
-                  onMouseEnter={(e) => { if (!isProcessing) { e.currentTarget.style.transform = "translateY(-1px)"; e.currentTarget.style.boxShadow = "0 8px 24px rgba(99,102,241,0.4)"; } }}
-                  onMouseLeave={(e) => { e.currentTarget.style.transform = ""; e.currentTarget.style.boxShadow = "0 4px 16px rgba(99,102,241,0.3)"; }}
+                  onMouseEnter={(e) => {
+                    if (!isProcessing) {
+                      e.currentTarget.style.transform = "translateY(-1px)";
+                      e.currentTarget.style.boxShadow = "0 8px 24px rgba(99,102,241,0.4)";
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = "";
+                    e.currentTarget.style.boxShadow = "0 4px 16px rgba(99,102,241,0.3)";
+                  }}
                 >
-                  {isProcessing ? <Loader /> : (
+                  {isProcessing ? (
+                    <Loader />
+                  ) : (
                     <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5}
+                        d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
                     </svg>
                   )}
                   {isProcessing ? "Processing..." : "Save & Download PDF"}
                 </button>
               </div>
             </div>
+
           </div>
         </div>
       )}

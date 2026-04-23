@@ -26,3 +26,13 @@
     background-position: 200% center;
   }
 }
+
+
+ @media print {
+  .no-print {
+    display: none !important;
+  }
+  button {
+    display: none !important;
+  }
+}

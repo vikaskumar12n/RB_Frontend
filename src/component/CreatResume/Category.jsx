@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";  
+import { useState, useRef, useEffect } from "react";
 
 
 import React from "react";
@@ -39,10 +39,10 @@ import Cashierphoto from "../../withPhotoTemplate/CashierPhotoTemp";
 import PTemplate3 from "../../template/Designer/Ptemplate3";
 import { Link } from "react-router-dom";
 import { useSearch } from "../../helper/SearchContext";
- import Loader from "../../helper/loader";
- import PTemplates6 from "../../withPhotoTemplate/Ptemplates6";
- import PTemplates1 from "../../withPhotoTemplate/Ptemplates1";
- import Ptemplate2 from "../../withPhotoTemplate/Ptemplates2";
+import Loader from "../../helper/loader";
+import PTemplates6 from "../../withPhotoTemplate/Ptemplates6";
+import PTemplates1 from "../../withPhotoTemplate/Ptemplates1";
+import Ptemplate2 from "../../withPhotoTemplate/Ptemplates2";
 import { toast } from "react-toastify";
 const categories = [
   "Accountant", "Business", "Cashier", "Engineer",
@@ -108,7 +108,7 @@ const categoryTemplates = {
   ],
   Teacher: [
     { id: "tea-1", name: "School Teacher", description: "Education-focused traditional format", color: "#1a1a2e", sections: ["Objective", "Education", "Experience", "Skills", "Certifications"], component: SchoolTeacherTemplate },
-     { id: "tea-2", name: "College Professor", description: "Academic CV style with publications", color: "#1a1a2e", sections: ["Profile", "Education", "Publications", "Experience", "Skills"], component: CollegeProfessorTemplate },
+    { id: "tea-2", name: "College Professor", description: "Academic CV style with publications", color: "#1a1a2e", sections: ["Profile", "Education", "Publications", "Experience", "Skills"], component: CollegeProfessorTemplate },
     { id: "tea-3", name: "College principle", description: "Academic CV style with publications", color: "#1a1a2e", sections: ["Profile", "Education", "Publications", "Experience", "Skills"], component: Ptemplate2 },
   ],
 };
@@ -248,7 +248,7 @@ const BlankPage = ({ pageData, setPageData, accentColor, onRemove }) => {
   };
   return (
     <div id="resume-page-2" style={{ width: `${A4_WIDTH_PX}px`, minHeight: `${A4_HEIGHT_PX}px`, backgroundColor: "#fff", padding: "48px 52px", boxSizing: "border-box", fontFamily: "Arial, sans-serif" }}>
-      <div style={{ height: "4px", backgroundColor: accentColor || "#1e3a5f", marginBottom: "28px", borderRadius: "2px" }} />
+      <div />
       {[1, 2, 3].map((n) => (
         <div key={n}>
           <div contentEditable suppressContentEditableWarning onBlur={(e) => update(`heading${n}`, e.currentTarget.innerText)} style={headingStyle}>
@@ -293,27 +293,27 @@ const TemplateEditor = ({ template, onBack }) => {
     return () => window.removeEventListener("resize", updateScale);
   }, []);
 
-const handleDownload = async () => {
-  // 1. Validation check with toast
-  if (!resumeData || Object.keys(resumeData).length === 0) {
-     toast.warning("⚠️ Please add some content to your resume before downloading!"); 
-    return;
-  } 
-  try {
-    await downloadResumePDF({ ...resumeData }, template.id, hasPage2);
-    
-    // 2. Success toast
-    toast.success("PDF downloaded successfully!", { id: toastId });
-  } catch (err) {
-    console.error("Download error:", err);
-    
-    // 3. Error toast
-    toast.error("Error downloading PDF. Please try again.", { id: toastId });
-  }
-};
+  const handleDownload = async () => {
+    // 1. Validation check with toast
+    if (!resumeData || Object.keys(resumeData).length === 0) {
+      toast.warning("⚠️ Please add some content to your resume before downloading!");
+      return;
+    }
+    try {
+      await downloadResumePDF({ ...resumeData }, template.id, hasPage2);
+
+      // 2. Success toast
+      toast.success("PDF downloaded successfully!",);
+    } catch (err) {
+      console.error("Download error:", err);
+
+      // 3. Error toast
+      toast.error("Error downloading PDF. Please try again.",);
+    }
+  };
 
 
-return (
+  return (
     <div id="category" className="max-h-[80vh] bg-gray-100 rounded-xl overflow-y-auto">
 
       {/* ── Top Bar ── */}
@@ -354,7 +354,7 @@ return (
       <div ref={canvasRef} className="pb-6 flex flex-col items-center gap-8 w-full">
 
         {/* Page 1 */}
-        <div className="w-full flex flex-col items-center">
+        <div className="w-full flex flex-col items-center  ">
           <div className="text-xs text-gray-400 text-center mt-4 mb-1 tracking-widest uppercase">Page 1</div>
 
           {/* ← Yeh wrapper asli fix hai */}
@@ -368,7 +368,7 @@ return (
           >
             <div
               id="resume"
-              className="shadow-2xl rounded overflow-hidden"
+              className="shadow-3xl rounded overflow-hidden"
               style={{
                 width: `${A4_WIDTH_PX}px`,
                 transformOrigin: "top left",
@@ -435,10 +435,10 @@ return (
     </div>
   );
 }
- 
- 
+
+
 export default function CategoryNav() {
- const { downloading } = useResume(); 
+  const { downloading } = useResume();
   const [active, setActive] = useState("Accountant");
   const [openTemplate, setOpenTemplate] = useState(null);
   const { searchQuery, setSearchQuery } = useSearch();
@@ -447,15 +447,15 @@ export default function CategoryNav() {
   //  Bug fix: naam 'displayTemplates' rakha — koi clash nahi
   const displayTemplates = isSearching
     ? Object.entries(categoryTemplates).flatMap(([cat, temps]) =>
-        temps
-          .filter(
-            (t) =>
-              t.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-              t.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-              cat.toLowerCase().includes(searchQuery.toLowerCase())
-          )
-          .map((t) => ({ ...t, category: cat }))
-      )
+      temps
+        .filter(
+          (t) =>
+            t.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            t.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            cat.toLowerCase().includes(searchQuery.toLowerCase())
+        )
+        .map((t) => ({ ...t, category: cat }))
+    )
     : categoryTemplates[active] || [];
 
   //  Bug fix: parameter naam 'tmpl' rakha — 'template' se clash nahi
@@ -474,97 +474,97 @@ export default function CategoryNav() {
   return (
     <>
       {downloading && <Loader />}
-  
-    <div className="w-full bg-white">
 
-      {openTemplate && (
-        <Modal onClose={handleClose}>
-          <TemplateEditor
-            template={openTemplate}
-            onBack={handleClose}
-          />
-        </Modal>
-      )}
+      <div className="w-full bg-white">
 
-      {/* Category Nav */}
-      <div id="category" className="border-b border-gray-200 mt-2">
-        <div className="max-w-6xl mx-auto">
-          <div className="flex items-center gap-1 flex-wrap">
-            {categories.map((cat, i) => (
-              <div key={cat} className="flex items-center">
-                <button
-                  onClick={() => {
-                    setActive(cat);
-                    clearSearch();
-                  }}
-                  className={`px-4 py-4 text-lg font-semibold transition-colors cursor-pointer
+        {openTemplate && (
+          <Modal onClose={handleClose}>
+            <TemplateEditor
+              template={openTemplate}
+              onBack={handleClose}
+            />
+          </Modal>
+        )}
+
+        {/* Category Nav */}
+        <div id="category" className="border-b border-gray-200 mt-2">
+          <div className="max-w-6xl mx-auto">
+            <div className="flex items-center gap-1 flex-wrap">
+              {categories.map((cat, i) => (
+                <div key={cat} className="flex items-center">
+                  <button
+                    onClick={() => {
+                      setActive(cat);
+                      clearSearch();
+                    }}
+                    className={`px-4 py-4 text-lg font-semibold transition-colors cursor-pointer
                     ${active === cat && !isSearching ? "text-blue-900 underline" : "text-blue-900 hover:underline"}`}
-                >
-                  {cat}
-                </button>
-                {i < categories.length - 1 && <span className="text-gray-300 select-none">|</span>}
-              </div>
-            ))}
+                  >
+                    {cat}
+                  </button>
+                  {i < categories.length - 1 && <span className="text-gray-300 select-none">|</span>}
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="max-w-6xl mx-auto px-4 py-2 pb-3 flex items-center gap-1 text-sm text-gray-500">
+            <Link to="/" className="underline text-gray-700 hover:text-blue-700">Home</Link>
+            <span className="text-gray-400 mx-1">›</span>
+            <Link to="/home#category" className="underline text-gray-700 hover:text-blue-700">Resume Samples</Link>
+            <span className="text-gray-400 mx-1">›</span>
+            <span className="text-gray-500">
+              {isSearching ? `Search: "${searchQuery}"` : `${active} Resume Templates`}
+            </span>
           </div>
         </div>
 
-        <div className="max-w-6xl mx-auto px-4 py-2 pb-3 flex items-center gap-1 text-sm text-gray-500">
-          <Link to="/" className="underline text-gray-700 hover:text-blue-700">Home</Link>
-          <span className="text-gray-400 mx-1">›</span>
-          <Link to="/home#category" className="underline text-gray-700 hover:text-blue-700">Resume Samples</Link>
-          <span className="text-gray-400 mx-1">›</span>
-          <span className="text-gray-500">
-            {isSearching ? `Search: "${searchQuery}"` : `${active} Resume Templates`}
-          </span>
-        </div>
-      </div>
-
-      {/* Templates Grid */}
-      <div className="max-w-6xl mx-auto px-6 py-8">
-        <div className="mb-6 flex items-center justify-between">
-          <div>
-            <h2 className="text-2xl font-bold text-gray-900">
-              {isSearching ? `Results for "${searchQuery}"` : `${active} Resume Templates`}
-            </h2>
-            {/*  Bug fix: displayTemplates.length use karo */}
-            <p className="text-gray-500 text-sm mt-1">
-              {displayTemplates.length} templates {isSearching ? "found" : `tailored for ${active} roles`} — click to preview and edit
-            </p>
+        {/* Templates Grid */}
+        <div className="max-w-6xl mx-auto px-6 py-8">
+          <div className="mb-6 flex items-center justify-between">
+            <div>
+              <h2 className="text-2xl font-bold text-gray-900">
+                {isSearching ? `Results for "${searchQuery}"` : `${active} Resume Templates`}
+              </h2>
+              {/*  Bug fix: displayTemplates.length use karo */}
+              <p className="text-gray-500 text-sm mt-1">
+                {displayTemplates.length} templates {isSearching ? "found" : `tailored for ${active} roles`} — click to preview and edit
+              </p>
+            </div>
+            {isSearching && (
+              <button
+                onClick={clearSearch}
+                className="text-sm text-red-500 border border-red-300 px-3 py-1.5 rounded-lg hover:bg-red-50 transition"
+              >
+                ✕ Clear Search
+              </button>
+            )}
           </div>
-          {isSearching && (
-            <button
-              onClick={clearSearch}
-              className="text-sm text-red-500 border border-red-300 px-3 py-1.5 rounded-lg hover:bg-red-50 transition"
-            >
-              ✕ Clear Search
-            </button>
+
+          {/*  Bug fix: displayTemplates use karo — yahi main fix tha */}
+          {displayTemplates.length > 0 ? (
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-5">
+              {displayTemplates.map((tmpl) => (
+                <ResumePreviewCard
+                  key={tmpl.id}
+                  template={tmpl}
+                  onUse={handleUse}
+                />
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-20 text-gray-400">
+              <div className="text-5xl mb-4">{isSearching ? "🔍" : "📄"}</div>
+              <p className="text-lg font-medium">
+                {isSearching ? `No results for "${searchQuery}"` : `No templates yet for ${active}`}
+              </p>
+              <p className="text-sm mt-1">
+                {isSearching ? "Try: 'Developer', 'Nurse', 'Manager'" : "Coming soon..."}
+              </p>
+            </div>
           )}
         </div>
-
-        {/*  Bug fix: displayTemplates use karo — yahi main fix tha */}
-        {displayTemplates.length > 0 ? (
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-5">
-            {displayTemplates.map((tmpl) => (
-              <ResumePreviewCard
-                key={tmpl.id}
-                template={tmpl}
-                onUse={handleUse}
-              />
-            ))}
-          </div>
-        ) : (
-          <div className="text-center py-20 text-gray-400">
-            <div className="text-5xl mb-4">{isSearching ? "🔍" : "📄"}</div>
-            <p className="text-lg font-medium">
-              {isSearching ? `No results for "${searchQuery}"` : `No templates yet for ${active}`}
-            </p>
-            <p className="text-sm mt-1">
-              {isSearching ? "Try: 'Developer', 'Nurse', 'Manager'" : "Coming soon..."}
-            </p>
-          </div>
-        )}
       </div>
-    </div>
-      </>
+    </>
   );
 }

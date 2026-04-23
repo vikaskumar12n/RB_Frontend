@@ -13,6 +13,7 @@ import React from "react";
 import Loader from "../../helper/loader";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+
 const templates = [
     { id: "softwareEnn", label: "Software", component: SoftwareEnn },
     { id: "Developer", label: "Developer", component: SoftwareEnnV2 },
