@@ -5,6 +5,8 @@ import SliderSection from "../LandingPage/SliderSection";
 import ResumeSlider from "../LandingPage/ResumeSlider"; 
 import WhySection from "../LandingPage/servicesSection";
 import ResumeHeroSection from "../LandingPage/ResumeHeroSection"; 
+import HowItWorks from "../LandingPage/HowItWork";
+import Testimonials from "../LandingPage/Testmonial";
 const LanginfPage = () => {
   return (
      <>
@@ -15,7 +17,8 @@ const LanginfPage = () => {
         <WhySection/>
       
         <ResumeHeroSection/>
- 
+        <HowItWorks/> 
+        <Testimonials/>
      </>
   )
 }
