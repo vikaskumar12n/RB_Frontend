@@ -6,6 +6,7 @@ import * as yup from "yup";
  
 import { toast } from "react-toastify";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 const faqs = [
   {
     q: "How do I create my first resume?",
@@ -29,7 +30,7 @@ const faqs = [
   },
 ];
 
-const categories = ["General", "Account", "Billing", "Templates", "Export"];
+const categories = ["General"];
 
 // ✅ Yup validation schema
 const schema = yup.object({
@@ -62,7 +63,7 @@ export default function HelpPage() {
   const [openFaq, setOpenFaq] = useState(null);
   const [activeCategory, setActiveCategory] = useState("General");
   const [submitted, setSubmitted] = useState(false);
-
+  const navigate = useNavigate();
   // ✅ react-hook-form setup
   const {
     register,
@@ -81,33 +82,34 @@ export default function HelpPage() {
   });
 
   const messageValue = watch("message", "");
+ 
+ const onSubmit = async (data) => {
+  // ✅ Footer jaisa same login check
+  const storedUser = localStorage.getItem("user");
 
-const onSubmit = async (data) => {
+  if (!storedUser) {
+    window.dispatchEvent(new CustomEvent("openAuthModal", {
+      detail: {
+        tab: "login",
+        onSuccess: () => {
+          // login ke baad automatic form submit ho jayega
+          handleSubmit(onSubmit)();
+        }
+      }
+    }));
+    return;
+  }
+
   try {
-    const res = await axios.post(
-      "http://13.202.253.175:3000/api/query",
-      data
-    );
-
+    const res = await axios.post("http://13.202.253.175:3000/api/query", data);
     if (res?.status === 201 || res?.data?.success === true) {
-      toast.success("query saved successfully", {
-        icon: "✅",
-      });
-
+      toast.success("Query saved successfully", { icon: "✅" });
       setSubmitted(true);
-
-      reset({
-        fullname: "",
-        email: "",
-        subject: "",
-        message: "",
-      });
+      reset({ fullname: "", email: "", subject: "", message: "" });
     } else {
       toast.error(res?.data?.message || "Something went wrong");
     }
-
   } catch (error) {
-    console.log("Error:", error);
     toast.error("Server error, try again later");
   }
 };
@@ -409,7 +411,7 @@ const onSubmit = async (data) => {
         >
           {[
             {
-              label: "Email Us", value: "support@resumebuilder.com",
+              label: "Email Us", value: "support@edumitrahub.com",
               icon: (<svg className="w-5 h-5 text-blue-200" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" /><polyline points="22,6 12,13 2,6" /></svg>),
             },
             {

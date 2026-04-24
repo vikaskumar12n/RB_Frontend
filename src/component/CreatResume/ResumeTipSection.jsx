@@ -74,7 +74,7 @@ const ResumeTipsSection = () => {
             {/* Icon */}
           </div>
           <p className="text-md font-medium text-white mb-3">Resume layout</p>
-          <ul className="flex flex-col gap-2">
+          <ul className="flex flex-col gap-2 ">
             {["Think from the hiring manager's perspective — put the most relevant details first.",
               "Create clear sections for skills, certifications, education, and accomplishments."
             ].map((b, i) => (

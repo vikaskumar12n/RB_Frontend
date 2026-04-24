@@ -78,7 +78,7 @@ export default function Footer() {
     <>
       {loading && <Loader />}
       <footer className="">
-        <div className="max-w-6xl mt-10 mx-auto">
+        <div className="max-w-6xl p-2 mt-5 mx-auto">
 
           {/* Top Columns */}
           <div className="grid grid-cols-1 sm:grid-cols-4 gap-8 mb-10">

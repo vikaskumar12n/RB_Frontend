@@ -81,7 +81,7 @@ export default function Testimonials() {
 
     return (
         <section className="py-20 px-4 text-center overflow-hidden">
-            <span className="inline-block bg-green-100 text-green-700 text-xs font-semibold tracking-widest uppercase px-4 py-1.5 rounded-full mb-3">
+            <span className="inline-block bg-blue-200 text-black text-xs font-semibold tracking-widest uppercase px-4 py-1.5 rounded-full mb-3">
                 Reviews
             </span>
             <h2 className="text-3xl font-bold text-gray-900 mb-14">
@@ -100,7 +100,7 @@ export default function Testimonials() {
                         {testimonials.map(({ text, name, role, initial, color,textColor }) => (
                             <div
                                 key={name}
-                                className="flex-shrink-0 bg-white border border-gray-100 rounded-2xl p-3 text-left hover:border-green-300 hover:shadow-lg transition-all duration-300"
+                                className="flex-shrink-0 bg-white border border-gray-100 rounded-2xl p-3 text-left hover:border-blue-300 hover:shadow-lg transition-all duration-300"
                                 style={{ width: cardWidth, marginRight: GAP }}
                             >
                                 <div className="flex items-center gap-2">
@@ -124,7 +124,7 @@ export default function Testimonials() {
                 <div className="flex items-center justify-center gap-4 mt-6">
                     <button
                         onClick={() => goTo(current <= 0 ? maxIndex : current - 1)}
-                        className="w-11 h-11 rounded-full border-2 border-gray-200 bg-white text-gray-600 hover:border-green-600 hover:text-green-600 hover:bg-green-50 transition-all"
+                        className="w-11 h-11 rounded-full border-2 border-gray-200 bg-white text-gray-600 hover:border-blue-600 hover:text-blue-600 hover:bg-blue-50 transition-all"
                     >
                         ←
                     </button>
@@ -134,7 +134,7 @@ export default function Testimonials() {
                             <button
                                 key={i}
                                 onClick={() => goTo(i)}
-                                className={`h-2 rounded-full transition-all duration-300 ${i === current ? "bg-green-600 w-6" : "bg-gray-200 w-2"
+                                className={`h-2 rounded-full transition-all duration-300 ${i === current ? "bg-blue-800 w-6" : "bg-gray-200 w-2"
                                     }`}
                             />
                         ))}
@@ -142,7 +142,7 @@ export default function Testimonials() {
 
                     <button
                         onClick={() => goTo(current >= maxIndex ? 0 : current + 1)}
-                        className="w-11 h-11 rounded-full border-2 border-gray-200 bg-white text-gray-600 hover:border-green-600 hover:text-green-600 hover:bg-green-50 transition-all"
+                        className="w-11 h-11 rounded-full border-2 border-gray-200 bg-white text-gray-600 hover:border-blue-600 hover:text-blue-600 hover:bg-green-50 transition-all"
                     >
                         →
                     </button>

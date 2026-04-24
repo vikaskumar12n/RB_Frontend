@@ -13,13 +13,13 @@ const ResumeBuilderCTA = () => {
       detail: {
         tab: "login",
         onSuccess: () => {
-          navigate("/home"); // ✅ login ke baad /home par bhejo
+          navigate("/home"); //  login ke baad /home par bhejo
         }
       }
     }));
     return;
   }
-  navigate("/home"); // ✅ already logged in hai to seedha /home
+  navigate("/home"); //  already logged in hai to seedha /home
 };
 
   return (
@@ -38,7 +38,7 @@ const ResumeBuilderCTA = () => {
         <div className="flex justify-center mt-10">
           <button
             onClick={handleClick}
-            className="bg-white text-gray-600 font-semibold py-2 px-5 rounded-lg text-sm"
+            className="bg-white hover:bg-blue-950 border border-white hover:border-amber-50 text-gray-600 hover:text-white font-semibold py-2 px-5 rounded-lg text-sm"
           >
             Create my resume
           </button>

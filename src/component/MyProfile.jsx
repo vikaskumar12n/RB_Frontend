@@ -8,6 +8,7 @@ import CreativeTemplate from "../template/CreativeTemplate";
 import SoftwareEnnV2 from "../template/SoftwareEnnv2";
 import { saveToAPI } from "../api/Api";
 
+
 const A4_WIDTH_PX = 794;
 const A4_HEIGHT_PX = 1122;
 const CARD_SCALE = 0.22;
@@ -21,38 +22,7 @@ const TEMPLATES = [
   { id: "creative",     name: "Creative Template", component: CreativeTemplate, color: "#8b5cf6" },
 ];
 
-// const getInitialData = () => ({
-//   name: "FIRST LAST",
-//   location: "Bay Area, California",
-//   phone: "+1-234-456-789",
-//   email: "professionalemail@resumeworded.com",
-//   linkedin: "linkedin.com/in/username",
-//   objectiveTitle: "Objective",
-//   experienceTitle: "Professional Experience",
-//   projectTitle: "Projects",
-//   educationTitle: "Education",
-//   skillsTitle: "Skills",
-//   certificationTitle: "Certifications",
-//   objective: "Proactive and detail-oriented Full Stack Developer with expertise in designing, developing, and maintaining scalable web applications.",
-//   projects: [
-//     { title: "CRM System",         description: "Complete CRM system with Finance, Accounts, and HR modules." },
-//     { title: "E-commerce Website", description: "Full stack platform with authentication and payment integration." },
-//   ],
-//   certifications: ["Full Stack Web Development - Udemy", "React Developer Certification"],
-//   experience: [
-//     {
-//       company: "XYZ Solutions Pvt. Ltd.", period: "2018 – Present",
-//       roles: [{ title: "Front End Developer", bullets: ["Built full-scale CRM project", "Improved system performance", "Team collaboration"] }],
-//     },
-//     {
-//       company: "Technano Pvt. Ltd.", period: "2014 – 2017",
-//       roles: [{ title: "Front End Developer", bullets: ["Improved load time by 22%", "Converted wireframes to code"] }],
-//     },
-//   ],
-//   education: [{ school: "Millennium Group of Institutions", year: "2013", degree: "Bachelor of Engineering, IT" }],
-//   skills: [["HTML", "CSS", "JavaScript", "React"], ["Node.js", "Express", "MongoDB", "SQL"]],
-// });
-
+ 
 // ── PDF helpers ───────────────────────────────────────────────────────────────
 const loadLibraries = () =>
   new Promise((resolve, reject) => {

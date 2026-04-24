@@ -116,8 +116,8 @@ const S = {
   },
   heroBtn: {
     display: "inline-flex", alignItems: "center", gap: "8px",
-    background: "linear-gradient(135deg, #6366f1, #8b5cf6)",
-    color: "#fff", fontWeight: "700", fontSize: "14px",
+    background: "white",
+    color: "black", fontWeight: "700", fontSize: "14px",
     padding: "12px 24px", borderRadius: "12px", border: "none", cursor: "pointer",
     boxShadow: "0 8px 24px rgba(99,102,241,0.3)", transition: "all 0.2s",
   },
@@ -462,7 +462,7 @@ export default function ResumeSliderWhitPhoto({ resumeData, onClose }) {
           gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr",
         }}>
           {/* Left */}
-          <div style={S.heroLeft}>
+          <div className="p-2" style={S.heroLeft}>
             <h1 style={S.h1}>
               Every detail,<br />built to perfection
             </h1>
