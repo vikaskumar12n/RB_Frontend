@@ -92,3 +92,30 @@ export const registerUser = async (data) => {
 
   return await res.json();
 };
+
+export const submitQuery = async (data) => {
+  const isLocal =
+    window.location.hostname === "localhost" ||
+    window.location.hostname === "127.0.0.1";
+
+  const url = isLocal
+    ? "http://13.202.253.175:3000/api/query"
+    : "/api/query";
+
+  const res = await fetch(url, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  });
+
+  if (!res.ok) {
+    const errorData = await res.json();
+    const error = new Error(errorData.message || "Query submission failed");
+    error.response = { data: errorData };
+    throw error;
+  }
+
+  return await res.json();
+};

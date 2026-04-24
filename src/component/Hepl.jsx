@@ -3,7 +3,8 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
- 
+ import { submitQuery } from "../api/Api.jsx"; // ✅ apna sahi path likho
+
 import { toast } from "react-toastify";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -83,8 +84,7 @@ export default function HelpPage() {
 
   const messageValue = watch("message", "");
  
- const onSubmit = async (data) => {
-  // ✅ Footer jaisa same login check
+const onSubmit = async (data) => {
   const storedUser = localStorage.getItem("user");
 
   if (!storedUser) {
@@ -92,7 +92,6 @@ export default function HelpPage() {
       detail: {
         tab: "login",
         onSuccess: () => {
-          // login ke baad automatic form submit ho jayega
           handleSubmit(onSubmit)();
         }
       }
@@ -101,16 +100,16 @@ export default function HelpPage() {
   }
 
   try {
-    const res = await axios.post("http://13.202.253.175:3000/api/query", data);
-    if (res?.status === 201 || res?.data?.success === true) {
+    const res = await submitQuery(data); // 
+    if (res?.success === true) {
       toast.success("Query saved successfully", { icon: "✅" });
       setSubmitted(true);
       reset({ fullname: "", email: "", subject: "", message: "" });
     } else {
-      toast.error(res?.data?.message || "Something went wrong");
+      toast.error(res?.message || "Something went wrong");
     }
   } catch (error) {
-    toast.error("Server error, try again later");
+    toast.error(error.response?.data?.message || "Server error, try again later");
   }
 };
   const handleReset = () => {
