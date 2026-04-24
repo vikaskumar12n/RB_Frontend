@@ -134,14 +134,7 @@ const Modal = ({ children, onClose }) => {
         ref={modalRef}
         className="bg-gray-100 w-full sm:max-w-5xl sm:rounded-xl shadow-2xl relative min-h-screen sm:min-h-0"
         onClick={(e) => e.stopPropagation()}
-      >
-        <button
-          onClick={onClose}
-          className="absolute top-3 right-4 z-50 text-gray-500 hover:text-red-500 text-2xl font-bold leading-none"
-          title="Close"
-        >
-          ✕
-        </button>
+      > 
         {children}
       </div>
     </div>
