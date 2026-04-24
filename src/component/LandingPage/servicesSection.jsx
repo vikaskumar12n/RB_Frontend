@@ -43,7 +43,7 @@ export default function WhySection() {
   return (
     <section className="py-20 px-3 text-center max-w-5xl mx-auto">
       <h2 className="text-3xl font-bold text-gray-900 mb-12">
-        Why build my resume with Examples.com?
+        Why build my resume with edumitrahub.com?
       </h2>
       <div className="mt-20 grid grid-cols-1 md:grid-cols-3 gap-10 text-left">
         {features.map(({ emoji, bg, title, desc }) => (
