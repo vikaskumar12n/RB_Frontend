@@ -70,6 +70,7 @@ const hasMeaningfulContent = (data) => {
 };
 
 /* ─── Inline Styles ─────────────────────────────────────────────── */
+// NOTE: isMobile wale styles ab component ke andar inline apply honge
 const S = {
   hero: {
     background: "linear-gradient(360deg, #2e3a53 0%, #2e3a53 40%, #2e3a53 100%)",
@@ -127,7 +128,6 @@ const S = {
   stat: { textAlign: "center" },
   statNum: { fontSize: "22px", fontWeight: "800", color: "#f1f5f9" },
   statLabel: { fontSize: "11px", color: "white", fontWeight: "500" },
-
   sliderWrap: {
     display: "flex", flexDirection: "column", alignItems: "center", gap: "16px",
   },
@@ -181,7 +181,6 @@ const S = {
     width: active ? "20px" : "6px",
     transition: "all 0.3s",
   }),
-
   modalOverlay: {
     position: "fixed", inset: 0, zIndex: 50,
     background: "rgba(0,0,0,0.75)", backdropFilter: "blur(6px)",
@@ -226,6 +225,7 @@ const S = {
     background: "#fff", borderBottom: "0.5px solid #e2e8f0",
     overflowX: "auto", flexShrink: 0,
   },
+  // ✅ modalBody se isMobile hata diya — ab inline apply hoga
   modalBody: {
     flex: 1,
     overflowY: "auto",
@@ -234,7 +234,6 @@ const S = {
     display: "flex",
     justifyContent: "center",
     alignItems: "flex-start",
-    padding: "20px",
   },
   resumeWrapper: {
     width: "794px", minHeight: "1123px",
@@ -283,13 +282,20 @@ export default function ResumeSliderWhitPhoto({ resumeData, onClose }) {
   const navigate = useNavigate();
   const [templateDataMap, setTemplateDataMap] = useState({});
   const [ShowEditorModal, setShowEditorModal] = useState(false);
-
   const [initialDataMap, setInitialDataMap] = useState({});
   const [editedTemplates, setEditedTemplates] = useState({});
 
   const currentTemplateId = templates[current].id;
   const currentData = templateDataMap[currentTemplateId] || normalizeResumeData(resumeData) || {};
   const hasCurrentTemplateEdits = editedTemplates[currentTemplateId] || false;
+
+  // ✅ Sirf ek isMobile useEffect — duplicate hata diya
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
 
   useEffect(() => {
     if (resumeData && Object.keys(resumeData).length > 0) {
@@ -412,15 +418,15 @@ export default function ResumeSliderWhitPhoto({ resumeData, onClose }) {
   const ActiveTemplate = templates[current].component;
   const isProcessing = saving || downloading;
 
-  const getResumeScale = useCallback(() => {
-    const w = window.innerWidth;
-    if (w < 400) return 0.36;
-    if (w < 640) return 0.44;
-    if (w < 900) return 0.65;
-    if (w < 1100) return 0.82;
-    return 1;
-  }, []);
-
+  // ✅ Scale dynamically screen width se calculate hoga
+const getResumeScale = useCallback(() => {
+  const w = window.innerWidth;
+  if (isMobile) {
+    return (w - 16) / 794; // sirf 8px dono taraf margin
+  }
+  const availableWidth = Math.min(w * 0.95, 1100) - 48;
+  return Math.min(1, Math.max(0.30, availableWidth / 794));
+}, [isMobile]);
   const [resumeScale, setResumeScale] = useState(1);
 
   useEffect(() => {
@@ -430,13 +436,6 @@ export default function ResumeSliderWhitPhoto({ resumeData, onClose }) {
     return () => window.removeEventListener("resize", update);
   }, [getResumeScale]);
 
-  useEffect(() => {
-    const check = () => setIsMobile(window.innerWidth < 768);
-    check();
-    window.addEventListener("resize", check);
-    return () => window.removeEventListener("resize", check);
-  }, []);
-
   return (
     <>
       {loading && <Loader />}
@@ -445,7 +444,6 @@ export default function ResumeSliderWhitPhoto({ resumeData, onClose }) {
       <section style={S.hero}>
         <div style={S.heroBg} />
 
-        {/* Decorative circles */}
         <div style={{
           position: "absolute", width: "300px", height: "300px", borderRadius: "50%",
           border: "0.5px solid rgba(99,102,241,0.08)", top: "-80px", right: "-80px",
@@ -461,7 +459,6 @@ export default function ResumeSliderWhitPhoto({ resumeData, onClose }) {
           ...S.heroGrid,
           gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr",
         }}>
-          {/* Left */}
           <div className="p-2" style={S.heroLeft}>
             <h1 style={S.h1}>
               Every detail,<br />built to perfection
@@ -498,7 +495,6 @@ export default function ResumeSliderWhitPhoto({ resumeData, onClose }) {
             </div>
           </div>
 
-          {/* Right — Slider */}
           <div style={S.sliderWrap}>
             <div
               style={S.card}
@@ -515,7 +511,6 @@ export default function ResumeSliderWhitPhoto({ resumeData, onClose }) {
                       <t.component data={templateDataMap[t.id] || normalizeResumeData(resumeData)} />
                     </div>
 
-                    {/* Hover overlay */}
                     <div style={{
                       ...S.cardOverlay,
                       opacity: cardHovered ? 1 : 0,
@@ -537,11 +532,9 @@ export default function ResumeSliderWhitPhoto({ resumeData, onClose }) {
                 ))}
               </div>
 
-              {/* Nav buttons */}
               <button style={S.navBtn("left")} onClick={prev}>‹</button>
               <button style={S.navBtn("right")} onClick={next}>›</button>
 
-              {/* Top badge */}
               <div style={{
                 position: "absolute", top: "12px", left: "12px",
                 background: "rgba(99,102,241,0.9)", color: "white",
@@ -553,7 +546,6 @@ export default function ResumeSliderWhitPhoto({ resumeData, onClose }) {
               </div>
             </div>
 
-            {/* Label + Dots */}
             <p style={S.templateLabel}>{templates[current].label} Template</p>
             <div style={S.dots}>
               {templates.map((_, i) => (
@@ -604,7 +596,6 @@ export default function ResumeSliderWhitPhoto({ resumeData, onClose }) {
                 <div style={S.modalSubtitle}>Preview · Edit · Download</div>
               </div>
 
-              {/* Tabs — desktop */}
               {!isMobile && (
                 <div style={S.tabsDesktop}>
                   {templates.map((t, i) => (
@@ -668,29 +659,42 @@ export default function ResumeSliderWhitPhoto({ resumeData, onClose }) {
             )}
 
             {/* ── Modal Body ── */}
-            <div style={S.modalBody}>
-              <div style={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "flex-start",
-                width: "100%",
-              }}>
-                <div style={{
-                  ...S.resumeWrapper,
-                  transform: `scale(${resumeScale})`,
-                  transformOrigin: "top center",
-                }}>
-                  <div ref={resumeRef} style={{ width: "794px", minHeight: "1123px" }}>
-                    <ActiveTemplate
-                      key={currentTemplateId}
-                      data={currentData}
-                      setData={updateCurrentData}
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-
+            {/* ✅ isMobile yahan inline use kiya S object ki jagah */}
+          {/* ── Modal Body ── */}
+{/* ── Modal Body ── */}
+<div style={{
+  ...S.modalBody,
+  padding: "0",
+  overflowX: "hidden",
+  overflowY: "auto",
+}}>
+  <div style={{
+    width: `${794 * resumeScale}px`,
+    height: `${1123 * resumeScale}px`,
+    margin: "12px auto",
+    flexShrink: 0,
+    position: "relative",
+  }}>
+    <div style={{
+      ...S.resumeWrapper,
+      position: "absolute",
+      top: 0,
+      left: 0,
+      transform: `scale(${resumeScale})`,
+      transformOrigin: "top left",
+      margin: 0,
+      borderRadius: "8px",
+    }}>
+      <div ref={resumeRef} style={{ width: "794px", minHeight: "1123px" }}>
+        <ActiveTemplate
+          key={currentTemplateId}
+          data={currentData}
+          setData={updateCurrentData}
+        />
+      </div>
+    </div>
+  </div>
+</div>
             {/* ── Modal Footer ── */}
             <div style={S.modalFooter}>
               <div style={S.footerNav}>
